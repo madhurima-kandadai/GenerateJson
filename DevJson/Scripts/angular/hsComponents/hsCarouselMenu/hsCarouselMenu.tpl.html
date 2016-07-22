@@ -1,0 +1,17 @@
+<div class="menu-wrapper">
+<div class="nav-left-arrow-wrapper">
+    <a href="javascript:void(0)" class="nav-left-arrow"></a>
+</div>
+<div class="menu-items-wrapper">
+<ul class="menu-items">
+	<li ng-repeat="menuItem in menu track by $index" class="menu-item">
+	    <a href="{{menuItem.link}}" class="menu-icon {{menuItem.cssclass}}" ng-click="setActive($index)"></a><br>
+	    <a href="{{menuItem.link}}" class="menu-title" ng-click="setActive($index)">{{menuItem.name}}</a>
+	    <div class="active-underline-wrapper"><div class="active-underline"></div></div>
+	</li>
+</ul>
+</div>
+<div class="nav-right-arrow-wrapper">
+    <a href="javascript:void(0)" class="nav-right-arrow"></a>
+</div>
+</div>

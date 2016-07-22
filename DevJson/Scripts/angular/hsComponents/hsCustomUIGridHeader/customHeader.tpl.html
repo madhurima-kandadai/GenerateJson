@@ -1,0 +1,11 @@
+<div role="row" class="ui-grid-header-cell-row hs-grid-header-cell-row">
+    <div ng-repeat="categories in customHeaders">
+        <div class="ui-grid-header-cell ui-grid-clearfix hs-grid-header-cell" ng-repeat="cat in categories" ng-style="{'width':cat.widthPx, 'height': catHeaderRowHeight}">
+            <div role="columnheader">
+                <div class="ui-grid-cell-contents ui-grid-header-cell-primary-focus hs-grid-cell-contents">
+                    <span>{{cat.displayName}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
