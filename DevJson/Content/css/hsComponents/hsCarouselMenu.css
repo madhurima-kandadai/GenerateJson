@@ -1,0 +1,120 @@
+.menu-wrapper {
+	overflow:hidden;
+	margin: 0 auto;
+}
+
+.nav-left-arrow-wrapper, .nav-right-arrow-wrapper {
+	width: 17px;
+	height: 61px;
+	float: left;
+}
+
+.menu-wrapper .nav-left-arrow {
+	display: inline-block;
+	width: 17px;
+	height: 18px;
+	margin-top: 21px;
+	background: url("../../images/spectrum_sprite.png") 0 -76px no-repeat;
+	cursor: default;
+}
+
+.menu-wrapper .nav-right-arrow {
+	display: inline-block;
+	width: 17px;
+	height: 18px;
+	margin-top: 21px;
+	background: url("../../images/spectrum_sprite.png") 0 -95px no-repeat;
+	cursor: default;
+}
+
+.menu-wrapper .active.nav-left-arrow {
+	background: url("../../images/spectrum_sprite.png") 0 -139px no-repeat;
+	cursor: pointer;
+}
+
+.menu-wrapper .active.nav-right-arrow {
+	background: url("../../images/spectrum_sprite.png") 0 -162px no-repeat;
+	cursor: pointer;
+}
+
+.menu-items-wrapper {
+	float: left;
+	overflow: hidden;
+}
+
+.menu-items-wrapper > ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	text-align: center;
+	overflow: hidden;
+}
+
+.menu-items-wrapper > ul > li {
+	width: 130px;
+	float: left;
+	text-align: center;
+}
+
+.menu-items-wrapper > ul > li > a {
+	text-decoration: none;
+}
+
+.menu-items-wrapper > ul > li > a:hover {
+	text-decoration: none;
+}
+
+.menu-items-wrapper > ul > li > a.menu-icon {
+	display: inline-block;
+	width: 71px;
+	height: 61px;
+}
+
+.menu-items-wrapper > ul > li > a.nav-left-arrow {
+	display: table-cell;
+	width: 17px;
+	height: 18px;
+	background: url("../images/spectrum_sprite.png") 0 -76px no-repeat;
+	float: right;
+	margin-top: 21px;
+	cursor: default;
+}
+
+.menu-items-wrapper > ul > li > a.nav-right-arrow {
+	display: inline-block;
+	width: 17px;
+	height: 18px;
+	background: url("../images/spectrum_sprite.png") 0 -95px no-repeat;
+	float: left;
+	margin-top: 21px;
+	cursor: default;
+}
+
+.menu-items-wrapper > ul > li .menu-title {
+    display: block;
+    line-height: 1;
+}
+
+.menu-wrapper .active-underline-wrapper {
+    text-align: center;
+    margin-top: -9px;
+}
+
+.menu-wrapper .active-underline {
+    width: 50px;
+    height: 3px;
+    background-color: #222;
+    display: inline-block;
+    visibility: hidden;
+}
+
+.menu-wrapper .active .active-underline {
+    visibility: visible;
+}
+
+/*.menu-items {
+	-webkit-transition: all 0.5s ease-in-out;
+	-moz-transition: all 0.5s ease-in-out;
+	-o-transition: all 0.5s ease-in-out;
+	transition: all 0.5s ease-in-out;
+}*/

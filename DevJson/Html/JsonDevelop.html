@@ -4,16 +4,15 @@
 <head>
     <title>Generate Json</title>
     <meta charset="utf-8" />
-    <script src="../Scripts/angular.min.js"></script>
     <script src="../Scripts/jquery-2.2.4.js"></script>
+    <script src="../Scripts/angular.js"></script>
     <script src="../Scripts/ngDialog.js"></script>
-    <script src="../Scripts/ui-grid/ui-grid.min.js"></script>
-    <script src="../Scripts/angular-ui/ui-bootstrap-tpls.js"></script>    
     <script src="../Scripts/AppScripts/app.js"></script>
     <script src="../Scripts/AppScripts/jsonController.js"></script>
     <link href="../Content/bootstrap.css" rel="stylesheet" />
     <link href="../Content/bootstrap-theme.css" rel="stylesheet" />
-    <link href="../Scripts/ui-grid/ui-grid.min.css" rel="stylesheet" />
+    <link href="../Content/ngDialog.css" rel="stylesheet" />
+    <link href="../Content/ngDialog-theme-default.css" rel="stylesheet" />
 </head>
 
 <body ng-app="codeDev">
@@ -38,18 +37,15 @@
                 <td>Data Type:</td>
                 <td>
                     <select ng-model="dataType">
-                    <option value="">Select</option>
-                    <option ng-repeat="type in dataTypes" value="{{type}}">{{type.name}}</option>
-                </select>
+                        <option value="">Select</option>
+                        <option ng-repeat="type in dataTypes" value="{{type}}">{{type.name}}</option>
+                    </select>
                 </td>
             </tr>
             <tr>
-                <td style="margin-top:10px"> Property Type : </td>
+                <td style="margin-top:10px"> List : </td>
                 <td style="margin-top:10px">
-                    <select ng-model="propertyType">
-                    <option value="">Select</option>
-                    <option ng-repeat="type in modelTypes" value="{{type.value}}">{{type.name}}</option>
-                </select>
+                    <input type="checkbox" ng-model="propertyType" />
                 </td>
             </tr>
             <tr>
@@ -57,7 +53,7 @@
                 <td><input type="checkbox" ng-model="required" /></td>
             </tr>
             <tr>
-                <td rowspan="2"><button class="btn btn-default" ng-click="AddPropertyToModel()" ng-disabled="(modelName && propertyName && dataType && propertyType) ?  false : true ">Add</button></td>
+                <td rowspan="2"><button class="btn btn-default" ng-click="AddPropertyToModel()" ng-disabled="(modelName && propertyName && dataType) ?  false : true ">Add</button></td>
             </tr>
         </table>
         <table border="1" cellpadding="1" cellspacing="2" style="width:100%" ng-repeat="model in tableViewModels">
@@ -80,7 +76,7 @@
                     <td>{{prop.dataType}}</td>
                     <td>{{prop.type}}</td>
                     <td>{{prop.required}}</td>
-                    <td><button>Edit</button> </td>
+                    <td><button ng-click="EditProperty(model.model, prop, prop.$$hashKey)">Edit</button> </td>
                     <td><button ng-click="DeleteProperty(model.model, prop.$$hashKey, prop.name)">Delete</button></td>
                 </tr>
             </tbody>
@@ -94,7 +90,45 @@
         <div ng-show="swaggerEditorJson">
             <pre>{{swaggerEditorJson}}</pre>
         </div>
+
+        <script type="text/ng-template" id="EditPropertyDialog">
+            <div class="hs-element-container">
+                <h2 class="hs-secondary-title">Edit Model</h2>
+                <table cellpadding="3" cellspacing="15" style="border-spacing:12px">
+                    <tr>
+                        <td>Model name : </td>
+                        <td><input type="text" ng-model="editElement.modelName" placeholder="Enter model name" /></td>
+                    </tr>
+                    <tr>
+                        <td style="margin-top:10px">Property Name :</td>
+                        <td style="margin-top:10px"><input type="text" ng-model="editElement.propertyName" placeholder="Enter property name" /></td>
+                    </tr>
+                    <tr>
+                        <td>Data Type:</td>
+                        <td>
+                            <select ng-model="editElement.dataType">
+                                <option value="">Select</option>
+                                <option ng-repeat="type in dataTypes" value="{{type.value}}">{{type.name}}</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="margin-top:10px"> List : </td>
+                        <td style="margin-top:10px">
+                            <input type="checkbox" ng-model="editElement.propertyType" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td> Required :</td>
+                        <td><input type="checkbox" ng-model="editElement.required" /></td>
+                    </tr>
+                </table>
+                <div class="hs-btn-group">
+                    <input type="button" value="Update" class="hs-btn" ng-click="updateProperty(editElement)" ng-disabled="(editElement.modelName && editElement.propertyName && editElement.dataType) ?  false : true " />
+                    <input type="button" ng-click="closengDialog()" value="Cancel" class="hs-btn" />
+                </div>
+            </div>
+        </script>
     </div>
 </body>
-
 </html>

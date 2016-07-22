@@ -1,0 +1,2102 @@
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+html, body {
+    overflow: hidden;
+    height: 100%;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    direction: ltr;
+    margin: 0 auto;
+    border: 0 none;
+    zoom: 100%;
+    color: #999;
+    font-size: 1em;
+    line-height: inherit;
+    font-weight: 500;
+    font-style: normal;
+    background-color: #fff;
+    position: relative;
+    min-height: 100%;
+}
+
+a, a:hover, a:focus {
+    text-decoration: none;
+    color: #31455b;
+}
+
+input[type=text] {
+    height: 26px;
+    padding: 4px;
+}
+
+input:focus {
+    outline: none;
+}
+
+#wrapper {
+    height: 100%;
+}
+
+    #wrapper header {
+        height: 195px;
+    }
+
+    #wrapper .supplier-landing-header {
+        height: 100px;
+    }
+
+.spectrum-navbar-brand {
+    padding: 10px 30px 0 30px;
+    overflow: hidden;
+    background: #f2f7fa; /* Old browsers */
+    background: -moz-linear-gradient(top, #f2f7fa 0%, #edf4f9 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f2f7fa), color-stop(100%,#edf4f9)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #f2f7fa 0%,#edf4f9 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #f2f7fa 0%,#edf4f9 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #f2f7fa 0%,#edf4f9 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #f2f7fa 0%,#edf4f9 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f7fa', endColorstr='#edf4f9',GradientType=0 ); /* IE6-9 */
+}
+
+.supplier-landing-header .spectrum-navbar-brand {
+    padding-bottom: 10px;
+}
+
+.spectrum-navbar {
+    padding: 12px 30px 0 30px;
+    background: #fff url("../images/header_gradient_bg.png") left top repeat-x;
+    width: 100%;
+    padding-bottom: 8px;
+}
+
+.fixed-nav {
+    position: fixed;
+    top: -5px;
+    left: 0;
+    width: 100%;
+    z-index: 5;
+    border-bottom: 1px solid #b9ccdd;
+}
+
+.brand-logo {
+    width: 292px;
+    height: 73px;
+    background: url("../images/spectrum_sprite.png") 0 0 no-repeat;
+    float: left;
+}
+
+.brand-logo-admin {
+    width: 292px;
+    height: 73px;
+    background: url("../images/spectrum_sprite.png") 0 -387px no-repeat;
+    float: left;
+}
+
+.brand-logo-imsq {
+    width: 292px;
+    height: 73px;
+    background: url("../images/spectrum_sprite.png") -293px -386px no-repeat;
+    float: left;
+}
+
+.secondry-nav {
+    float: right;
+    font-size: 13px;
+}
+
+a.elements {
+    background: url("../images/spectrum_sprite.png") -18px -138px no-repeat;
+}
+
+a.co-ops {
+    background: url("../images/spectrum_sprite.png") -89px -138px no-repeat;
+}
+
+a.ele-cc-association {
+    background: url("../images/spectrum_sprite.png") -160px -138px no-repeat;
+}
+
+a.ele-cc-values {
+    background: url("../images/spectrum_sprite.png") -443px -14px no-repeat;
+}
+
+a.ele-supplier-association {
+    background: url("../images/spectrum_sprite.png") -372px -262px no-repeat;
+}
+
+a.allocation {
+    background: url("../images/spectrum_sprite.png") -231px -138px no-repeat;
+}
+
+a.los {
+    background: url("../images/spectrum_sprite.png") -302px -138px no-repeat;
+}
+
+a.dc {
+    background: url("../images/spectrum_sprite.png") -373px -138px no-repeat;
+}
+
+a.cost-worksheet {
+    background: url("../images/spectrum_sprite.png") -445px -138px no-repeat;
+}
+
+a.cost-category {
+    background: url("../images/spectrum_sprite.png") -18px -262px no-repeat;
+}
+
+a.custom-cost {
+    background: url("../images/spectrum_sprite.png") -89px -262px no-repeat;
+}
+
+a.publish {
+    background: url("../images/spectrum_sprite.png") -160px -262px no-repeat;
+}
+
+a.supplier-entry {
+    background: url("../images/spectrum_sprite.png") -231px -262px no-repeat;
+}
+
+a.ele-co-op-association {
+    background: url("../images/spectrum_sprite.png") -443px -262px no-repeat;
+}
+
+a.supplier-cost-change {
+    background: url("../images/spectrum_sprite.png") -302px -262px no-repeat;
+}
+
+a.supplier-profile {
+    background: url("../images/spectrum_sprite.png") -515px -14px no-repeat;
+}
+
+
+a:hover.elements, .active a.elements {
+    background: url("../images/spectrum_sprite.png") -18px -200px no-repeat;
+}
+
+a:hover.co-ops, .active a.co-ops {
+    background: url("../images/spectrum_sprite.png") -89px -200px no-repeat;
+}
+
+a:hover.ele-cc-association, .active a.ele-cc-association {
+    background: url("../images/spectrum_sprite.png") -160px -200px no-repeat;
+}
+
+a:hover.ele-cc-values, .active a.ele-cc-values {
+    background: url("../images/spectrum_sprite.png") -443px -76px no-repeat;
+}
+
+a:hover.ele-supplier-association, .active a.ele-supplier-association {
+    background: url("../images/spectrum_sprite.png") -372px -324px no-repeat;
+}
+
+a:hover.allocation, .active a.allocation {
+    background: url("../images/spectrum_sprite.png") -231px -200px no-repeat;
+}
+
+a:hover.los, .active a.los {
+    background: url("../images/spectrum_sprite.png") -302px -200px no-repeat;
+}
+
+a:hover.dc, .active a.dc {
+    background: url("../images/spectrum_sprite.png") -373px -200px no-repeat;
+}
+
+a:hover.cost-worksheet, .active a.cost-worksheet {
+    background: url("../images/spectrum_sprite.png") -445px -200px no-repeat;
+}
+
+a:hover.cost-category, .active a.cost-category {
+    background: url("../images/spectrum_sprite.png") -18px -324px no-repeat;
+}
+
+a:hover.custom-cost, .active a.custom-cost {
+    background: url("../images/spectrum_sprite.png") -89px -324px no-repeat;
+}
+
+a:hover.publish, .active a.publish {
+    background: url("../images/spectrum_sprite.png") -160px -324px no-repeat;
+}
+
+a:hover.supplier-entry, .active a.supplier-entry {
+    background: url("../images/spectrum_sprite.png") -231px -324px no-repeat;
+}
+
+a:hover.ele-co-op-association, .active a.ele-co-op-association {
+    background: url("../images/spectrum_sprite.png") -443px -324px no-repeat;
+}
+
+a:hover.supplier-cost-change, .active a.supplier-cost-change {
+    background: url("../images/spectrum_sprite.png") -302px -324px no-repeat;
+}
+
+a:hover.supplier-profile, .active a.supplier-profile {
+    background: url("../images/spectrum_sprite.png") -515px -76px no-repeat;
+}
+
+label {
+    cursor: pointer;
+}
+
+a.underline {
+    display: inline-block;
+    width: 30px;
+    height: 3px;
+    background-color: #222;
+}
+
+.hs-calendar-btn {
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+    border: none;
+}
+
+.hs-icon-calendar {
+    display: block;
+    width: 23px;
+    height: 25px;
+    background: url("../images/spectrum_sprite.png") -293px -44px no-repeat;
+}
+
+.hs-warning-icon {
+    background: url("../images/spectrum_sprite.png") 0 -181px no-repeat;
+    width: 17px;
+    height: 15px;
+    cursor: pointer;
+}
+
+.ele-co-op-association-warning {
+    margin: 9px auto;
+}
+
+main {
+    padding: 0 30px;
+}
+
+    main .spectrum-container {
+        border: 1px solid #b9ccdd;
+        border-bottom: 0;
+        background-color: #fafcfc;
+        padding: 12px;
+        min-height: 375px;
+    }
+
+    main h1 a {
+        font-weight: bold;
+    }
+
+    main .spectrum-container {
+        margin-top: 6px;
+        padding-bottom: 65px;
+    }
+
+    main .spectrum-container-header {
+        overflow: hidden;
+        position: relative;
+    }
+
+.hs-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #222;
+}
+
+.hs-secondary-title {
+    font-size: 14px;
+    font-weight: bold;
+    color: #222;
+    width: 200px;
+}
+
+.hs-label {
+    font-size: 12px;
+    font-weight: bold;
+    color: #222;
+    /*width:12%;*/
+}
+
+.dialog-container {
+    width: 100%;
+    margin-top: 7px;
+}
+
+.hs-form-group {
+    list-style: none;
+}
+
+    .hs-form-group > li {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+.hs-input {
+    border: 1px solid #95a4ab !important;
+    color: #005587 !important;
+    font-size: 12px !important;
+    padding: 5px 10px !important;
+}
+
+.hs-select {
+    border: 1px solid #95a4ab;
+    color: #005587;
+    font-size: 12px;
+    padding: 5px;
+}
+
+.hs-btn {
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    border: 1px solid #005587;
+    border-radius: 2px;
+    color: #fff;
+    padding: 5px 15px;
+    margin: 8px;
+    background: #005587;
+    cursor: pointer;
+}
+
+    .hs-btn:hover {
+        border: 1px solid #000;
+    }
+
+    .hs-btn-disabled, .hs-btn[disabled] {
+        border: 1px solid #479ad5;
+        color: #e9f1fe;
+        background: #479ad5;
+        cursor: not-allowed;
+    }
+
+#btneleSupFindId {
+    margin-top: -1px;
+}
+
+.hs-alert-message {
+    color: #ff0000;
+    font-size: 12px;
+    margin: 10px 5px;
+}
+
+.hs-program-container-h {
+    position: relative;
+    height: 48px;
+    border: 1px solid #b9ccdd;
+}
+
+.hs-action-container-h {
+    background-color: #d9e1ee;
+    position: relative;
+    height: 42px;
+    border: 1px solid #b9ccdd;
+}
+
+#ElementsCoOpAssociation .hs-action-container-h {
+    overflow: hidden;
+    height: auto;
+    padding: 8px 0;
+}
+
+.hs-action-container {
+    border-top: 2px solid #005587;
+    border-bottom: 2px solid #005587;
+    padding: 12px;
+    background-color: #d9e1ee;
+    min-height: 270px;
+}
+
+.hs-title-container-h {
+    background-color: #d9e1ee;
+    position: relative;
+    height: 42px;
+    border: 1px solid #b9ccdd;
+    text-align: center;
+    padding-top: 12px;
+}
+
+    .hs-title-container-h .hs-label {
+        font-size: 14px;
+    }
+
+.hs-right-abs {
+    position: absolute;
+    right: 60px;
+    top: 7px;
+}
+
+.hs-program-container-h .hs-right-abs {
+    top: 15px;
+}
+
+.hs-right-abs > div {
+    float: right;
+    margin-right: 8px;
+}
+
+    .hs-right-abs > div > span {
+        display: inline-block;
+    }
+
+.hs-admin-los .hs-action-container-h {
+    text-align: center;
+    padding-top: 10px;
+}
+
+.program-info {
+    float: left;
+    border-left: 4px solid #005587;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+    .program-info > div {
+        margin-left: 6px;
+    }
+
+        .program-info > div span:first-child {
+            color: #005587;
+        }
+
+        .program-info > div span:last-child {
+            color: #0c8843;
+        }
+
+.element-info {
+    position: absolute;
+    right: 100px;
+}
+
+    .element-info ul {
+        padding: 0;
+        margin-top: 0;
+        list-style: none;
+        padding-top: 6px;
+    }
+
+        .element-info ul li {
+            display: inline-block;
+            font-size: 12px;
+            margin-right: 8px;
+        }
+
+            .element-info ul li:last-child {
+                margin-right: 0;
+            }
+
+    .element-info li label {
+        color: #222;
+        font-weight: bold;
+        overflow: hidden;
+    }
+
+    .element-info li > span:last-child {
+        color: #005587;
+        display: inline-block;
+    }
+
+    .element-info .item-base > span:last-child, .element-info .item-quotes > span:last-child {
+        width: 120px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .element-info li.case-pack > span:last-child {
+        float: right;
+    }
+
+.program-icon {
+    position: absolute;
+    left: 7px;
+    top: 5px;
+    background: url("../images/spectrum_sprite.png") -317px -26px no-repeat;
+    width: 36px;
+    height: 36px;
+}
+
+.hs-program-container-h .hs-title-section {
+    padding-top: 15px;
+    padding-left: 50px;
+    width: 20%;
+}
+
+.item-base-icon {
+    display: inline-block;
+    background: url("../images/spectrum_sprite.png") -292px 0 no-repeat;
+    width: 27px;
+    height: 25px;
+}
+
+.item-quotes-icon {
+    display: inline-block;
+    background: url("../images/spectrum_sprite.png") -292px 0 no-repeat;
+    width: 27px;
+    height: 25px;
+}
+
+.production-run-icon {
+    display: inline-block;
+    background: url("../images/spectrum_sprite.png") -292px 0 no-repeat;
+    width: 27px;
+    height: 25px;
+}
+
+.case-pack-icon {
+    display: inline-block;
+    background: url("../images/spectrum_sprite.png") -292px 0 no-repeat;
+    width: 27px;
+    height: 25px;
+}
+
+.item-base-icon, .item-quotes-icon, .production-run-icon, .case-pack-icon {
+    float: left;
+    margin-top: -6px;
+    margin-right: 4px;
+}
+
+.tab-bar {
+    height: 42px;
+    background-color: #88c0e4;
+    border-bottom: 2px solid #005587;
+    margin-top: 25px;
+    padding: 13px 10px;
+    overflow: hidden;
+}
+
+    .tab-bar > a {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .tab-bar > div:first-child {
+        float: left;
+        color: #005587;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .tab-bar > div:last-child {
+        float: right;
+        color: #222;
+        font-size: 12px;
+        font-weight: bold;
+        display: none;
+    }
+
+        .tab-bar > div:last-child input {
+            border: 1px solid #222;
+            background-color: #fff;
+            width: 18px;
+            height: 18px;
+        }
+
+    .tab-bar + .table-container {
+        min-height: 100px;
+        display: none;
+    }
+
+    .tab-bar.expand + .table-container {
+        display: block;
+    }
+
+.expand div.quantity-types {
+    display: block;
+    font-weight: normal;
+    color: #005587;
+}
+
+    .expand div.quantity-types > span:first-child {
+        font-weight: bold;
+        color: #222;
+    }
+
+#MarginCostCtrlId {
+    overflow: hidden;
+}
+
+    #MarginCostCtrlId > div:first-child {
+        float: left;
+        width: 25%;
+    }
+
+    #MarginCostCtrlId > div:last-child {
+        float: left;
+        width: 72%;
+        overflow-x: auto;
+    }
+
+.table-header {
+    width: 100%;
+}
+
+    .table-header tr, .ngCell {
+        height: 40px;
+    }
+
+    .table-header td {
+        text-align: center;
+        vertical-align: middle;
+        border: 1px solid #b9ccdd;
+    }
+
+.total-cost-table .table-header:first-child td {
+    border-top: none;
+}
+
+.table-header table td:first-child {
+    border-left: none;
+}
+
+.cost-category td {
+    background-color: #3777a6;
+    color: #ffe400;
+    font-size: 14px;
+    font-weight: bold;
+    border-bottom: none;
+    border-top: none;
+    border-left: none;
+}
+
+.cost-category-cell {
+    width: 45%;
+}
+
+.quantity-type td {
+    background-color: #479ad5;
+    color: #ffe400;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.quantity-type .total-cell, .quantity-type .supplier-cell {
+    background-color: #3777a6;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100%;
+}
+
+.units-cases-row .total-cell tr:last-child td, .units-cases-row .supplier-cell tr:last-child td {
+    background-color: #479ad5;
+    color: #ffe400;
+    border-top: none;
+    border-bottom: none;
+}
+
+.quantity-type .quantity-type-cell {
+    color: #fff;
+    border-top: none;
+}
+
+.table-header.quantity-type tr td:last-child {
+    border-right: none;
+}
+
+.units-cell, .cases-cell {
+    width: 16%;
+}
+
+.table-body .cases-cell:last-child {
+    border-right: none;
+}
+
+.quantity-type .units-cell, .quantity-type .cases-cell {
+    font-weight: normal;
+}
+
+.quantity-type tr:last-child td {
+    background-color: #d9e1ee;
+    color: #4e5a68;
+    border-bottom: none;
+    border-top: none;
+}
+
+.table-body td {
+    vertical-align: middle;
+    font-size: 12px;
+    font-weight: normal;
+    color: #4d5967;
+    padding: 0 5px;
+    height: 35px;
+    border-right: 1px solid #b9ccdd;
+}
+
+.ngRow.odd td {
+    background-color: #d9e1ee;
+}
+
+.ngRow.even td {
+    background-color: #fff;
+}
+
+.custom-cost-category .action-cell .hs-btn {
+    padding: 4px 6px;
+}
+
+.table-body td .info-icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-color: #005587;
+    color: #fff;
+    text-align: center;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 12px;
+    padding-top: 2px;
+    float: right;
+}
+
+.value-cell select {
+    width: 100%;
+    height: 25px;
+    border: 1px solid #95a4ab;
+}
+
+.table-body .units-cell {
+    border-right: none;
+}
+
+.table-body .cases-cell {
+    text-align: right;
+}
+
+/*start: custom cost table style*/
+.custom-cost-category input, .custom-cost-category select {
+    width: 100%;
+    height: 26px;
+    padding: 4px;
+}
+
+.custom-cost .action-cell {
+    width: 14%;
+}
+
+.custom-cost .name-cell {
+    width: 32%;
+}
+
+.custom-cost .level-cell {
+    width: 16%;
+}
+
+.custom-cost .type-cell {
+    width: 22%;
+}
+
+.custom-cost .charge-cell {
+    width: 19%;
+}
+/*end: custom cost table style*/
+
+/*start: margin cost table style*/
+.margin-cost-table {
+    height: 176px;
+    border: 2px solid #005587;
+    border-top: none;
+    background-color: #d9e1ee;
+}
+
+    .margin-cost-table label {
+        font-weight: bold;
+        font-size: 12px;
+        color: #222;
+        display: inline-block;
+        width: 21%;
+        text-align: right;
+    }
+
+    .margin-cost-table .margin-method {
+        margin-bottom: 20px;
+        padding-top: 30px;
+    }
+
+.margin-method, .margin-value {
+    margin-left: 10%;
+}
+
+.margin-cost-table select, .margin-cost-table input {
+    /*width: 21%;*/
+    border: 1px solid #95a4ab;
+    color: #4d5967;
+    font-size: 12px;
+    padding: 4px;
+}
+
+.margin-cost-table select {
+    width: 30%;
+}
+/*end: margin cost table style*/
+
+/*start: total cost table style*/
+.quantity-type-2 {
+    background-color: #3777a6;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-weight: bold;
+}
+
+    .quantity-type-2 td {
+        color: #ffe400 !important;
+        text-align: center !important;
+    }
+
+.total-cost-table {
+    min-height: 176px !important;
+    border: 2px solid #005587;
+    border-top: none;
+    background-color: #d9e1ee;
+}
+
+    .total-cost-table table {
+        width: 100%;
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
+
+        .total-cost-table table th {
+            background-color: #3777a6;
+            color: #fff;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+            border-right: 1px solid #91aeca;
+            height: 35px;
+            vertical-align: middle;
+        }
+
+        .total-cost-table table td {
+            color: #4d5967;
+            font-size: 12px;
+            text-align: right;
+            border-right: 1px solid #91aeca;
+            height: 35px;
+            vertical-align: middle;
+            width: auto !important;
+        }
+
+            .total-cost-table table th:last-child, .total-cost-table table td:last-child {
+                border-right: none;
+            }
+
+        .total-cost-table table td {
+            text-align: right;
+        }
+
+            .total-cost-table table td > div {
+                padding-right: 8px;
+            }
+
+.element-cell {
+    text-align: left !important;
+    padding-left: 1% !important;
+}
+
+#txtMarginValue {
+    width: 120px;
+    margin-left: 5%;
+}
+
+.total-cost-table table tr:odd {
+    background-color: #fff;
+}
+
+.total-cost-table table tr:even {
+    background-color: #d9e1ee;
+}
+
+.spectrum-button-group {
+    margin: 10px 0;
+    text-align: center;
+}
+
+/*.spectrum-button-group input {
+    margin: 15px 0;
+    text-align: center;
+    border: 1px solid #005587;
+    color: #005587;
+    font-size: 12px;
+    padding: 4px;
+    margin: 8px;
+}*/
+/*end: total cost table style*/
+
+/*start: gird style overrides*/
+.spectrumGrid {
+    width: 100%;
+    height: 400px;
+}
+
+    .spectrumGrid table {
+        width: 100%;
+        max-width: 100%;
+        border-spacing: 0;
+        border-collapse: collapse;
+        background-color: transparent;
+        table-layout: fixed;
+    }
+
+        .spectrumGrid table tr {
+            line-height: 1;
+        }
+
+    .spectrumGrid .ngTopPanel {
+        border-bottom: none;
+    }
+
+    .spectrumGrid .ngHeaderContainer {
+        min-width: 100%;
+    }
+
+    .spectrumGrid .ngHeaderCell {
+        border-left: none;
+        background-color: #3777a6;
+    }
+
+    .spectrumGrid .ngCell:last-child {
+        border-right: none;
+    }
+
+    .spectrumGrid .ngHeaderCell:last-child {
+        border-right: none;
+    }
+/*end: gird style overrides*/
+
+footer {
+    color: #4d5967;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    padding: 21px;
+    margin-top: -65px;
+}
+
+/*star: acure.select style overrides*/
+td.ac-select-image {
+    background: transparent !important;
+}
+
+    td.ac-select-image:after {
+        content: "";
+        width: 0;
+        height: 0;
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-top: 7px solid #505050;
+        margin-left: 5px;
+        margin-top: 5px;
+    }
+
+.spectrum-container-header .ac-select-main {
+    vertical-align: bottom;
+    height: 23px;
+    border: none;
+}
+
+.spectrum-container-header .ac-select-table td {
+    padding: 7px !important;
+}
+
+    .spectrum-container-header .ac-select-table td.ac-select-image {
+        padding: 0 !important;
+        height: 35px;
+        width: 20px !important;
+        border-left: none;
+    }
+
+.spectrum-container-header .ac-select-wrapper, .spectrum-container-header .ac-select-wrapper input, .spectrum-container-header .ac-select-wrapper select {
+    background-color: transparent;
+    color: #005587;
+    outline: 0;
+}
+/*end: acure.select style overrides*/
+
+/*start: table style
+.spectrum-table {
+	width: 100%;
+	max-width: 100%;
+	margin-bottom: 20px;
+	border-spacing: 0;
+	border-collapse: collapse;
+	background-color: transparent;
+}
+
+.spectrum-table>tbody>tr>td, .spectrum-table>tbody>tr>th, .spectrum-table>tfoot>tr>td, .spectrum-table>tfoot>tr>th, .spectrum-table>thead>tr>td, .spectrum-table>thead>tr>th {
+  padding: 8px;
+  line-height: 1.42857143;
+  vertical-align: top;
+  border-top: 1px solid #ddd;
+}
+
+.spectrum-table>tbody>tr.active>td, .spectrum-table>tbody>tr.active>th, .spectrum-table>tbody>tr>td.active, .spectrum-table>tbody>tr>th.active, .spectrum-table>tfoot>tr.active>td, .spectrum-table>tfoot>tr.active>th, .spectrum-table>tfoot>tr>td.active, .spectrum-table>tfoot>tr>th.active, .spectrum-table>thead>tr.active>td, .spectrum-table>thead>tr.active>th, .spectrum-table>thead>tr>td.active, .spectrum-table>thead>tr>th.active {
+  background-color: #f5f5f5;
+}
+end: table style*/
+
+/*start: Element*/
+.hs-element-container {
+    overflow: hidden;
+}
+
+    .hs-element-container .hs-action-container {
+        width: 30%;
+    }
+
+    .hs-element-container .hs-grid-container {
+        width: 70%;
+    }
+
+    .hs-element-container .hs-form-group {
+        margin-bottom: 12px;
+    }
+
+        .hs-element-container .hs-form-group > li:first-child {
+            width: 37%;
+            text-align: right;
+            padding-right: 5px;
+        }
+
+        .hs-element-container .hs-form-group .hs-input, .hs-element-container .hs-form-group .hs-select {
+            width: 180px;
+            margin-top: 6px;
+        }
+
+    .hs-element-container .hs-secondary-title {
+        margin-bottom: 12px;
+        text-align: left;
+    }
+
+    .hs-element-container .hs-action-container > div:first-child {
+        border-bottom: 1px solid #b9ccdd;
+        margin-bottom: 12px;
+    }
+
+    .hs-element-container .hs-grid-container {
+        padding-left: 12px;
+    }
+/*end: Element*/
+
+/*start: cost categories*/
+
+.hs-admin-cost-categories-container .hs-row {
+    width: 100%;
+    clear: both;
+}
+
+    .hs-admin-cost-categories-container .hs-row > ul:last-child {
+        width: 40%;
+    }
+
+    .hs-admin-cost-categories-container .hs-row > ul:first-child {
+        width: 60%;
+    }
+
+    .hs-admin-cost-categories-container .hs-row > ul > li {
+        display: inline-block !important;
+    }
+
+.hs-admin-cost-categories-container .hs-form-group {
+    margin-bottom: 12px;
+}
+
+    .hs-admin-cost-categories-container .hs-form-group > li {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+        .hs-admin-cost-categories-container .hs-form-group > li:first-child {
+            width: 37%;
+            padding-right: 5px;
+        }
+
+.hs-admin-cost-categories-container input[type="text"] {
+    width: 90px;
+    margin-right: 5px;
+}
+
+/*end: cost categories*/
+
+/*start: element supplier association*/
+#suppliername {
+    width: 230px;
+    height: 300px;
+    overflow: auto;
+    float: left;
+    margin-right: 20px;
+    border: 1px solid #000;
+}
+
+#ddleleSuppCntry {
+    width: 180px;
+    margin-right: 9px;
+}
+
+#mydiv, #ex1_value {
+    width: 150px !important;
+}
+
+#supplierinfo {
+    height: 150px;
+    overflow: auto;
+    border: 1px solid #95a2a8;
+}
+
+#costValueInfo {
+    height: 150px;
+    overflow: auto;
+    border: 1px solid #95a2a8;
+    margin-top: 4%;
+}
+
+#ex1_dropdown > ul {
+    list-style: none;
+    width: 250px;
+    border: 1px solid #95a2a8;
+}
+
+#txteleSuppTextArea > li {
+    display: inline-block;
+    background-color: #89c1e4;
+    color: #015486;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+    #txteleSuppTextArea > li a {
+        text-decoration: none;
+        color: #fff;
+        margin-left: 5px;
+        margin-right: 5px;
+        cursor: pointer;
+    }
+
+.hs-admin-element-supplier-association-container .hs-form-group {
+    margin: 15px 0 8px 0;
+}
+/*end: element supplier association*/
+
+/*start: Publish*/
+.hs-publish-container {
+    overflow: hidden;
+}
+
+    .hs-publish-container .hs-action-container {
+        width: 27%;
+    }
+
+    .hs-publish-container .hs-grid-container {
+        width: 73%;
+    }
+
+    .hs-publish-container .hs-form-group {
+        margin-bottom: 12px;
+    }
+
+        .hs-publish-container .hs-form-group > li:first-child {
+            width: 40%;
+            text-align: right;
+            padding-right: 5px;
+        }
+
+        .hs-publish-container .hs-form-group .hs-input, .hs-publish-container .hs-form-group .hs-select {
+            width: 180px;
+        }
+
+    .hs-publish-container .hs-secondary-title {
+        margin-bottom: 12px;
+    }
+
+    .hs-publish-container .hs-action-container > div:first-child {
+        border-bottom: 1px solid #b9ccdd;
+        margin-bottom: 12px;
+    }
+
+    .hs-publish-container .hs-grid-container {
+        padding-left: 12px;
+    }
+
+    .hs-publish-container .hs-action-container .btn-group .btn:first-child {
+        width: 130px;
+        text-align: left;
+    }
+
+    .hs-publish-container .hs-action-container .date-input-box input {
+        width: 130px;
+        font-size: 12px;
+        color: #005587;
+    }
+
+    .hs-publish-container .start-date, .hs-publish-container .end-date {
+        position: relative;
+    }
+
+        .hs-publish-container .start-date ul {
+            left: 200px !important;
+            top: -66px !important;
+        }
+
+        .hs-publish-container .end-date ul {
+            left: 200px !important;
+            top: -106px !important;
+        }
+
+.ng-valid-date-disabled {
+    width: 320px;
+}
+
+.btn-group-wrapper {
+    text-align: center;
+}
+/*end: Publish*/
+
+/*start: supplier entry*/
+.hs-supplier-entry-container .hs-form-group {
+    margin-bottom: 12px;
+}
+
+    .hs-supplier-entry-container .hs-form-group > li {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+        .hs-supplier-entry-container .hs-form-group > li:first-child {
+            width: 37%;
+            padding-right: 5px;
+        }
+
+.hs-supplier-entry-container input[type="text"] {
+    width: 90px;
+    margin-right: 5px;
+}
+
+.hs-supplier-entry-container .dialog-content-wrapper > ul {
+    min-width: 205px;
+}
+/*end: supplier entry*/
+
+/*start: supplier landing*/
+.custom-file-input {
+    display: inline-block !important;
+    color: transparent;
+    width: 80px;
+    height: 25px;
+    margin-top: 8px;
+    outline: none;
+}
+
+    .custom-file-input:focus {
+        outline: none;
+    }
+
+    .custom-file-input::-webkit-file-upload-button {
+        visibility: hidden;
+        display: none;
+    }
+
+    .custom-file-input::before {
+        content: 'Upload';
+        display: inline-block;
+        outline: none;
+        white-space: nowrap;
+        -webkit-user-select: none;
+        text-align: center;
+        font-size: 12px;
+        font-weight: bold;
+        border: 1px solid #005587;
+        border-radius: 2px;
+        color: #fff;
+        padding: 5px 15px;
+        background: #005587;
+        cursor: pointer;
+    }
+
+    .custom-file-input:hover::before {
+        border-color: black;
+    }
+
+    .custom-file-input:active::before {
+        background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+    }
+
+/*end: supplier landing*/
+
+/*start: ui-grid overrides*/
+.ui-grid {
+    border: none;
+}
+
+.ui-grid-header-cell .ui-grid-cell-contents {
+    text-align: center;
+    font-size: 14px;
+    color: #ffe400;
+    background-color: #3777a6;
+    padding: 12px 5px;
+}
+
+.ui-grid-header-canvas {
+    background-color: #3777a6;
+}
+
+.ui-grid-row .ui-grid-cell-contents {
+    font-size: 12px;
+    color: #4d5967;
+    padding: 10px 5px;
+    text-align: left;
+}
+
+.ui-grid-header .ui-grid-cell-contents {
+    font-size: 12px;
+    color: #ffe400;
+}
+
+.ui-grid-row:nth-child(odd) .ui-grid-cell {
+    background-color: #fff;
+}
+
+.ui-grid-row:nth-child(even) .ui-grid-cell {
+    background-color: #d9e1ee;
+}
+
+.ui-grid-pager-panel {
+    padding-top: 10px;
+}
+
+.ui-grid-pager-container {
+    float: right;
+}
+
+.ui-grid-pager-count {
+    display: none;
+}
+
+.ui-grid-pager-control button {
+    height: 22px;
+}
+
+.ui-grid-pager-control input, .ui-grid-pager-row-count-picker select {
+    height: 22px;
+    font-size: 12px;
+    color: #005587;
+}
+
+.ui-grid-pager-max-pages-number, .ui-grid-pager-row-count-label {
+    font-size: 12px;
+    color: #222;
+}
+
+.hs-grid-edit {
+    text-align: center;
+    padding: 10px;
+}
+
+    .hs-grid-edit a {
+        text-decoration: underline;
+        font-size: 12px;
+        color: #005587;
+    }
+
+.hs-grid-text {
+    text-align: center;
+    padding: 2px;
+}
+
+    .hs-grid-text hs-input {
+        border: 1px solid #95a4ab !important;
+        color: #005587 !important;
+        font-size: 12px !important;
+        padding: 7px 10px !important;
+    }
+
+.ui-grid-selection-row-header-buttons {
+    opacity: 1;
+}
+
+.ui-grid-icon-ok:before {
+    content: '';
+    display: block;
+    width: 18px;
+    height: 18px;
+    background: url("../images/checkbox.png") 0 0 no-repeat;
+}
+
+.ui-grid-all-selected:before {
+    content: '';
+    display: block;
+    width: 18px;
+    height: 18px;
+    background: url("../images/checkbox_checked.png") 0 0 no-repeat;
+}
+
+.ui-grid-all-selected:before, .ui-grid-row-selected .ui-grid-icon-ok:before {
+    content: '';
+    display: block;
+    width: 18px;
+    height: 18px;
+    background: url("../images/checkbox_checked.png") 0 0 no-repeat;
+}
+/*end: ui-grid overrides*/
+
+/*start: ng-dailog overrides*/
+.ngdialog.ngdialog-theme-default .ngdialog-content {
+    background: #fff;
+    border-radius: 5px;
+    border: 5px solid #6e6e6e;
+    color: #444;
+    font-family: AArial,'Helvetica',sans-serif;
+    font-size: inherit;
+    line-height: 1;
+    margin: 0 auto;
+    max-width: 100%;
+    padding: 12px;
+    position: relative;
+    width: 550px;
+    -webkit-box-shadow: 0px 0px 8px #000; /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+    -moz-box-shadow: 0px 0px 8px #000; /* Firefox 3.5 - 3.6 */
+    box-shadow: 0px 0px 8px #000;
+}
+
+.ngdialog.ngdialog-theme-default .ngdialog-close:before {
+    color: #fff;
+    content: '\00D7';
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.1;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    text-align: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    background: #797e81;
+    font-family: Arial;
+}
+
+.ngdialog.ngdialog-theme-default .ngdialog-close:hover:before,
+.ngdialog.ngdialog-theme-default .ngdialog-close:active:before {
+    color: #fff;
+}
+
+.ngdialog-content .hs-btn-group {
+    text-align: center;
+}
+
+.ngdialog input[type=text] {
+    font-size: 12px;
+    padding: 5px;
+    color: #005587;
+    border: 1px solid #95a2a8;
+}
+
+.dialog-content-wrapper {
+    clear: both;
+    overflow: hidden;
+    margin-top: 20px;
+}
+/*Multiselect dropdown start*/
+multiselect {
+    display: block;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+    multiselect .btn {
+        width: 100%;
+        background-color: #FFF;
+        width: auto;
+        min-width: 85px;
+    }
+
+        multiselect .btn.error {
+            border: 1px solid #da4f49 !important;
+        }
+
+    multiselect .dropdown-menu {
+        max-height: 200px;
+        overflow-y: auto;
+    }
+
+    multiselect .dropdown-menu {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 2px;
+    }
+
+        multiselect .dropdown-menu > li > a {
+            padding: 3px 10px;
+            cursor: pointer;
+            display: flex;
+        }
+
+            multiselect .dropdown-menu > li > a > span {
+                margin-left: 10px;
+            }
+
+.dropdown-menu input[type="text"] {
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
+    border-radius: 4px;
+    color: #555555;
+    display: inline-block;
+    font-size: 12px;
+    height: 20px;
+    line-height: 20px;
+    margin-bottom: 2px;
+    padding: 4px 6px;
+    vertical-align: middle;
+}
+
+.input-block-level {
+    box-sizing: border-box;
+    display: block;
+    min-height: 30px;
+    width: 100%;
+}
+/*Multiselect dropdown end*/
+/*end: ng-dailog overrides*/
+
+/*start: custom dropdown select*/
+.spectrum-container .btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+    border-radius: 0;
+    text-align: left;
+}
+
+/*.spectrum-container .btn-group {
+    margin-right: 14px;
+}*/
+
+.spectrum-container .hs-right-abs .ng-pristine:last-child .btn-group {
+    margin-right: 0;
+}
+
+.spectrum-container .hs-action-container-h .btn-group > .btn:first-child {
+    margin-left: 5px;
+}
+
+.spectrum-container .btn-info {
+    color: #005587;
+    background-color: #fff;
+    border-color: #94a1a9;
+}
+
+.spectrum-container .btn {
+    margin-bottom: 0;
+    font-weight: normal;
+    text-align: center;
+    border: 1px solid #94a1a9;
+    padding: 6px 12px;
+    font-size: 12px;
+    line-height: 1;
+    border-radius: 0;
+}
+
+.spectrum-container .btn-group .dropdown-toggle {
+    border-left: none;
+}
+
+.spectrum-container .dropdown-menu {
+    /*left: 5px;*/
+    padding: 2px 0;
+    margin: -1px 0 0;
+    font-size: 12px;
+    background-color: #fff;
+    border: 1px solid #93a4ac;
+    border-radius: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    background-clip: padding-box;
+    min-width: 205px;
+    overflow-x: auto;
+    overflow-y: auto;
+    -ms-overflow-x: hidden;
+    -ms-overflow-y: auto;
+}
+
+.ngRow.odd {
+    background-color: #d9e1ee;
+}
+
+.ngCellText {
+    font-family: Arial;
+    font-size: 12px;
+    color: #4d5967;
+}
+
+.ngCell {
+    border-left: none;
+}
+
+.ngFooterPanel {
+    background-color: transparent;
+    border-top: 1px solid #d4d4d4;
+}
+/*end: custom dropdown select*/
+.ngRow.even {
+    background-color: #fff;
+}
+
+.ngRow {
+    position: absolute;
+    border-bottom: none;
+}
+
+/*start: custom checkbox*/
+.hs-checkbox {
+    width: 100%;
+    display: table;
+}
+
+    .hs-checkbox input[type=checkbox] {
+        display: none;
+    }
+
+    .hs-checkbox label {
+        display: table-cell;
+        width: 18px;
+        height: 18px;
+        padding-right: 20px;
+        cursor: pointer;
+        background: url("../images/checkbox.png") left top no-repeat;
+    }
+
+    .hs-checkbox input[type=checkbox]:checked + label {
+        background: url("../images/checkbox_checked.png") left top no-repeat;
+    }
+
+.hs-checkbox-label {
+    display: table-cell;
+    vertical-align: middle;
+    padding-top: 3px;
+    color: #005587;
+    word-wrap: break-word;
+}
+
+.dropdown-menu .input-group {
+    width: 100%;
+}
+
+.custom-select-menu > li {
+    padding: 5px 7px;
+    width: 100%;
+}
+
+    .custom-select-menu > li:hover {
+        background-color: #fff;
+    }
+/*end: custom checkbox*/
+
+/*start: ng-grid overrides*/
+.ngRow.selected {
+    background-color: #95a2a8 !important;
+}
+
+    .ngRow.selected .ngCellText {
+        color: #d9e1ee !important;
+    }
+
+.ngHeaderText {
+    text-align: center;
+    white-space: pre-line;
+    display: table-cell;
+    vertical-align: middle;
+    height: 45px;
+    font-size: 14px;
+}
+
+.ngSortButtonDown, .ngSortButtonUp {
+    border-color: #fff transparent;
+}
+/*start: ng-grid overrides*/
+
+.hs-title-section {
+    padding-top: 12px;
+    padding-left: 38px;
+}
+
+    .hs-title-section .filter-icon {
+        width: 25px;
+        height: 25px;
+        background: url("../images/spectrum_sprite.png") -397px 0 no-repeat;
+        position: absolute;
+        left: 7px;
+        top: 7px;
+    }
+
+#imsq-allocation .hs-action-container-h {
+    overflow: hidden;
+    height: auto;
+    padding: 8px 0;
+}
+
+    #ElementsCoOpAssociation .hs-action-container-h .hs-secondary-title, #imsq-allocation .hs-action-container-h .hs-secondary-title {
+        padding-left: 30px;
+        padding-top: 6px;
+    }
+
+    #ElementsCoOpAssociation .hs-action-container-h .filter-icon, #imsq-allocation .hs-action-container-h .filter-icon {
+        width: 25px;
+        height: 25px;
+        background: url("../images/spectrum_sprite.png") -397px 0 no-repeat;
+        position: absolute;
+    }
+
+    #ElementsCoOpAssociation .hs-action-container-h .col-sm-12 .hs-label, #imsq-allocation .hs-action-container-h .col-sm-12 .hs-label {
+        display: inline-block;
+        width: 24%;
+        text-align: right;
+    }
+
+    #ElementsCoOpAssociation .hs-action-container-h .col-md-6 .hs-label, #imsq-allocation .hs-action-container-h .col-md-6 .hs-label {
+        display: inline-block;
+        width: 100%;
+        text-align: left;
+    }
+
+#admin-dc .hs-action-container {
+    height: 361px;
+}
+
+#IMSQElements .hs-action-container, #imsq-co-ops .hs-action-container {
+    height: 404px;
+}
+
+
+.watermark {
+    position: absolute;
+    top: 80px;
+    opacity: 0.25;
+    font-size: 2em;
+    width: 100%;
+    text-align: center;
+    z-index: 1000;
+}
+
+.wrapper {
+    overflow: hidden;
+}
+
+.uploadWrapper {
+    overflow: hidden;
+    position: relative;
+    display: inline-block;
+    height: 26px;
+    width: 65px;
+    background: #005587;
+    border-radius: 2px;
+    margin-top: 8px;
+    cursor: pointer;
+}
+
+    .uploadWrapper input {
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+        filter: alpha(opacity=0);
+        opacity: 0;
+        position: absolute;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+    }
+
+    .uploadWrapper p {
+        margin: 0 12px;
+        position: absolute;
+        line-height: 26px;
+        color: #fff;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+.addcustomcost {
+    float: left;
+    margin-left: 2%;
+    font-weight: bold;
+    font-size: 16px;
+    font-weight: bold;
+    color: #222;
+    margin-top: 1%;
+}
+
+#customcostname {
+    font-size: 14px;
+    font-weight: bold;
+    color: #000;
+    margin-left: 1%;
+}
+
+#txtCustomCostName {
+    margin-left: 2px;
+    margin-right: 14px;
+    vertical-align: inherit;
+}
+
+#btnCustomCostAdd {
+    margin: 0;
+}
+
+#customcostmenu {
+    margin-right: 2%;
+    margin-top: -0.3%;
+}
+
+#divValueEntryId {
+    border: none;
+}
+
+.ui-grid-cell .ng-scope {
+    font-size: 12px;
+    color: #000;
+}
+
+/*.ui-grid-render-container-body > .ui-grid-viewport {  
+      overflow-y: scroll !important;  
+      overflow-x: hidden !important;    
+}*/
+
+
+input, select, textarea {
+    font-size: 12px;
+    color: #000;
+}
+/* Dialog related CSS*/
+.ngdialog-content .spectrum-container .hs-secondary-title {
+    padding-bottom: 15px;
+}
+
+.ngdialog-content .spectrum-container .dialog-container {
+    margin-top: 7px;
+}
+
+.ngdialog-content .spectrum-container .hs-form-group > li {
+    display: inline-block;
+}
+
+.ngdialog-content .hs-element-container .hs-form-group > li:first-child {
+    padding-right: 5px;
+}
+
+.ngdialog-content .hs-element-container .hs-form-group .hs-input inDialog,
+.ngdialog-content .hs-element-container .hs-form-group .hs-select inDialog {
+    margin-top: 6px;
+}
+
+#txtCreateInStoreStartDate, #txtCreateInStoreEndDate, #txtCreateSupplyPlanEndDate, #txtCreateSupplyPlanStartDate {
+    width: 120px;
+}
+
+.ngdialog-content .spectrum-container .hs-form-group > .hs-label {
+    width: 14%;
+    margin-left: 1%;
+}
+
+.ngdialog-content .spectrum-container .hs-form-group {
+    margin-bottom: 10px;
+}
+
+    .ngdialog-content .spectrum-container .hs-form-group > .hs-label > p {
+        padding: 7px;
+    }
+
+.multiselect-right-align .dropdown-menu {
+    margin-left: -80px;
+}
+
+.hs-value-label {
+    font-size: 14px;
+    color: #289E3F;
+    font-weight: bold;
+}
+
+#ElementCostValueGridId .ui-grid-render-container {
+    border: 1px solid #b9ccdd;
+}
+
+#txtDescription {
+    width: 130px;
+}
+
+#elementCostCategory {
+    width: 33%;
+}
+
+.ui-grid-cell .ng-scope {
+    height: 30px;
+    vertical-align: middle;
+}
+
+.ui-grid-cell .ui-grid-disable-selection {
+    height: 30px;
+}
+
+#ElementsCoOpAssociation .dropdown-menu li i,
+#IMSQElements .dropdown-menu li i {
+    display: inline-block;
+}
+
++ #divImsqLosEdit {
+    height: 200px;
+    margin-top: 9%;
+}
+
+#divImsqLosEdit .hs-form-group {
+    width: 100%;
+    margin-top: 4%;
+}
+
+#divImsqLosEdit .hs-btn-group {
+    margin-top: 6%;
+}
+
+#divImsqLosEdit .hs-form-group li {
+    width: 36%;
+}
+
+#divImsqLosEdit .hs-form-group .hs-label p {
+    float: right;
+}
+
+#divImsqLosEdit .hs-form-group li #ddlimsqlosSupplierid button {
+    width: auto;
+    min-width: 195px;
+}
+
+#divImsqLosEdit .hs-form-group li #ddlimsqlosOther button {
+    width: auto;
+    min-width: 195px;
+}
+
+#divImsqLosEdit .hs-form-group li #ddlimsqlosSupplierid .dropdown-menu li input {
+    width: 195px;
+}
+
+#divImsqLosEdit .hs-form-group li #ddlimsqlosOther .dropdown-menu li input {
+    width: 195px;
+}
+
+#divImsqLosEdit #ddlimsqlosSupplierid .dropdown-menu > li > a > span {
+    margin-left: -2px;
+}
+
+#divImsqLosEdit #ddlimsqlosOther .dropdown-menu > li > a > span {
+    margin-left: -2px;
+}
+
+#divImsqLosEdit #lblSeletedSupp .hs-label > li > a > span {
+    margin-left: -2px;
+}
+
+#divImsqLosEdit #ddlimsqlosOther .dropdown-menu {
+    width: auto;
+}
+
+#divImsqLOsDropdown #ddlImsqDcSupplier .dropdown-menu {
+    overflow-x: auto;
+}
+
+.greenColor {
+    color: #006400;
+}
+
+
+/*start: cost worksheet details*/
+#SupplierCostCtrlId .ngCell {
+    overflow: initial;
+}
+
+    #SupplierCostCtrlId .ngCell .popover {
+        top: 1px !important;
+    }
+
+        #SupplierCostCtrlId .ngCell .popover .arrow {
+            top: 15px !important;
+        }
+
+#ddlMarginType .dropdown > button > span {
+    color: #005587 !important;
+}
+
+.margin-qty-table > table > tbody > tr:nth-child(odd) > td {
+    background-color: #fff;
+}
+
+.margin-qty-table > table > tbody > tr:nth-child(even) > td {
+    background-color: #d9e1ee;
+}
+
+#costCategoryCell > span {
+    vertical-align: sub;
+}
+
+#costCategoryCell > div.ele-co-op-association-warning {
+    float: right;
+    margin-top: 0px;
+}
+
+#costCategoryCell > a.info-icon {
+    margin-right: 27px;
+}
+
+#costCategoryCell {
+    vertical-align: middle;
+}
+
+#CustomCostCtrlId .ngCell {
+    overflow: visible;
+}
+
+.custComcostInput {
+    text-align: right;
+}
+
+/*#SupplierCostCtrlId .ngViewport .ngRow .ngCell:last-child {
+    z-index: -1;
+}
+
+#SupplierCostCtrlId .ngCell.pinned {
+    z-index: auto;
+}*/
+/*end: cost worksheet details*/
+
+/*start: custom ui grid header*/
+.hs-grid-header .ui-grid-header-cell-wrapper:first-child > .ui-grid-header-cell-row > .ui-grid-header-cell:last-child > .ui-grid-header-cell-row > div:nth-child(odd) .hs-grid-cell-contents {
+    background-color: #489ad6;
+    color: #fff;
+}
+
+.hs-grid-header .ui-grid-header-cell-wrapper:first-child > .ui-grid-header-cell-row > .ui-grid-header-cell:last-child > .ui-grid-header-cell-row > div:nth-child(even) .hs-grid-cell-contents {
+    background-color: #3777a6;
+    color: #ffe400;
+}
+
+#cost-worksheet-summary .hs-grid-header .ui-grid-header-cell-wrapper:last-child .ui-grid-cell-contents {
+    background-color: #489ad6;
+    color: #ffe400;
+}
+
+.ui-grid-pager-panel {
+    position: relative !important;
+}s
+
+/*end: custom ui grid header*/
+
+/*custom scrollbar overrides*/
+.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
+    width: 8px;
+    border-radius: 0;
+}
+/**/
+
