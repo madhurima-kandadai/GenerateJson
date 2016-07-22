@@ -75,6 +75,7 @@
     };
 
     $scope.AddPropertyToModel = function () {
+        var d = new Date();
         if (JSON.stringify($scope.models).indexOf(JSON.stringify($scope.modelName)) == -1) {
             $scope.dataTypes.push({
                 value: "#/definitions/" + $scope.modelName,
@@ -82,8 +83,10 @@
                 type: 'secondary'
             });
             $scope.models.push({
+                "modelId": d.getMilliseconds(),
                 "model": $scope.modelName,
                 "properties": [{
+                    'propertyId': d.getMilliseconds(),
                     "name": $scope.propertyName,
                     "type": $scope.propertyType == true ? 'list' : 'object',
                     "dataTypeType": jQuery.parseJSON($scope.dataType).type,
@@ -94,10 +97,10 @@
         } else {
             var index = $scope.models.findIndex(x => x.model.toLowerCase() == $scope.modelName.toLowerCase());
             if (index != -1) {
-                debugger;
                 var propIndex = $scope.models[index].properties.findIndex(x => x.name.toLowerCase() == $scope.propertyName.toLowerCase());
                 if (propIndex == -1) {
                     $scope.models[index].properties.push({
+                        'propertyId': d.getMilliseconds(),
                         "name": $scope.propertyName,
                         "type": $scope.propertyType == true ? 'list' : 'object',
                         "dataTypeType": jQuery.parseJSON($scope.dataType).type,
