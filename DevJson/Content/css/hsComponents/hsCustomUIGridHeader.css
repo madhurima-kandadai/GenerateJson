@@ -1,0 +1,33 @@
+.hs-grid-header-cell-row > .hs-grid-header-cell:first-child {
+  display: none;
+}
+
+.hs-grid-header-cell-row > .hs-grid-header-cell:first-child .hs-grid-cell-contents {
+  padding: 0;
+}
+
+.hs-grid-header-cell {
+  vertical-align: middle;
+  text-align: center;
+  border-bottom: 1px solid #d4d4d4;
+}
+
+.ui-grid-render-container-left .ui-grid-header-canvas .ui-grid-header-cell {
+    vertical-align: bottom;
+}
+
+.hs_hidden {
+    display: none;
+}
+
+.hs-grid-header .ui-grid-header-cell-wrapper:first-child {
+    height: auto;
+}
+
+.hs-grid-header-cell-row > div > .hs-grid-header-cell:first-child {
+  display: none;
+}
+
+.ui-grid-header-cell {
+    width: auto;
+}
