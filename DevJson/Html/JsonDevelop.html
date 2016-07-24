@@ -1,101 +1,67 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 
 <head>
-    <title>Generate Json</title>
-    <meta charset="utf-8" />
-    <link href="../Scripts/ui-grid/ui-grid.min.css" rel="stylesheet" />
-    <link href="../Content/bootstrap.css" rel="stylesheet" />
-    <script src="../Scripts/angular.min.js"></script>
-    <script src="../Scripts/jquery-2.2.4.js"></script>
-    <script src="../Scripts/ngDialog.js"></script>
-    <script src="../Scripts/ui-grid/ui-grid.min.js"></script>
-    <script src="../Scripts/angular-ui/ui-bootstrap-tpls.js"></script>
-    <script src="../Scripts/AppScripts/app.js"></script>
-    <script src="../Scripts/AppScripts/jsonController.js"></script>
+  <title>Generate Json</title>
+  <meta charset="utf-8" />
+  <link href="../Scripts/ui-grid/ui-grid.min.css" rel="stylesheet" />
+  <link href="../Content/bootstrap.css" rel="stylesheet" />
+  <script src="../Scripts/angular.min.js"></script>
+  <script src="../Scripts/jquery-2.2.4.js"></script>
+  <script src="../Scripts/ngDialog.js"></script>
+  <script src="../Scripts/ui-grid/ui-grid.min.js"></script>
+  <script src="../Scripts/angular-ui/ui-bootstrap-tpls.js"></script>
+  <script src="../Scripts/AppScripts/app.js"></script>
+  <script src="../Scripts/AppScripts/jsonController.js"></script>
 </head>
 
 <body ng-app="codeDev" ng-controller="jsonController">
+  <div class="container">
     <h3>Welcome</h3>
-    <div style="width:100%">
-        <div style="float:left;width:60%">
-            <h3>Add Model Name:</h3>
-            <div class="form-group">
-                <label for="modelName"> Model name:</label>
-                <input type="text" ng-model="model" class="form-control" placeholder="Enter model name" />
-                <button ng-click="AddModel()" ng-disabled="!model">Add Model</button>
-            </div>
-            <div class="form-group" ng-show="modelNames.length > 0">
-                <h3>Add Properties to Model</h3>
-                <div class="form-group">
-                    <label for="propertyName">Model name:</label>
-                    <select class="form-control" ng-model="addProperty.propertyModelName">
-                        <option value="">Select</option>
-                        <option ng-repeat="modelName in modelNames" value="{{modelName}}">{{modelName}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="propertyName">Property name:</label>
-                    <input type="text" ng-model="addProperty.propertyName" class="form-control" placeholder="Enter property name" />
-                </div>
-                <div class="form-group">
-                    <label for="dataType">Data Type:</label>
-                    <select class="form-control" ng-model="addProperty.dataType">
-                        <option value="">Select</option>
-                        <option ng-repeat="dataType in dataTypes" value="{{dataType.value}}">{{dataType.name}}</option>
-                    </select>
-                </div>
-                <div class="checkbox">
-                    <label><input type="checkbox" ng-model="addProperty.list" /> List</label>
-                </div>
-                <div class="checkbox">
-                    <label><input type="checkbox" ng-model="addProperty.required" /> Required</label>
-                </div>
-                <button class="btn btn-default" ng-click="AddPropertyToModel(addProperty)" ng-disabled="(addProperty.propertyModelName && addProperty.propertyName && addProperty.dataType) ?  false : true ">Add</button>
-            </div>
+    <div class="row">
+      <div class="col-sm-6 well">
+        <h3>Add Model Name:</h3>
+        <div class="form-group">
+          <label for="modelName"> Model name:</label>
+          <input type="text" ng-model="model" class="form-control" placeholder="Enter model name" />
         </div>
-        <div style="float:right; width:40%">
-            <pre>{{tableViewModels}}</pre>
+        <button ng-click="AddModel()" class="btn btn-primary" ng-disabled="!model">Add Model</button>
+        <div class="form-group" ng-show="modelNames.length > 0">
+          <h3>Add Properties to Model</h3>
+          <div class="form-group">
+            <label for="propertyName">Model name:</label>
+            <select class="form-control" ng-model="addProperty.propertyModelName">
+              <option value="">Select</option>
+              <option ng-repeat="modelName in modelNames" value="{{modelName}}">{{modelName}}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="propertyName">Property name:</label>
+            <input type="text" ng-model="addProperty.propertyName" class="form-control" placeholder="Enter property name" />
+          </div>
+          <div class="form-group">
+            <label for="dataType">Data Type:</label>
+            <select class="form-control" ng-model="addProperty.dataType">
+              <option value="">Select</option>
+              <option ng-repeat="dataType in dataTypes" value="{{dataType.value}}">{{dataType.name}}</option>
+            </select>
+          </div>
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" ng-model="addProperty.list" /> List</label>
+          </div>
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" ng-model="addProperty.required" /> Required</label>
+          </div>
+          <button class="btn btn-primary" ng-click="AddPropertyToModel(addProperty)" ng-disabled="(addProperty.propertyModelName && addProperty.propertyName && addProperty.dataType) ?  false : true ">Add</button>
         </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="well">{{tableViewModels}}</div>
+      </div>
     </div>
-
-    <script type="text/ng-template" id="EditPropertyDialog">
-        <div class="hs-element-container">
-            <h2 class="hs-secondary-title">Edit Model</h2>
-            <table cellpadding="3" cellspacing="15" style="border-spacing:12px">
-                <tr>
-                    <td>Model name : </td>
-                    <td><input type="text" ng-model="editElement.modelName" placeholder="Enter model name" /></td>
-                </tr>
-                <tr>
-                    <td style="margin-top:10px">Property Name :</td>
-                    <td style="margin-top:10px"><input type="text" ng-model="editElement.propertyName" placeholder="Enter property name" /></td>
-                </tr>
-                <tr>
-                    <td>Data Type:</td>
-                    <td>
-                        <select ng-model="editElement.dataType">
-                            <option value="">Select</option>
-                            <option ng-repeat="type in dataTypes" value="{{type.value}}">{{type.name}}</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="margin-top:10px"> List : </td>
-                    <td style="margin-top:10px">
-                        <input type="checkbox" ng-model="editElement.propertyType" />
-                    </td>
-                </tr>
-                <tr>
-                    <td> Required :</td>
-                    <td><input type="checkbox" ng-model="editElement.required" /></td>
-                </tr>
-            </table>
-            <div class="hs-btn-group">
-                <input type="button" value="Update" class="hs-btn" ng-click="updateProperty(editElement)" ng-disabled="(editElement.modelName && editElement.propertyName && editElement.dataType) ?  false : true " />
-                <input type="button" ng-click="closengDialog()" value="Cancel" class="hs-btn" />
-            </div>
-        </div>
-    </script>
+  </div>
 </body>
+
 </html>
