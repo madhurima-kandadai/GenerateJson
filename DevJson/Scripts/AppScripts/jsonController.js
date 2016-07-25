@@ -98,6 +98,8 @@
     $scope.GetProperties = function (modelName) {
         $scope.showProperty = true;
         $scope.addProperty.propertyModelName = modelName;
+        var index = $scope.models.findIndex(x => x.model == modelName)
+        $scope.singleModelProperties = $scope.models[index];
     }
 
     $scope.GoToHome = function()

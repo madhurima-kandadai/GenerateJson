@@ -37,7 +37,7 @@
                 </div>
                 <button ng-click="AddModel()" class="btn btn-primary" ng-disabled="!model">Add Model</button>
             </div>
-            <div class="form-group" ng-hide="!showProperty">
+            <div class="col-sm-6 well" ng-hide="!showProperty">
                 <h3>Add Properties to Model</h3>
                 <div class="form-group">
                     <label for="propertyName">Model name:</label>
@@ -70,12 +70,18 @@
                 <pre class="well">{{tableViewModels}}</pre>
             </div>
             <div class="col-sm-6">
-                <table ng-repeat="property in PropertiesData">
-                    <tr ng-repeat="(key, value) in property">
-                        <th></th>
-                    </tr>
+                <table>
                     <tr>
-                        <td></td>
+                        <th>Property Name</th>
+                        <th>Data Type</th>
+                        <th>List</th>
+                        <th>Required</th>
+                    </tr>
+                    <tr ng-repeat="prop in singleModelProperties.properties">
+                        <td>{{prop.propertyName}}</td>
+                        <td>{{prop.dataType}}</td>
+                        <td>{{prop.required}}</td>
+                        <td>{{prop.list}}</td>
                     </tr>
                 </table>
             </div>
