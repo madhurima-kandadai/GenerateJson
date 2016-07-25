@@ -23,6 +23,7 @@
         type: 'primary'
     }];
 
+
     //Add Model 
     $scope.AddModel = function () {
         var exists = false;
@@ -33,14 +34,13 @@
         });
         if (exists) {
             alert('Duplicate Model Name');
-        }
-        else {
+        } else {
             $scope.models.push({
-    [$scope.model]: {
-        "type": "object",
-        "required": [],
-        "properties": []
-    }
+                [$scope.model]: {
+                    "type": "object",
+                    "required": [],
+                    "properties": []
+                }
             });
             $scope.dataTypes.push({
                 value: '#/definitions/' + $scope.model,
@@ -54,10 +54,15 @@
 
     // Add property to model
     $scope.AddPropertyToModel = function (property) {
-        debugger;
         var dataTypeType = $scope.GetTypeOfDataType(property.dataType);
-        var index = $scope.models.findIndex(x => Object.keys(x).toLocaleString() == property.propertyModelName.toLocaleString());
-        var key = Object.keys($scope.models[index]);
+        var index = 0;
+        angular.forEach($scope.models, function (model, $index) {
+            if (Object.keys(model).findIndex(x => x == property.propertyModelName) != -1) {
+                index = $index;
+            }
+        });
+        //    var index = $scope.models.findIndex(x => Object.keys(x).toLocaleString() == property.propertyModelName.toLocaleString());
+        var key = Object.keys($scope.models[index])[0];
         if (property.required === true) {
             $scope.models[index][key].required.push(property.propertyName);
         }
@@ -68,16 +73,14 @@
                         "type": property.dataType
                     }
                 });
-            }
-            else {
+            } else {
                 $scope.models[index][key].properties.push({
                     [property.propertyName]: {
                         "$ref": property.dataType
                     }
                 });
             }
-        }
-        else {
+        } else {
             if (dataTypeType == 'primary') {
                 $scope.models[index][key].properties.push({
                     [property.propertyName]: {
@@ -87,8 +90,7 @@
                         }
                     }
                 });
-            }
-            else {
+            } else {
                 $scope.models[index][key].properties.push({
                     [property.propertyName]: {
                         "type": "array",
@@ -99,7 +101,7 @@
                 });
             }
         }
-
+        console.log($scope.models);
         $scope.tableViewModels = JSON.stringify($scope.models, null, 2);
         console.log($scope.tableViewModels);
         $scope.addProperty.propertyModelName = "";
@@ -130,5 +132,10 @@
             closeByDocument: false,
             closeByEscape: true
         });
+    }
+
+    $scope.GetProperties = function (modelName) {
+        var index = $scope.models.findIndex(x => Object.keys(x) == modelName);
+        $scope.PropertiesData = $scope.models[index][modelName];
     }
 });

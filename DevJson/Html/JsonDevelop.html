@@ -63,9 +63,28 @@
                 <pre class="well">{{tableViewModels}}</pre>
             </div>
             <div class="col-sm-6">
-                <ul ng-show="models.length > 0" ng-repeat="(key, value) in models">
-                    {{value}}
+                <ul ng-repeat="model in models track by $index">
+                    <li ng-repeat="(key, value) in model track by $index">
+                        <a href="" ng-click="GetProperties(key)"> {{key}}</a>
+                        <ul ng-repeat="prop in value.properties track by $index">
+                            <li ng-repeat="(key, value) in prop">
+                                <a href="" ng-click="">{{key}}</a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
+            </div>
+            <div class="col-sm-6">
+                <table ng-repeat="property in PropertiesData">
+                    <tr ng-repeat="(key, value) in property">
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <td>
+
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
