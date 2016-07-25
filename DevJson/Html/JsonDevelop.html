@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -19,6 +19,18 @@
     <div class="container">
         <h3>Welcome</h3>
         <div class="row">
+          <div class="col-sm-2">
+                <ul class="list-group" ng-repeat="model in models track by $index">
+                    <li class="list-group-item" ng-repeat="(key, value) in model track by $index">
+                        <a href="" ng-click="GetProperties(key)"> {{key}}</a>
+                        <ul ng-repeat="prop in value.properties track by $index">
+                            <li ng-repeat="(key, value) in prop">
+                                <a href="" ng-click="">{{key}}</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
             <div class="col-sm-6 well">
                 <h3>Add Model Name:</h3>
                 <div class="form-group">
@@ -59,20 +71,8 @@
                     <button class="btn btn-primary" ng-click="AddPropertyToModel(addProperty)" ng-disabled="(addProperty.propertyModelName && addProperty.propertyName && addProperty.dataType) ?  false : true ">Add</button>
                 </div>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-4">
                 <pre class="well">{{tableViewModels}}</pre>
-            </div>
-            <div class="col-sm-6">
-                <ul ng-repeat="model in models track by $index">
-                    <li ng-repeat="(key, value) in model track by $index">
-                        <a href="" ng-click="GetProperties(key)"> {{key}}</a>
-                        <ul ng-repeat="prop in value.properties track by $index">
-                            <li ng-repeat="(key, value) in prop">
-                                <a href="" ng-click="">{{key}}</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
             </div>
             <div class="col-sm-6">
                 <table ng-repeat="property in PropertiesData">
