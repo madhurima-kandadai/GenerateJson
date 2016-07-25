@@ -5,6 +5,7 @@
     $scope.models = [];
     $scope.tableViewModels = [];
     $scope.modelNames = [];
+    $scope.showProperty = false;
     $scope.addProperty = {
         required: false,
         list: false
@@ -36,11 +37,8 @@
             alert('Duplicate Model Name');
         } else {
             $scope.models.push({
-                [$scope.model]: {
-                    "type": "object",
-                    "required": [],
-                    "properties": []
-                }
+                "model": $scope.model,
+                "properties": []
             });
             $scope.dataTypes.push({
                 value: '#/definitions/' + $scope.model,
@@ -50,60 +48,23 @@
             $scope.modelNames.push($scope.model);
         }
         $scope.model = '';
+        console.log($scope.models);
     };
 
     // Add property to model
     $scope.AddPropertyToModel = function (property) {
-        var dataTypeType = $scope.GetTypeOfDataType(property.dataType);
-        var index = 0;
-        angular.forEach($scope.models, function (model, $index) {
-            if (Object.keys(model).findIndex(x => x == property.propertyModelName) != -1) {
-                index = $index;
-            }
+        var index = $scope.models.findIndex(x => x.model == property.propertyModelName);
+        var dataTypeType = $scope.dataTypes.findIndex(x => x.value == property.dataType)
+        $scope.models[index].properties.push({
+            "propertyName": property.propertyName,
+            "dataType": property.dataType,
+            "required": property.required,
+            "list": property.list,
+            "dataTypeType": $scope.dataTypes[index].type
         });
-        //    var index = $scope.models.findIndex(x => Object.keys(x).toLocaleString() == property.propertyModelName.toLocaleString());
-        var key = Object.keys($scope.models[index])[0];
-        if (property.required === true) {
-            $scope.models[index][key].required.push(property.propertyName);
-        }
-        if (property.list == false) {
-            if (dataTypeType == 'primary') {
-                $scope.models[index][key].properties.push({
-                    [property.propertyName]: {
-                        "type": property.dataType
-                    }
-                });
-            } else {
-                $scope.models[index][key].properties.push({
-                    [property.propertyName]: {
-                        "$ref": property.dataType
-                    }
-                });
-            }
-        } else {
-            if (dataTypeType == 'primary') {
-                $scope.models[index][key].properties.push({
-                    [property.propertyName]: {
-                        "type": "array",
-                        "items": {
-                            "type": property.dataType
-                        }
-                    }
-                });
-            } else {
-                $scope.models[index][key].properties.push({
-                    [property.propertyName]: {
-                        "type": "array",
-                        "$ref": {
-                            "type": property.dataType
-                        }
-                    }
-                });
-            }
-        }
         console.log($scope.models);
-        $scope.tableViewModels = JSON.stringify($scope.models, null, 2);
-        console.log($scope.tableViewModels);
+        //   $scope.tableViewModels = JSON.stringify($scope.models, null, 2);
+        //console.log($scope.tableViewModels);
         $scope.addProperty.propertyModelName = "";
         $scope.addProperty.propertyName = null;
         $scope.addProperty.dataType = "";
@@ -135,7 +96,12 @@
     }
 
     $scope.GetProperties = function (modelName) {
-        var index = $scope.models.findIndex(x => Object.keys(x) == modelName);
-        $scope.PropertiesData = $scope.models[index][modelName];
+        $scope.showProperty = true;
+        $scope.addProperty.propertyModelName = modelName;
+    }
+
+    $scope.GoToHome = function()
+    {
+        $scope.showProperty = false;
     }
 });

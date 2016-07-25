@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 
 <head>
@@ -19,57 +19,52 @@
     <div class="container">
         <h3>Welcome</h3>
         <div class="row">
-          <div class="col-sm-2">
+            <div class="col-sm-2">
                 <ul class="list-group" ng-repeat="model in models track by $index">
-                    <li class="list-group-item" ng-repeat="(key, value) in model track by $index">
-                        <a href="" ng-click="GetProperties(key)"> {{key}}</a>
-                        <ul ng-repeat="prop in value.properties track by $index">
-                            <li ng-repeat="(key, value) in prop">
-                                <a href="" ng-click="">{{key}}</a>
-                            </li>
-                        </ul>
+                    <li class="list-group-item">
+                        <a href="" ng-click="GoToHome()">Home</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="" ng-click="GetProperties(model.model)"> {{model.model}}</a>
                     </li>
                 </ul>
             </div>
-            <div class="col-sm-6 well">
+            <div class="col-sm-6 well" ng-hide="showProperty">
                 <h3>Add Model Name:</h3>
                 <div class="form-group">
                     <label for="modelName"> Model name:</label>
                     <input type="text" ng-model="model" class="form-control" placeholder="Enter model name" />
                 </div>
                 <button ng-click="AddModel()" class="btn btn-primary" ng-disabled="!model">Add Model</button>
-                <div class="form-group" ng-show="modelNames.length > 0">
-                    <h3>Add Properties to Model</h3>
-                    <div class="form-group">
-                        <label for="propertyName">Model name:</label>
-                        <select class="form-control" ng-model="addProperty.propertyModelName">
-                            <option value="">Select</option>
-                            <option ng-repeat="modelName in modelNames" value="{{modelName}}">{{modelName}}</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="propertyName">Property name:</label>
-                        <input type="text" ng-model="addProperty.propertyName" class="form-control" placeholder="Enter property name" />
-                    </div>
-                    <div class="form-group">
-                        <label for="dataType">Data Type:</label>
-                        <select class="form-control" ng-model="addProperty.dataType">
-                            <option value="">Select</option>
-                            <option ng-repeat="dataType in dataTypes" value="{{dataType.value}}">{{dataType.name}}</option>
-                        </select>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" ng-model="addProperty.list" /> List
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" ng-model="addProperty.required" /> Required
-                        </label>
-                    </div>
-                    <button class="btn btn-primary" ng-click="AddPropertyToModel(addProperty)" ng-disabled="(addProperty.propertyModelName && addProperty.propertyName && addProperty.dataType) ?  false : true ">Add</button>
+            </div>
+            <div class="form-group" ng-hide="!showProperty">
+                <h3>Add Properties to Model</h3>
+                <div class="form-group">
+                    <label for="propertyName">Model name:</label>
+                    <input type="text" ng-model="addProperty.propertyModelName" class="form-control" ng-disabled="true" />
                 </div>
+                <div class="form-group">
+                    <label for="propertyName">Property name:</label>
+                    <input type="text" ng-model="addProperty.propertyName" class="form-control" placeholder="Enter property name" />
+                </div>
+                <div class="form-group">
+                    <label for="dataType">Data Type:</label>
+                    <select class="form-control" ng-model="addProperty.dataType">
+                        <option value="">Select</option>
+                        <option ng-repeat="dataType in dataTypes" value="{{dataType.value}}">{{dataType.name}}</option>
+                    </select>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="addProperty.list" /> List
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="addProperty.required" /> Required
+                    </label>
+                </div>
+                <button class="btn btn-primary" ng-click="AddPropertyToModel(addProperty)" ng-disabled="(addProperty.propertyModelName && addProperty.propertyName && addProperty.dataType) ?  false : true ">Add</button>
             </div>
             <div class="col-sm-4">
                 <pre class="well">{{tableViewModels}}</pre>
@@ -80,9 +75,7 @@
                         <th></th>
                     </tr>
                     <tr>
-                        <td>
-
-                        </td>
+                        <td></td>
                     </tr>
                 </table>
             </div>
