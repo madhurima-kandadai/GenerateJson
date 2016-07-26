@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <title>Generate Json</title>
@@ -18,26 +18,27 @@
 <body ng-app="codeDev" ng-controller="jsonController">
     <div class="container">
         <h3>Welcome</h3>
+      <div class="col-sm-8">
         <div class="row">
-            <div class="col-sm-2">
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        <a href="" ng-click="GoToHome()">Home</a>
-                    </li>
-                    <li class="list-group-item" ng-repeat="model in models track by $index">
-                        <a href="" ng-click="GetProperties(model.model)"> {{model.model}}</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-sm-6 well" ng-hide="showProperty">
-                <h3>Add Model Name:</h3>
-                <div class="form-group">
-                    <label for="modelName"> Model name:</label>
-                    <input type="text" ng-model="model" class="form-control" placeholder="Enter model name" />
-                </div>
-                <button ng-click="AddModel()" class="btn btn-primary" ng-disabled="!model">Add Model</button>
-            </div>
-            <div class="col-sm-4 well" ng-hide="!showProperty">
+          <div class="col-sm-4">
+              <ul class="list-group">
+                  <li class="list-group-item">
+                      <a href="" ng-click="GoToHome()">Home</a>
+                  </li>
+                  <li class="list-group-item" ng-repeat="model in models track by $index">
+                      <a href="" ng-click="GetProperties(model.model)"> {{model.model}}</a>
+                  </li>
+              </ul>
+          </div>
+          <div class="col-sm-8 well" ng-hide="showProperty">
+              <h3>Add Model Name:</h3>
+              <div class="form-group">
+                  <label for="modelName"> Model name:</label>
+                  <input type="text" ng-model="model" class="form-control" placeholder="Enter model name" />
+              </div>
+              <button ng-click="AddModel()" class="btn btn-primary" ng-disabled="!model">Add Model</button>
+          </div>
+          <div class="col-sm-8 well" ng-hide="!showProperty">
                 <h3>Add Properties to Model</h3>
                 <div class="form-group">
                     <label for="propertyName">Model name:</label>
@@ -66,8 +67,10 @@
                 </div>
                 <button class="btn btn-primary" ng-click="AddPropertyToModel(addProperty)" ng-disabled="(addProperty.propertyModelName && addProperty.propertyName && addProperty.dataType) ?  false : true ">Add</button>
             </div>
-            <div class="col-sm-6">
-                <table class="form-group">
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+                <table class="table table-striped table-hover">
                     <tr>
                         <th>Property Name</th>
                         <th>Data Type</th>
@@ -82,18 +85,19 @@
                         <td>{{prop.list}}</td>
                         <td>{{prop.required}}</td>
                         <td>
-                            <button ng-click="EditProperty(prop)">Edit</button>
+                            <button class="btn btn-warning" ng-click="EditProperty(prop)">Edit</button>
                         </td>
                         <td>
-                            <button ng-click="DeleteProperty(singleModelProperties.model, prop.propertyName)">Delete</button>
+                            <button class="btn btn-danger" ng-click="DeleteProperty(singleModelProperties.model, prop.propertyName)">Delete</button>
                         </td>
                     </tr>
                 </table>
             </div>
-            <div class="col-sm-4">
-                <pre class="well">{{tableViewModels}}</pre>
-            </div>
         </div>
+      </div>
+      <div class="col-sm-4">
+          <pre class="well">{{tableViewModels}}</pre>
+      </div>
     </div>
     <script type="text/ng-template" id="EditPropertyDialog">
         <div class="hs-element-container">
