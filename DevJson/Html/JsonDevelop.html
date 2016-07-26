@@ -12,6 +12,8 @@
     <script src="../Scripts/angular-ui/ui-bootstrap-tpls.js"></script>
     <script src="../Scripts/AppScripts/app.js"></script>
     <script src="../Scripts/AppScripts/jsonController.js"></script>
+    <link href="../Content/ngDialog.min.css" rel="stylesheet" />
+    <link href="../Content/ngDialog-theme-default.css" rel="stylesheet" />
 </head>
 <body ng-app="codeDev" ng-controller="jsonController">
     <div class="container">
@@ -80,7 +82,7 @@
                         <td>{{prop.required}}</td>
                         <td>{{prop.list}}</td>
                         <td>
-                            <button ng-click="EditProperty()">Edit</button>
+                            <button ng-click="EditProperty(prop)">Edit</button>
                         </td>
                         <td>
                             <button ng-click="DeleteProperty(singleModelProperties.model, prop.propertyName)">Delete</button>
@@ -93,5 +95,39 @@
             </div>
         </div>
     </div>
+    <script type="text/ng-template" id="EditPropertyDialog">
+        <div class="hs-element-container">
+            <h2 class="hs-secondary-title">Edit Model</h2>
+            <table cellpadding="3" cellspacing="15" style="border-spacing:12px">                
+                <tr>
+                    <td style="margin-top:10px">Property Name :</td>
+                    <td style="margin-top:10px"><input ng-disabled="true" type="text" ng-model="editElement.propertyName" placeholder="Enter property name" /></td>
+                </tr>
+                <tr>
+                    <td>Data Type:</td>
+                    <td>
+                        <select ng-model="editElement.dataType">
+                            <option value="">Select</option>
+                            <option ng-repeat="type in dataTypes" value="{{type.value}}">{{type.name}}</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="margin-top:10px"> List : </td>
+                    <td style="margin-top:10px">
+                        <input type="checkbox" ng-model="editElement.list" />
+                    </td>
+                </tr>
+                <tr>
+                    <td> Required :</td>
+                    <td><input type="checkbox" ng-model="editElement.required" /></td>
+                </tr>
+            </table>
+            <div class="hs-btn-group">
+                <input type="button" value="Update" class="hs-btn" ng-click="updateProperty(editElement)" ng-disabled="(editElement.dataType) ?  false : true " />
+                <input type="button" ng-click="closengDialog()" value="Cancel" class="hs-btn" />
+            </div>
+        </div>
+    </script>
 </body>
 </html>

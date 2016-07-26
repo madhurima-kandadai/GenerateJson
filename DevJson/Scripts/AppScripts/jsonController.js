@@ -1,4 +1,6 @@
-﻿app.controller('jsonController', function ($scope, $http, ngDialog) {
+﻿/// <reference path="../../Html/templates/EditPropertyDialog.tpl.html" />
+
+app.controller('jsonController', function ($scope, $http, ngDialog) {
 
     $scope.swaggerJson = [];
     $scope.swaggerEditorJson = [];
@@ -43,7 +45,6 @@
             $scope.modelNames.push($scope.model);
         }
         $scope.model = '';
-        console.log($scope.models);
     };
 
     // Add property to model
@@ -59,15 +60,11 @@
                 "list": property.list,
                 "dataTypeType": $scope.dataTypes[index].type
             });
-            console.log($scope.models);
             $scope.SwaggerJsonGeneration();
         }
         else {
             alert('Duplicate Property')
         }
-
-        //   $scope.tableViewModels = JSON.stringify($scope.models, null, 2);
-        //console.log($scope.tableViewModels);          
         $scope.addProperty.propertyName = null;
         $scope.addProperty.dataType = "";
         $scope.addProperty.list = false;
@@ -75,7 +72,6 @@
     }
 
     $scope.SwaggerJsonGeneration = function () {
-        debugger;
         var index = 0;
         $scope.swaggerEditorJson = [];
         angular.forEach($scope.models, function (model, $index) {
@@ -131,18 +127,15 @@
                 }
             });
         });
-        console.log(JSON.stringify($scope.swaggerEditorJson, null, 1));
         $scope.tableViewModels = JSON.stringify($scope.swaggerEditorJson, null, 1);
     };
 
-    $scope.EditProperty = function (model, property, hashkey) {
-        var index = $scope.dataTypes.findIndex(x => x.value == property.dataType);
+    $scope.EditProperty = function (property) {
         $scope.editElement = {
-            hashkey: hashkey,
-            modelName: model,
-            propertyName: property.name,
+            model: $scope.addProperty.propertyModelName,
+            propertyName: property.propertyName,
             dataType: property.dataType,
-            propertyType: property.type == 'list' ? true : false,
+            list: property.list,
             required: property.required,
         }
         ngDialog.open({
@@ -151,8 +144,23 @@
             closeByDocument: false,
             closeByEscape: true
         });
-    }
+    };
 
+    $scope.updateProperty = function (property) {
+        var index = $scope.models.findIndex(x => x.model == property.model);
+        var dataTypeType = $scope.dataTypes.findIndex(x => x.value == property.dataType);
+        var propertyIndex = $scope.models[index].properties.findIndex(x => x.propertyName == property.propertyName);
+        $scope.models[index].properties[propertyIndex].dataType = property.dataType;
+        $scope.models[index].properties[propertyIndex].list = property.list;
+        $scope.models[index].properties[propertyIndex].required = property.required;
+        $scope.models[index].properties[propertyIndex].dataTypeType = $scope.dataTypes[propertyIndex].type;
+        $scope.SwaggerJsonGeneration();
+        $scope.closengDialog();
+    };
+
+    $scope.closengDialog = function () {
+        ngDialog.close();
+    }
     $scope.GetProperties = function (modelName) {
         $scope.showProperty = true;
         $scope.addProperty.propertyModelName = modelName;
@@ -169,7 +177,7 @@
         $scope.models[index].properties = jQuery.grep($scope.models[index].properties, function (property) {
             return property.propertyName != propertyName;
         });
-        $scope.SwaggerJsonGeneration(); 
+        $scope.SwaggerJsonGeneration();
 
     };
 });
