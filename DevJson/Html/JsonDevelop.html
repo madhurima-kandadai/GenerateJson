@@ -1,6 +1,5 @@
 ﻿<!DOCTYPE html>
 <html>
-
 <head>
     <title>Generate Json</title>
     <meta charset="utf-8" />
@@ -14,17 +13,16 @@
     <script src="../Scripts/AppScripts/app.js"></script>
     <script src="../Scripts/AppScripts/jsonController.js"></script>
 </head>
-
 <body ng-app="codeDev" ng-controller="jsonController">
     <div class="container">
         <h3>Welcome</h3>
         <div class="row">
             <div class="col-sm-2">
-                <ul class="list-group" ng-repeat="model in models track by $index">
+                <ul class="list-group">
                     <li class="list-group-item">
                         <a href="" ng-click="GoToHome()">Home</a>
                     </li>
-                    <li class="list-group-item">
+                    <li class="list-group-item" ng-repeat="model in models track by $index">
                         <a href="" ng-click="GetProperties(model.model)"> {{model.model}}</a>
                     </li>
                 </ul>
@@ -37,7 +35,7 @@
                 </div>
                 <button ng-click="AddModel()" class="btn btn-primary" ng-disabled="!model">Add Model</button>
             </div>
-            <div class="col-sm-6 well" ng-hide="!showProperty">
+            <div class="col-sm-4 well" ng-hide="!showProperty">
                 <h3>Add Properties to Model</h3>
                 <div class="form-group">
                     <label for="propertyName">Model name:</label>
@@ -66,27 +64,34 @@
                 </div>
                 <button class="btn btn-primary" ng-click="AddPropertyToModel(addProperty)" ng-disabled="(addProperty.propertyModelName && addProperty.propertyName && addProperty.dataType) ?  false : true ">Add</button>
             </div>
-            <div class="col-sm-4">
-                <pre class="well">{{tableViewModels}}</pre>
-            </div>
             <div class="col-sm-6">
-                <table>
+                <table class="form-group">
                     <tr>
                         <th>Property Name</th>
                         <th>Data Type</th>
                         <th>List</th>
                         <th>Required</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                     <tr ng-repeat="prop in singleModelProperties.properties">
                         <td>{{prop.propertyName}}</td>
                         <td>{{prop.dataType}}</td>
                         <td>{{prop.required}}</td>
                         <td>{{prop.list}}</td>
+                        <td>
+                            <button ng-click="EditProperty()">Edit</button>
+                        </td>
+                        <td>
+                            <button ng-click="DeleteProperty(singleModelProperties.model, prop.propertyName)">Delete</button>
+                        </td>
                     </tr>
                 </table>
+            </div>
+            <div class="col-sm-4">
+                <pre class="well">{{tableViewModels}}</pre>
             </div>
         </div>
     </div>
 </body>
-
 </html>

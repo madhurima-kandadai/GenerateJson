@@ -27,13 +27,8 @@
 
     //Add Model 
     $scope.AddModel = function () {
-        var exists = false;
-        angular.forEach($scope.models, function (obj) {
-            if (Object.keys(obj) == $scope.model) {
-                exists = true;
-            }
-        });
-        if (exists) {
+        var index = $scope.models.findIndex(x => x.model.toLowerCase() == $scope.model.toLowerCase())
+        if (index != -1) {
             alert('Duplicate Model Name');
         } else {
             $scope.models.push({
@@ -54,27 +49,90 @@
     // Add property to model
     $scope.AddPropertyToModel = function (property) {
         var index = $scope.models.findIndex(x => x.model == property.propertyModelName);
-        var dataTypeType = $scope.dataTypes.findIndex(x => x.value == property.dataType)
-        $scope.models[index].properties.push({
-            "propertyName": property.propertyName,
-            "dataType": property.dataType,
-            "required": property.required,
-            "list": property.list,
-            "dataTypeType": $scope.dataTypes[index].type
-        });
-        console.log($scope.models);
+        var propIndex = $scope.models[index].properties.findIndex(x => x.propertyName == property.propertyName);
+        if (propIndex == -1) {
+            var dataTypeType = $scope.dataTypes.findIndex(x => x.value == property.dataType)
+            $scope.models[index].properties.push({
+                "propertyName": property.propertyName,
+                "dataType": property.dataType,
+                "required": property.required,
+                "list": property.list,
+                "dataTypeType": $scope.dataTypes[index].type
+            });
+            console.log($scope.models);
+            $scope.SwaggerJsonGeneration();
+        }
+        else {
+            alert('Duplicate Property')
+        }
+
         //   $scope.tableViewModels = JSON.stringify($scope.models, null, 2);
-        //console.log($scope.tableViewModels);
-        $scope.addProperty.propertyModelName = "";
+        //console.log($scope.tableViewModels);          
         $scope.addProperty.propertyName = null;
         $scope.addProperty.dataType = "";
         $scope.addProperty.list = false;
         $scope.addProperty.required = false;
     }
 
-    $scope.GetTypeOfDataType = function (dataType) {
-        var index = $scope.dataTypes.findIndex(x => x.value == dataType);
-        return $scope.dataTypes[index].type;
+    $scope.SwaggerJsonGeneration = function () {
+        debugger;
+        var index = 0;
+        $scope.swaggerEditorJson = [];
+        angular.forEach($scope.models, function (model, $index) {
+            index = $index;
+            $scope.swaggerEditorJson.push({
+                [model.model]: {
+                    "type": "object",
+                    "required": [],
+                    "properties": []
+                }
+            });
+            angular.forEach(model.properties, function (property) {
+                if (property.dataTypeType == 'primary') {
+                    if (property.list) {
+                        $scope.swaggerEditorJson[index][model.model].properties.push({
+                            [property.propertyName]: {
+                                "type": "array",
+                                "items": {
+                                    "type": property.dataType
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        $scope.swaggerEditorJson[index][model.model].properties.push({
+                            [property.propertyName]: {
+                                "type": property.dataType
+                            }
+                        });
+                    }
+                } else if (property.dataTypeType == 'secondary') {
+                    if (property.list) {
+                        $scope.swaggerEditorJson[index][model.model].properties.push({
+                            [property.propertyName]: {
+                                "type": "array",
+                                "items": {
+                                    "$ref": property.dataType
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        $scope.swaggerEditorJson[index][model.model].properties.push({
+                            [property.propertyName]: {
+                                "$ref": property.dataType
+                            }
+                        });
+                    }
+                }
+
+                if (property.required) {
+                    $scope.swaggerEditorJson[index][model.model].required.push(property.propertyName);
+                }
+            });
+        });
+        console.log(JSON.stringify($scope.swaggerEditorJson, null, 1));
+        $scope.tableViewModels = JSON.stringify($scope.swaggerEditorJson, null, 1);
     };
 
     $scope.EditProperty = function (model, property, hashkey) {
@@ -102,8 +160,16 @@
         $scope.singleModelProperties = $scope.models[index];
     }
 
-    $scope.GoToHome = function()
-    {
+    $scope.GoToHome = function () {
         $scope.showProperty = false;
     }
+
+    $scope.DeleteProperty = function (modelName, propertyName) {
+        var index = $scope.models.findIndex(x => x.model == modelName);
+        $scope.models[index].properties = jQuery.grep($scope.models[index].properties, function (property) {
+            return property.propertyName != propertyName;
+        });
+        $scope.SwaggerJsonGeneration(); 
+
+    };
 });
