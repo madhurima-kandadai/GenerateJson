@@ -1,4 +1,4 @@
-﻿/// <reference path="../../Html/templates/EditPropertyDialog.tpl.html" />
+/// <reference path="../../Html/templates/EditPropertyDialog.tpl.html" />
 
 app.controller('jsonController', function ($scope, $http, ngDialog) {
 
@@ -139,7 +139,7 @@ app.controller('jsonController', function ($scope, $http, ngDialog) {
             required: property.required,
         }
         ngDialog.open({
-            template: 'EditPropertyDialog',
+            templateUrl: './templates/EditPropertyDialog.tpl.html',
             scope: $scope,
             closeByDocument: false,
             closeByEscape: true
