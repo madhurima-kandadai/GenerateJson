@@ -43,6 +43,9 @@ app.controller('jsonController', function ($scope, $http, ngDialog) {
                 type: 'secondary'
             });
             $scope.modelNames.push($scope.model);
+            $scope.showProperty = true;
+            $scope.GetProperties($scope.model);
+            $scope.addProperty.propertyModelName = $scope.model;
         }
         $scope.model = '';
     };
@@ -50,7 +53,7 @@ app.controller('jsonController', function ($scope, $http, ngDialog) {
     // Add property to model
     $scope.AddPropertyToModel = function (property) {
         var index = $scope.models.findIndex(x => x.model == property.propertyModelName);
-        var propIndex = $scope.models[index].properties.findIndex(x => x.propertyName == property.propertyName);
+        var propIndex = $scope.models[index].properties.findIndex(x => x.propertyName.toLowerCase() == property.propertyName.toLowerCase());
         if (propIndex == -1) {
             var dataTypeType = $scope.dataTypes.findIndex(x => x.value == property.dataType)
             $scope.models[index].properties.push({
@@ -58,7 +61,7 @@ app.controller('jsonController', function ($scope, $http, ngDialog) {
                 "dataType": property.dataType,
                 "required": property.required,
                 "list": property.list,
-                "dataTypeType": $scope.dataTypes[index].type
+                "dataTypeType": $scope.dataTypes[dataTypeType].type
             });
             $scope.SwaggerJsonGeneration();
         }
@@ -71,6 +74,7 @@ app.controller('jsonController', function ($scope, $http, ngDialog) {
         $scope.addProperty.required = false;
     }
 
+    // Generate Swagger Json from the models created from the UI
     $scope.SwaggerJsonGeneration = function () {
         var index = 0;
         $scope.swaggerEditorJson = [];
@@ -130,6 +134,7 @@ app.controller('jsonController', function ($scope, $http, ngDialog) {
         $scope.tableViewModels = JSON.stringify($scope.swaggerEditorJson, null, 1);
     };
 
+    //Edit property of a model - open dialog
     $scope.EditProperty = function (property) {
         $scope.editElement = {
             model: $scope.addProperty.propertyModelName,
@@ -146,6 +151,7 @@ app.controller('jsonController', function ($scope, $http, ngDialog) {
         });
     };
 
+    // update property on click of save from the edit dialog
     $scope.updateProperty = function (property) {
         var index = $scope.models.findIndex(x => x.model == property.model);
         var dataTypeType = $scope.dataTypes.findIndex(x => x.value == property.dataType);
@@ -158,9 +164,13 @@ app.controller('jsonController', function ($scope, $http, ngDialog) {
         $scope.closengDialog();
     };
 
+
+    //close dialog
     $scope.closengDialog = function () {
         ngDialog.close();
     }
+
+    // Get the list of properties for model to show in the table 
     $scope.GetProperties = function (modelName) {
         $scope.showProperty = true;
         $scope.addProperty.propertyModelName = modelName;
@@ -168,10 +178,12 @@ app.controller('jsonController', function ($scope, $http, ngDialog) {
         $scope.singleModelProperties = $scope.models[index];
     }
 
+    //Open add model 
     $scope.GoToHome = function () {
         $scope.showProperty = false;
     }
 
+    // Delete property from the model
     $scope.DeleteProperty = function (modelName, propertyName) {
         var index = $scope.models.findIndex(x => x.model == modelName);
         $scope.models[index].properties = jQuery.grep($scope.models[index].properties, function (property) {
@@ -180,4 +192,61 @@ app.controller('jsonController', function ($scope, $http, ngDialog) {
         $scope.SwaggerJsonGeneration();
 
     };
+
+    // Generate models and properties from the swagger file.
+    $scope.CreateModelsFromJson = function () {
+        $http({
+            method: 'GET',
+            url: "../JsonData/swaggerScript.json"
+        })
+   .success(function (response) {
+       $scope.swaggerCode = response;
+       $scope.tableViewModels = JSON.stringify($scope.swaggerCode, null, 2);
+       $scope.modelsGenerate = [];
+       angular.forEach($scope.swaggerCode, function (object, $index) {
+           var modelIndex = $index;
+           var key = Object.keys(object);
+           $scope.modelsGenerate.push({
+               "model": key[0],
+               "properties": []
+           });
+           $scope.modelNames.push(key[0]);
+           $scope.dataTypes.push({
+               name: key[0],
+               value: '#/definitions/' + key[0],
+               type: 'secondary'
+           });
+           angular.forEach(object[key].properties, function (prop) {
+               var propKey = Object.keys(prop);
+               var dataType = '';
+               if (prop[propKey].type == "array") {
+                   if (prop[propKey].items.type != undefined) {
+                       dataType = prop[propKey].items.type
+                   }
+                   else {
+                       dataType = prop[propKey].items.$ref;
+                   }
+               }
+               else {
+                   if (prop[propKey].type != undefined) {
+                       dataType = prop[propKey].type
+                   }
+                   else {
+                       dataType = prop[propKey].$ref;
+                   }
+               }
+               var dataTypeTypeIndex = $scope.dataTypes.findIndex(x => x.value == dataType);
+               $scope.modelsGenerate[$index].properties.push({
+                   "propertyName": propKey[0],
+                   "dataType": dataType,
+                   "required": object[key].required.findIndex(x => x == propKey) != -1 ? true : false,
+                   "list": prop[propKey].type == "array" ? true : false,
+                   "dataTypeType": $scope.dataTypes[dataTypeTypeIndex].type
+               });
+           });
+       });
+       $scope.models = $scope.modelsGenerate;
+   }).error(function (response) {
+   });
+    }
 });
