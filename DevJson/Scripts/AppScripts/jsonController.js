@@ -63,6 +63,8 @@ app.controller('jsonController', function ($scope, $http, ngDialog) {
                 "list": property.list,
                 "dataTypeType": $scope.dataTypes[dataTypeType].type
             });
+            $scope.test = $scope.models;
+            console.log($scope.test);
             $scope.SwaggerJsonGeneration();
         }
         else {
@@ -77,57 +79,48 @@ app.controller('jsonController', function ($scope, $http, ngDialog) {
     // Generate Swagger Json from the models created from the UI
     $scope.SwaggerJsonGeneration = function () {
         var index = 0;
-        $scope.swaggerEditorJson = [];
+        $scope.swaggerEditorJson = {};
         angular.forEach($scope.models, function (model, $index) {
-            index = $index;
-            $scope.swaggerEditorJson.push({
-                [model.model]: {
-                    "type": "object",
-                    "required": [],
-                    "properties": []
-                }
-            });
+            $scope.swaggerEditorJson[model.model] = {
+                "type": "object",
+                "required": [],
+                "properties": {}
+            };
+            //});
+            //console.log(test);
             angular.forEach(model.properties, function (property) {
                 if (property.dataTypeType == 'primary') {
                     if (property.list) {
-                        $scope.swaggerEditorJson[index][model.model].properties.push({
-                            [property.propertyName]: {
-                                "type": "array",
-                                "items": {
-                                    "type": property.dataType
-                                }
-                            }
-                        });
-                    }
-                    else {
-                        $scope.swaggerEditorJson[index][model.model].properties.push({
-                            [property.propertyName]: {
+                        $scope.swaggerEditorJson[model.model].properties[property.propertyName] = {
+                            "type": "array",
+                            "items": {
                                 "type": property.dataType
                             }
-                        });
+                        };
+                    }
+                    else {
+                        $scope.swaggerEditorJson[model.model].properties[property.propertyName] = {
+                            "type": property.dataType
+                        }
                     }
                 } else if (property.dataTypeType == 'secondary') {
                     if (property.list) {
-                        $scope.swaggerEditorJson[index][model.model].properties.push({
-                            [property.propertyName]: {
-                                "type": "array",
-                                "items": {
-                                    "$ref": property.dataType
-                                }
-                            }
-                        });
-                    }
-                    else {
-                        $scope.swaggerEditorJson[index][model.model].properties.push({
-                            [property.propertyName]: {
+                        $scope.swaggerEditorJson[model.model].properties[property.propertyName] = {
+                            "type": "array",
+                            "items": {
                                 "$ref": property.dataType
                             }
-                        });
+                        };
+                    }
+                    else {
+                        $scope.swaggerEditorJson[model.model].properties[property.propertyName] = {
+                            "$ref": property.dataType
+                        };
                     }
                 }
 
                 if (property.required) {
-                    $scope.swaggerEditorJson[index][model.model].required.push(property.propertyName);
+                    $scope.swaggerEditorJson[model.model].required.push(property.propertyName);
                 }
             });
         });
@@ -199,54 +192,96 @@ app.controller('jsonController', function ($scope, $http, ngDialog) {
             method: 'GET',
             url: "../JsonData/swaggerScript.json"
         })
-   .success(function (response) {
-       $scope.swaggerCode = response;
-       $scope.tableViewModels = JSON.stringify($scope.swaggerCode, null, 2);
-       $scope.modelsGenerate = [];
-       angular.forEach($scope.swaggerCode, function (object, $index) {
-           var modelIndex = $index;
-           var key = Object.keys(object);
-           $scope.modelsGenerate.push({
-               "model": key[0],
-               "properties": []
-           });
-           $scope.modelNames.push(key[0]);
-           $scope.dataTypes.push({
-               name: key[0],
-               value: '#/definitions/' + key[0],
-               type: 'secondary'
-           });
-           angular.forEach(object[key].properties, function (prop) {
-               var propKey = Object.keys(prop);
-               var dataType = '';
-               if (prop[propKey].type == "array") {
-                   if (prop[propKey].items.type != undefined) {
-                       dataType = prop[propKey].items.type
-                   }
-                   else {
-                       dataType = prop[propKey].items.$ref;
-                   }
-               }
-               else {
-                   if (prop[propKey].type != undefined) {
-                       dataType = prop[propKey].type
-                   }
-                   else {
-                       dataType = prop[propKey].$ref;
-                   }
-               }
-               var dataTypeTypeIndex = $scope.dataTypes.findIndex(x => x.value == dataType);
-               $scope.modelsGenerate[$index].properties.push({
-                   "propertyName": propKey[0],
-                   "dataType": dataType,
-                   "required": object[key].required.findIndex(x => x == propKey) != -1 ? true : false,
-                   "list": prop[propKey].type == "array" ? true : false,
-                   "dataTypeType": $scope.dataTypes[dataTypeTypeIndex].type
-               });
-           });
-       });
-       $scope.models = $scope.modelsGenerate;
-   }).error(function (response) {
-   });
+    .success(function (response) {
+        console.log(response);
+        $scope.swaggerCode = response;
+        $scope.tableViewModels = JSON.stringify($scope.swaggerCode, null, 2);
+        $scope.modelsGenerate = [];
+        var keysList = Object.keys($scope.swaggerCode);
+        angular.forEach(keys, function (key) {
+            $scope.modelsGenerate.push({
+                "model": key,
+                "properties": []
+            });
+            $scope.modelNames.push(key);
+            $scope.dataTypes.push({
+                name: key,
+                value: '#/definitions/' + key,
+                type: 'secondary'
+            });
+            angular.forEach($scope.swaggerCode[key].properties, function (prop) {
+                var propKey = Object.keys(prop);
+                var dataType = '';
+                if (prop[propKey].type == "array") {
+                    if (prop[propKey].items.type != undefined) {
+                        dataType = prop[propKey].items.type
+                    }
+                    else {
+                        dataType = prop[propKey].items.$ref;
+                    }
+                }
+                else {
+                    if (prop[propKey].type != undefined) {
+                        dataType = prop[propKey].type
+                    }
+                    else {
+                        dataType = prop[propKey].$ref;
+                    }
+                }
+                var dataTypeTypeIndex = $scope.dataTypes.findIndex(x => x.value == dataType);
+                $scope.modelsGenerate[$index].properties.push({
+                    "propertyName": propKey[0],
+                    "dataType": dataType,
+                    "required": object[key].required.findIndex(x => x == propKey) != -1 ? true : false,
+                    "list": prop[propKey].type == "array" ? true : false,
+                    "dataTypeType": $scope.dataTypes[dataTypeTypeIndex].type
+                });
+            });
+        });
+        angular.forEach($scope.swaggerCode, function (object, $index) {
+            var modelIndex = $index;
+            var key = Object.keys(object);
+            $scope.modelsGenerate.push({
+                "model": key[0],
+                "properties": []
+            });
+            $scope.modelNames.push(key[0]);
+            $scope.dataTypes.push({
+                name: key[0],
+                value: '#/definitions/' + key[0],
+                type: 'secondary'
+            });
+            angular.forEach(object[key].properties, function (prop) {
+                var propKey = Object.keys(prop);
+                var dataType = '';
+                if (prop[propKey].type == "array") {
+                    if (prop[propKey].items.type != undefined) {
+                        dataType = prop[propKey].items.type
+                    }
+                    else {
+                        dataType = prop[propKey].items.$ref;
+                    }
+                }
+                else {
+                    if (prop[propKey].type != undefined) {
+                        dataType = prop[propKey].type
+                    }
+                    else {
+                        dataType = prop[propKey].$ref;
+                    }
+                }
+                var dataTypeTypeIndex = $scope.dataTypes.findIndex(x => x.value == dataType);
+                $scope.modelsGenerate[$index].properties.push({
+                    "propertyName": propKey[0],
+                    "dataType": dataType,
+                    "required": object[key].required.findIndex(x => x == propKey) != -1 ? true : false,
+                    "list": prop[propKey].type == "array" ? true : false,
+                    "dataTypeType": $scope.dataTypes[dataTypeTypeIndex].type
+                });
+            });
+        });
+        $scope.models = $scope.modelsGenerate;
+    }).error(function (response) {
+    });
     }
 });
