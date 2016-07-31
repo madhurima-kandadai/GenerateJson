@@ -13,7 +13,7 @@ app.controller('jsonController', function ($scope, $http, ngDialog) {
         list: false
     };
     $scope.dataTypes = [{
-        value: 'int',
+        value: 'integer',
         name: 'Integer',
         type: 'primary'
     }, {
@@ -23,6 +23,11 @@ app.controller('jsonController', function ($scope, $http, ngDialog) {
     }, {
         value: 'DateTime',
         name: 'Date Time',
+        type: 'primary'
+    },
+    {
+        value: 'boolean',
+        name: 'Boolean',
         type: 'primary'
     }];
 
@@ -86,8 +91,6 @@ app.controller('jsonController', function ($scope, $http, ngDialog) {
                 "required": [],
                 "properties": {}
             };
-            //});
-            //console.log(test);
             angular.forEach(model.properties, function (property) {
                 if (property.dataTypeType == 'primary') {
                     if (property.list) {
@@ -198,7 +201,7 @@ app.controller('jsonController', function ($scope, $http, ngDialog) {
         $scope.tableViewModels = JSON.stringify($scope.swaggerCode, null, 2);
         $scope.modelsGenerate = [];
         var keysList = Object.keys($scope.swaggerCode);
-        angular.forEach(keys, function (key) {
+        angular.forEach(keysList, function (key, $index) {
             $scope.modelsGenerate.push({
                 "model": key,
                 "properties": []
@@ -209,73 +212,40 @@ app.controller('jsonController', function ($scope, $http, ngDialog) {
                 value: '#/definitions/' + key,
                 type: 'secondary'
             });
-            angular.forEach($scope.swaggerCode[key].properties, function (prop) {
-                var propKey = Object.keys(prop);
+            var propList = Object.keys($scope.swaggerCode[key].properties);
+            var mainObject = $scope.swaggerCode[key].properties;
+            angular.forEach(propList, function (propKey) {
+                debugger
                 var dataType = '';
-                if (prop[propKey].type == "array") {
-                    if (prop[propKey].items.type != undefined) {
-                        dataType = prop[propKey].items.type
+                if (mainObject[propKey].type == "array") {
+                    if (mainObject[propKey].items.type != undefined) {
+                        dataType = mainObject[propKey].items.type
                     }
                     else {
-                        dataType = prop[propKey].items.$ref;
+                        dataType = mainObject[propKey].items.$ref;
                     }
                 }
                 else {
-                    if (prop[propKey].type != undefined) {
-                        dataType = prop[propKey].type
+                    if (mainObject[propKey].type != undefined) {
+                        dataType = mainObject[propKey].type
                     }
                     else {
-                        dataType = prop[propKey].$ref;
+                        dataType = mainObject[propKey].$ref;
                     }
                 }
                 var dataTypeTypeIndex = $scope.dataTypes.findIndex(x => x.value == dataType);
+                var required = false;
+                if ($scope.swaggerCode[key].required != undefined) {
+                    if ($scope.swaggerCode[key].required.findIndex(x => x == propKey) != -1) {
+                        required = true;
+                    }
+                }
+                //var 
                 $scope.modelsGenerate[$index].properties.push({
                     "propertyName": propKey[0],
                     "dataType": dataType,
-                    "required": object[key].required.findIndex(x => x == propKey) != -1 ? true : false,
-                    "list": prop[propKey].type == "array" ? true : false,
-                    "dataTypeType": $scope.dataTypes[dataTypeTypeIndex].type
-                });
-            });
-        });
-        angular.forEach($scope.swaggerCode, function (object, $index) {
-            var modelIndex = $index;
-            var key = Object.keys(object);
-            $scope.modelsGenerate.push({
-                "model": key[0],
-                "properties": []
-            });
-            $scope.modelNames.push(key[0]);
-            $scope.dataTypes.push({
-                name: key[0],
-                value: '#/definitions/' + key[0],
-                type: 'secondary'
-            });
-            angular.forEach(object[key].properties, function (prop) {
-                var propKey = Object.keys(prop);
-                var dataType = '';
-                if (prop[propKey].type == "array") {
-                    if (prop[propKey].items.type != undefined) {
-                        dataType = prop[propKey].items.type
-                    }
-                    else {
-                        dataType = prop[propKey].items.$ref;
-                    }
-                }
-                else {
-                    if (prop[propKey].type != undefined) {
-                        dataType = prop[propKey].type
-                    }
-                    else {
-                        dataType = prop[propKey].$ref;
-                    }
-                }
-                var dataTypeTypeIndex = $scope.dataTypes.findIndex(x => x.value == dataType);
-                $scope.modelsGenerate[$index].properties.push({
-                    "propertyName": propKey[0],
-                    "dataType": dataType,
-                    "required": object[key].required.findIndex(x => x == propKey) != -1 ? true : false,
-                    "list": prop[propKey].type == "array" ? true : false,
+                    "required": required,
+                    "list": mainObject[propKey].type == "array" ? true : false,
                     "dataTypeType": $scope.dataTypes[dataTypeTypeIndex].type
                 });
             });
