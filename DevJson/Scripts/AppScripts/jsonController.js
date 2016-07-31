@@ -1,11 +1,12 @@
 /// <reference path="../../Html/templates/EditPropertyDialog.tpl.html" />
 
-app.controller('jsonController', function ($scope, $http, ngDialog) {
-
+app.controller('jsonController', function ($scope, $http, ngDialog, JsonFactory) {
+    
+    $scope.jsonFactory = JsonFactory;
     $scope.swaggerJson = [];
-    $scope.swaggerEditorJson = [];
+    $scope.swaggerEditorJson = {};
     $scope.models = [];
-    $scope.tableViewModels = [];
+    $scope.tableViewModels = {};
     $scope.modelNames = [];
     $scope.showProperty = false;
     $scope.addProperty = {
@@ -29,45 +30,31 @@ app.controller('jsonController', function ($scope, $http, ngDialog) {
 
     //Add Model 
     $scope.AddModel = function () {
-        var index = $scope.models.findIndex(x => x.model.toLowerCase() == $scope.model.toLowerCase())
-        if (index != -1) {
-            alert('Duplicate Model Name');
-        } else {
-            $scope.models.push({
-                "model": $scope.model,
-                "properties": []
-            });
-            $scope.dataTypes.push({
-                value: '#/definitions/' + $scope.model,
-                name: $scope.model,
-                type: 'secondary'
-            });
-            $scope.modelNames.push($scope.model);
-            $scope.showProperty = true;
-            $scope.GetProperties($scope.model);
-            $scope.addProperty.propertyModelName = $scope.model;
+        var jsonModel = $scope.jsonFactory.jsonModel;
+        var newModel = $scope.model;
+        if (!jsonModel[newModel]) {
+            jsonModel[newModel] = {
+                type: "Object",
+                properties: {},
+                xml: { 
+                    name: newModel
+                }
+            };
         }
+        $scope.jsonFactory.jsonModel = jsonModel;
         $scope.model = '';
+        $scope.models = _.keys(jsonModel);
     };
 
     // Add property to model
     $scope.AddPropertyToModel = function (property) {
-        var index = $scope.models.findIndex(x => x.model == property.propertyModelName);
-        var propIndex = $scope.models[index].properties.findIndex(x => x.propertyName.toLowerCase() == property.propertyName.toLowerCase());
-        if (propIndex == -1) {
-            var dataTypeType = $scope.dataTypes.findIndex(x => x.value == property.dataType)
-            $scope.models[index].properties.push({
-                "propertyName": property.propertyName,
-                "dataType": property.dataType,
-                "required": property.required,
-                "list": property.list,
-                "dataTypeType": $scope.dataTypes[dataTypeType].type
-            });
-            $scope.SwaggerJsonGeneration();
-        }
-        else {
-            alert('Duplicate Property')
-        }
+        var jsonModel = $scope.jsonFactory.jsonModel;
+        jsonModel[property.propertyModelName].properties[property.propertyName] = {
+            dataType: property.dataType,
+            list: property.list,
+            required: property.required
+        };
+        $scope.SwaggerJsonGeneration();
         $scope.addProperty.propertyName = null;
         $scope.addProperty.dataType = "";
         $scope.addProperty.list = false;
@@ -76,61 +63,7 @@ app.controller('jsonController', function ($scope, $http, ngDialog) {
 
     // Generate Swagger Json from the models created from the UI
     $scope.SwaggerJsonGeneration = function () {
-        var index = 0;
-        $scope.swaggerEditorJson = [];
-        angular.forEach($scope.models, function (model, $index) {
-            index = $index;
-            $scope.swaggerEditorJson.push({
-                [model.model]: {
-                    "type": "object",
-                    "required": [],
-                    "properties": []
-                }
-            });
-            angular.forEach(model.properties, function (property) {
-                if (property.dataTypeType == 'primary') {
-                    if (property.list) {
-                        $scope.swaggerEditorJson[index][model.model].properties.push({
-                            [property.propertyName]: {
-                                "type": "array",
-                                "items": {
-                                    "type": property.dataType
-                                }
-                            }
-                        });
-                    }
-                    else {
-                        $scope.swaggerEditorJson[index][model.model].properties.push({
-                            [property.propertyName]: {
-                                "type": property.dataType
-                            }
-                        });
-                    }
-                } else if (property.dataTypeType == 'secondary') {
-                    if (property.list) {
-                        $scope.swaggerEditorJson[index][model.model].properties.push({
-                            [property.propertyName]: {
-                                "type": "array",
-                                "items": {
-                                    "$ref": property.dataType
-                                }
-                            }
-                        });
-                    }
-                    else {
-                        $scope.swaggerEditorJson[index][model.model].properties.push({
-                            [property.propertyName]: {
-                                "$ref": property.dataType
-                            }
-                        });
-                    }
-                }
-
-                if (property.required) {
-                    $scope.swaggerEditorJson[index][model.model].required.push(property.propertyName);
-                }
-            });
-        });
+        $scope.swaggerEditorJson = $scope.jsonFactory.jsonModel;
         $scope.tableViewModels = JSON.stringify($scope.swaggerEditorJson, null, 1);
     };
 

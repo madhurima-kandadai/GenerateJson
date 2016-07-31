@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <title>Generate Json</title>
@@ -7,10 +7,12 @@
     <link href="../Content/bootstrap.css" rel="stylesheet" />
     <script src="../Scripts/angular.min.js"></script>
     <script src="../Scripts/jquery-2.2.4.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>
     <script src="../Scripts/ngDialog.js"></script>
     <script src="../Scripts/ui-grid/ui-grid.min.js"></script>
     <script src="../Scripts/angular-ui/ui-bootstrap-tpls.js"></script>
     <script src="../Scripts/AppScripts/app.js"></script>
+    <script src="../Scripts/AppScripts/factories/JsonFactory.js"></script>
     <script src="../Scripts/AppScripts/jsonController.js"></script>
     <link href="../Content/ngDialog.min.css" rel="stylesheet" />
     <link href="../Content/ngDialog-theme-default.css" rel="stylesheet" />
@@ -26,7 +28,7 @@
                             <a href="" ng-click="GoToHome()">Home</a>
                         </li>
                         <li class="list-group-item" ng-repeat="model in models track by $index">
-                            <a href="" ng-click="GetProperties(model.model)"> {{model.model}}</a>
+                            <a href="" ng-click="GetProperties(model)"> {{model}}</a>
                         </li>
                     </ul>
                 </div>
