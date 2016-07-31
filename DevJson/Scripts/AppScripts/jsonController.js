@@ -29,6 +29,11 @@ app.controller('jsonController', function ($scope, $http, ngDialog) {
         value: 'boolean',
         name: 'Boolean',
         type: 'primary'
+    },
+    {
+        value: 'number',
+        name: 'Number',
+        type: 'primary'
     }];
 
 
@@ -83,7 +88,6 @@ app.controller('jsonController', function ($scope, $http, ngDialog) {
 
     // Generate Swagger Json from the models created from the UI
     $scope.SwaggerJsonGeneration = function () {
-        var index = 0;
         $scope.swaggerEditorJson = {};
         angular.forEach($scope.models, function (model, $index) {
             $scope.swaggerEditorJson[model.model] = {
@@ -201,21 +205,22 @@ app.controller('jsonController', function ($scope, $http, ngDialog) {
         $scope.tableViewModels = JSON.stringify($scope.swaggerCode, null, 2);
         $scope.modelsGenerate = [];
         var keysList = Object.keys($scope.swaggerCode);
+        angular.forEach(keysList, function (key) {
+            $scope.dataTypes.push({
+                name: key,
+                value: '#/definitions/' + key,
+                type: 'secondary'
+            });
+        });
         angular.forEach(keysList, function (key, $index) {
             $scope.modelsGenerate.push({
                 "model": key,
                 "properties": []
             });
             $scope.modelNames.push(key);
-            $scope.dataTypes.push({
-                name: key,
-                value: '#/definitions/' + key,
-                type: 'secondary'
-            });
             var propList = Object.keys($scope.swaggerCode[key].properties);
             var mainObject = $scope.swaggerCode[key].properties;
-            angular.forEach(propList, function (propKey) {
-                debugger
+            angular.forEach(propList, function (propKey) {                
                 var dataType = '';
                 if (mainObject[propKey].type == "array") {
                     if (mainObject[propKey].items.type != undefined) {
@@ -240,13 +245,13 @@ app.controller('jsonController', function ($scope, $http, ngDialog) {
                         required = true;
                     }
                 }
-                //var 
+                var dataTypeType = $scope.dataTypes[dataTypeTypeIndex].type;
                 $scope.modelsGenerate[$index].properties.push({
-                    "propertyName": propKey[0],
+                    "propertyName": propKey,
                     "dataType": dataType,
                     "required": required,
                     "list": mainObject[propKey].type == "array" ? true : false,
-                    "dataTypeType": $scope.dataTypes[dataTypeTypeIndex].type
+                    "dataTypeType": dataTypeType
                 });
             });
         });

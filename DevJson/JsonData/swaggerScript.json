@@ -1,124 +1,223 @@
 ﻿{
-  "Order": {
-    "type": "object",
-    "properties": {
-      "id": {
-        "type": "integer",
-        "format": "int64"
-      },
-      "petId": {
-        "type": "integer",
-        "format": "int64"
-      },
-      "quantity": {
-        "type": "integer",
-        "format": "int32"
-      },
-      "shipDate": {
-        "type": "string",
-        "format": "date-time"
-      },
-      "status": {
-        "type": "string",
-        "description": "Order Status",
-        "enum": [ "placed", "approved", "delivered" ]
-      },
-      "complete": {
-        "type": "boolean",
-        "default": false
-      }
-    },
-    "xml": { "name": "Order" }
-  },
-  "Category": {
-    "type": "object",
-    "properties": {
-      "id": {
-        "type": "integer",
-        "format": "int64"
-      },
-      "name": { "type": "string" }
-    },
-    "xml": { "name": "Category" }
-  },
   "User": {
     "type": "object",
     "properties": {
       "id": {
-        "type": "integer",
-        "format": "int64"
+        "type": "integer"
       },
-      "username": { "type": "string" },
-      "firstName": { "type": "string" },
-      "lastName": { "type": "string" },
-      "email": { "type": "string" },
-      "password": { "type": "string" },
-      "phone": { "type": "string" },
-      "userStatus": {
-        "type": "integer",
-        "format": "int32",
-        "description": "User Status"
+      "username": {
+        "type": "string"
+      },
+      "full_name": {
+        "type": "string"
+      },
+      "profile_picture": {
+        "type": "string"
+      },
+      "bio": {
+        "type": "string"
+      },
+      "website": {
+        "type": "string"
       }
-    },
-    "xml": { "name": "User" }
+    }
+  },
+  "counts": {
+    "type": "object",
+    "properties": {
+      "media": {
+        "type": "integer"
+      },
+      "follows": {
+        "type": "integer"
+      },
+      "follwed_by": {
+        "type": "integer"
+      }
+    }
+  },
+  "Media": {
+    "type": "object",
+    "properties": {
+      "created_time": {
+        "description": "Epoc time (ms)",
+        "type": "integer"
+      },
+      "type": {
+        "type": "string"
+      },
+      "filter": {
+        "type": "string"
+      },
+      "tags": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Tag"
+        }
+      },
+      "id": {
+        "type": "integer"
+      },
+      "user": {
+        "$ref": "#/definitions/MiniProfile"
+      },
+      "users_in_photo": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/MiniProfile"
+        }
+      },
+      "location": {
+        "$ref": "#/definitions/Location"
+      }
+    }
+  },
+  "comments:": {
+    "type": "object",
+    "properties": {
+      "count": {
+        "type": "integer"
+      },
+      "data": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Comment"
+        }
+      }
+    }
+  },
+  "likes": {
+    "type": "object",
+    "properties": {
+      "count": {
+        "type": "integer"
+      },
+      "data": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/MiniProfile"
+        }
+      }
+    }
+  },
+  "images": {
+    "properties": {
+      "low_resolution": {
+        "$ref": "#/definitions/Image"
+      },
+      "thumbnail": {
+        "$ref": "#/definitions/Image"
+      },
+      "standard_resolution": {
+        "$ref": "#/definitions/Image"
+      }
+    }
+  },
+  "videos": {
+    "properties": {
+      "low_resolution": {
+        "$ref": "#/definitions/Image"
+      },
+      "standard_resolution": {
+        "$ref": "#/definitions/Image"
+      }
+    }
+  },
+  "Location": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string"
+      },
+      "name": {
+        "type": "string"
+      },
+      "latitude": {
+        "type": "number"
+      },
+      "longitude": {
+        "type": "number"
+      }
+    }
+  },
+  "Comment": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string"
+      },
+      "created_time": {
+        "type": "string"
+      },
+      "text": {
+        "type": "string"
+      },
+      "from": {
+        "$ref": "#/definitions/MiniProfile"
+      }
+    }
+  },
+  "Like": {
+    "type": "object",
+    "properties": {
+      "user_name": {
+        "type": "string"
+      },
+      "first_name": {
+        "type": "string"
+      },
+      "last_name": {
+        "type": "string"
+      },
+      "type": {
+        "type": "string"
+      },
+      "id": {
+        "type": "string"
+      }
+    }
   },
   "Tag": {
     "type": "object",
     "properties": {
-      "id": {
-        "type": "integer",
-        "format": "int64"
+      "media_count": {
+        "type": "integer"
       },
-      "name": { "type": "string" }
-    },
-    "xml": { "name": "Tag" }
-  },
-  "Pet": {
-    "type": "object",
-    "required": [ "name", "photoUrls" ],
-    "properties": {
-      "id": {
-        "type": "integer",
-        "format": "int64"
-      },
-      "category": { "$ref": "#/definitions/Category" },
       "name": {
-        "type": "string",
-        "example": "doggie"
-      },
-      "photoUrls": {
-        "type": "array",
-        "xml": {
-          "name": "photoUrl",
-          "wrapped": true
-        },
-        "items": { "type": "string" }
-      },
-      "tags": {
-        "type": "array",
-        "xml": {
-          "name": "tag",
-          "wrapped": true
-        },
-        "items": { "$ref": "#/definitions/Tag" }
-      },
-      "status": {
-        "type": "string",
-        "description": "pet status in the store",
-        "enum": [ "available", "pending", "sold" ]
+        "type": "string"
       }
-    },
-    "xml": { "name": "Pet" }
+    }
   },
-  "ApiResponse": {
+  "Image": {
     "type": "object",
     "properties": {
-      "code": {
-        "type": "integer",
-        "format": "int32"
+      "width": {
+        "type": "integer"
       },
-      "type": { "type": "string" },
-      "message": { "type": "string" }
+      "height": {
+        "type": "integer"
+      },
+      "url": {
+        "type": "string"
+      }
+    }
+  },
+  "MiniProfile": {
+    "type": "object",
+    "description": "A shorter version of User for likes array",
+    "properties": {
+      "user_name": {
+        "type": "string"
+      },
+      "full_name": {
+        "type": "string"
+      },
+      "id": {
+        "type": "integer"
+      },
+      "profile_picture": {
+        "type": "string"
+      }
     }
   }
 }
