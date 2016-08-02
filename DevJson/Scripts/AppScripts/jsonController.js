@@ -1,6 +1,6 @@
 /// <reference path="../../Html/templates/EditPropertyDialog.tpl.html" />
 
-app.controller('jsonController', function ($scope, $http, ngDialog) {
+app.controller('jsonController', function ($scope, $http, ngDialog, pathService, definitionService) {
 
     $scope.swaggerJson = [];
     $scope.swaggerEditorJson = [];
@@ -35,7 +35,6 @@ app.controller('jsonController', function ($scope, $http, ngDialog) {
         name: 'Number',
         type: 'primary'
     }];
-
 
     //Add Model 
     $scope.AddModel = function () {
@@ -220,7 +219,7 @@ app.controller('jsonController', function ($scope, $http, ngDialog) {
             $scope.modelNames.push(key);
             var propList = Object.keys($scope.swaggerCode[key].properties);
             var mainObject = $scope.swaggerCode[key].properties;
-            angular.forEach(propList, function (propKey) {                
+            angular.forEach(propList, function (propKey) {
                 var dataType = '';
                 if (mainObject[propKey].type == "array") {
                     if (mainObject[propKey].items.type != undefined) {
@@ -258,5 +257,31 @@ app.controller('jsonController', function ($scope, $http, ngDialog) {
         $scope.models = $scope.modelsGenerate;
     }).error(function (response) {
     });
+    };
+
+    // for paths--------------------------------------------------
+    $scope.paths = [];
+    $scope.showPaths = false;
+    $scope.httpVerbs = [{
+        'name': "GET",
+        'value': 'get'
+    },
+    {
+        'name': "PUT",
+        'value': 'put'
+    },
+    {
+        'name': "POST",
+        'value': 'post'
+    },
+    {
+        'name': "DELETE",
+        'value': 'delete'
     }
+    ];
+    $scope.AddPath = function () {
+        $scope.paths = pathService.AddPath($scope.paths, $scope.path);
+        $scope.path = '';
+        $scope.showPaths = true;
+    };
 });
