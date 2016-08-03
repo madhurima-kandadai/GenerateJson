@@ -5,7 +5,7 @@
         if (index == -1) {
             paths.push({
                 'pathName': newpath,
-                verbs: []
+                verbs: {}
             })
         }
         else {
@@ -16,15 +16,8 @@
 
     this.DeletePath = function (paths, deletePath) { };
 
-    this.HttpGet = function () {
+    this.AddMethodForPath = function (paths, index, method, counter) {
+        debugger;
 
     };
-
-    this.HttpDelete = function () { };
-
-    this.HttpPost = function () { };
-
-    this.HttpPut = function () { };
-
-    this.HttpGet = function () { };
 });
