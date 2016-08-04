@@ -8,7 +8,7 @@
                         <a href="" ng-click="GoToHomeServices()">Home</a>
                     </li>
                     <li class="list-group-item" ng-repeat="path in paths track by $index">
-                        <a href="" ng-click="GetMethodsForPaths(path.pathName)"> {{path.pathName}}</a>
+                        <a href="" ng-click="ClearData()"> {{path.pathName}}</a>
                         <ul ng-repeat="method in path.methods">
                             <li>
                                 <a href="" ng-click="GetMethodDetails(path.pathName, method.methodName)"> {{method.methodName}}</a>
@@ -29,7 +29,7 @@
                 <h3>Add Http Verbs to {{path}} Service</h3>
                 <div class="form-group">
                     <label for="propertyName">Method:</label>
-                    <select class="form-control" ng-model="methodName">
+                    <select class="form-control" ng-model="test.methodName">
                         <option value="">Select</option>
                         <option ng-repeat="verb in httpVerbs" value="{{verb.value}}">{{verb.name}}</option>
                     </select>
@@ -100,7 +100,7 @@
                         </td>
                     </tr>
                 </table>
-                <button class="btn btn-primary" ng-click="AddMethodToPath(path, methodName, queryParameters, requestHeaders, responses)">Save</button>
+                <button class="btn btn-primary" ng-click="AddMethodToPath(path, test.methodName, queryParameters, requestHeaders, responses)">Save</button>
             </div>
         </div>
     </div>

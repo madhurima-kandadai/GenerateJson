@@ -258,7 +258,7 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
 
     // for paths--------------------------------------------------
     $scope.paths = [];
-    $scope.methodName = '';
+    $scope.test = { methodName: '' };
     $scope.showPaths = false;
     $scope.httpVerbs = [{
         'name': "GET",
@@ -368,13 +368,7 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
                 "list": response.list != null ? response.list : false,
             });
         });
-
-        $scope.methodName = '';
-        $scope.queryParameters = [];
-        $scope.requestHeaders = [];
-        $scope.responses = [];
-        //$scope.paths = pathService.AddMethodForPath($scope.paths, index, method, counter);
-        var data = $scope.counter;
+        $scope.ClearData();
     };
 
     $scope.GoToHomeServices = function () {
@@ -385,9 +379,16 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
         var pathIndex = $scope.paths.findIndex(x => x.pathName == pathName);
         var methodIndex = $scope.paths[pathIndex].methods.findIndex(x => x.methodName == methodName);
         var methodObject = $scope.paths[pathIndex].methods[methodIndex];
-        $scope.methodName = methodName;
+        $scope.test.methodName = methodName;
         $scope.requestHeaders = methodObject.parameters;
         $scope.queryParameters = methodObject.parameters;
         $scope.responses = methodObject.responses;
+    };
+
+    $scope.ClearData = function () {
+        $scope.test.methodName = "";
+        $scope.queryParameters = [];
+        $scope.requestHeaders = [];
+        $scope.responses = [];
     };
 }]);
