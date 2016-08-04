@@ -369,7 +369,7 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
             });
         });
 
-        this.methodName = '';
+        $scope.methodName = '';
         $scope.queryParameters = [];
         $scope.requestHeaders = [];
         $scope.responses = [];
@@ -379,10 +379,6 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
 
     $scope.GoToHomeServices = function () {
         $scope.showPaths = false;
-    };
-
-    $scope.GetMethodsForPaths = function (pathName) {
-
     };
 
     $scope.GetMethodDetails = function (pathName, methodName) {

@@ -28,7 +28,6 @@
             <div class="col-sm-8 well" ng-hide="!showPaths">
                 <h3>Add Http Verbs to {{path}} Service</h3>
                 <div class="form-group">
-                    <input  ng-model="methodName"/>
                     <label for="propertyName">Method:</label>
                     <select class="form-control" ng-model="methodName">
                         <option value="">Select</option>
@@ -101,7 +100,7 @@
                         </td>
                     </tr>
                 </table>
-                <button class="btn btn-primary" ng-click="AddMethodToPath(path, this.methodName, queryParameters, requestHeaders, responses)">Save</button>
+                <button class="btn btn-primary" ng-click="AddMethodToPath(path, methodName, queryParameters, requestHeaders, responses)">Save</button>
             </div>
         </div>
     </div>
