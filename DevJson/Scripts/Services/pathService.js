@@ -5,7 +5,7 @@
         if (index == -1) {
             paths.push({
                 'pathName': newpath,
-                verbs: {}
+                methods: []
             })
         }
         else {

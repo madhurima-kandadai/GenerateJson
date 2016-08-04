@@ -258,6 +258,7 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
 
     // for paths--------------------------------------------------
     $scope.paths = [];
+    $scope.methodName = '';
     $scope.showPaths = false;
     $scope.httpVerbs = [{
         'name': "GET",
@@ -277,10 +278,13 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
     }
     ];
 
-    $scope.counter = [];
+    $scope.queryParameters = [];
+    $scope.requestHeaders = [];
+    $scope.responses = [];
 
-    $scope.addNewRow = function () {
-        $scope.counter.push({
+    $scope.addNewQueryParameter = function () {
+        $scope.queryParameters.push({
+            "in": "query",
             "parameterName": "",
             "parameterType": "",
             "required": "",
@@ -288,21 +292,87 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
         });
     };
 
+    $scope.addNewRequestHeader = function () {
+        $scope.requestHeaders.push({
+            "in": "header",
+            "parameterName": "",
+            "parameterType": "",
+            "required": "",
+            "list": ""
+        });
+    };
+
+    $scope.addnewResponse = function () {
+        $scope.responses.push({
+            "status": "",
+            "output": "",
+            "list": "",
+            "description": ""
+        });
+    };
+
+    $scope.responsesList = [{
+        "name": "200 OK",
+        "value": "200"
+    },
+    {
+        "name": "404 Not Found",
+        "value": "404"
+    },
+    {
+        "name": "405 Method Not Found",
+        "value": "405"
+    },
+    {
+        "name": "500 Internal Server Error",
+        "value": "500"
+    }
+    ];
+
     $scope.AddPath = function () {
         $scope.paths = pathService.AddPath($scope.paths, this.path);
         $scope.path = '';
         $scope.showPaths = true;
     };
 
-    $scope.saveToPaths = function (path, method, counter) {
-        debugger;
+    $scope.AddMethodToPath = function (path, methodName, queryParameters, requestHeaders, responses) {
         var index = $scope.paths.findIndex(x => x.pathName == path);
-        $scope.paths[index].verbs[method] = {
-            "consumes": [],
-            "produces": [],
+        var length = $scope.paths[index].methods.length;
+        $scope.paths[index].methods.push({
+            "methodName": methodName,
             "parameters": [],
             "responses": []
-        };
+        });
+        angular.forEach(queryParameters, function (qParam) {
+            $scope.paths[index].methods[length].parameters.push({
+                "parameterName": qParam.parameterName,
+                "dataType": qParam.dataType,
+                "in": qParam.in,
+                "required": qParam.required != null ? qParam.required : false
+            });
+        });
+
+        angular.forEach(requestHeaders, function (qParam) {
+            $scope.paths[index].methods[length].parameters.push({
+                "parameterName": qParam.parameterName,
+                "dataType": qParam.dataType,
+                "in": qParam.in,
+                "required": qParam.required != null ? qParam.required : false
+            });
+        });
+
+        angular.forEach(responses, function (response) {
+            $scope.paths[index].methods[length].responses.push({
+                "status": response.status,
+                "output": response.output,
+                "list": response.list != null ? response.list : false,
+            });
+        });
+
+        this.methodName = '';
+        $scope.queryParameters = [];
+        $scope.requestHeaders = [];
+        $scope.responses = [];
         //$scope.paths = pathService.AddMethodForPath($scope.paths, index, method, counter);
         var data = $scope.counter;
     };
@@ -313,5 +383,15 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
 
     $scope.GetMethodsForPaths = function (pathName) {
 
+    };
+
+    $scope.GetMethodDetails = function (pathName, methodName) {
+        var pathIndex = $scope.paths.findIndex(x => x.pathName == pathName);
+        var methodIndex = $scope.paths[pathIndex].methods.findIndex(x => x.methodName == methodName);
+        var methodObject = $scope.paths[pathIndex].methods[methodIndex];
+        $scope.methodName = methodName;
+        $scope.requestHeaders = methodObject.parameters;
+        $scope.queryParameters = methodObject.parameters;
+        $scope.responses = methodObject.responses;
     };
 }]);
