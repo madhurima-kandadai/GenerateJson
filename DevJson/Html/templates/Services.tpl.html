@@ -29,7 +29,7 @@
                 <h3>Add Http Verbs to {{path}} Service</h3>
                 <div class="form-group">
                     <label for="propertyName">Method:</label>
-                    <select class="form-control" ng-model="test.methodName">
+                    <select class="form-control" ng-model="test.methodName" ng-disabled="edit">
                         <option value="">Select</option>
                         <option ng-repeat="verb in httpVerbs" value="{{verb.value}}">{{verb.name}}</option>
                     </select>
@@ -41,7 +41,7 @@
                         <th>Data Type</th>
                         <th>Required</th>
                     </tr>
-                    <tr ng-repeat="qparam in queryParameters">
+                    <tr ng-repeat="qparam in queryParameters" ng-if="qparam.in == 'query'">
                         <td>
                             <input type="text" class="form-control" placeholder="Enter Property Name" ng-model="qparam.parameterName" value="{{count.name}}" />
                         </td>
@@ -52,6 +52,7 @@
                             </select>
                         </td>
                         <td><input class="checkbox" type="checkbox" ng-model="count.required" value="{{count.required}}" /></td>
+                        <td><button>Delete</button></td>
                     </tr>
                 </table>
                 <h4>Request Headers</h4>
@@ -62,7 +63,7 @@
                         <th>Data Type</th>
                         <th>Required</th>
                     </tr>
-                    <tr ng-repeat="count in requestHeaders">
+                    <tr ng-repeat="count in requestHeaders" ng-if="count.in == 'header'">
                         <td>
                             <input type="text" class="form-control" placeholder="Enter Property Name" ng-model="count.parameterName" value="{{count.name}}" />
                         </td>
@@ -73,6 +74,7 @@
                             </select>
                         </td>
                         <td><input class="checkbox" type="checkbox" ng-model="count.required" value="{{count.required}}" /></td>
+                        <td><button>Delete</button></td>
                     </tr>
                 </table>
                 <h4>Responses</h4> <button class="btn btn-primary" ng-click="addnewResponse()">Add</button>
@@ -98,9 +100,10 @@
                         <td>
                             <input class="checkbox" type="checkbox" ng-model="count.list" value="{{count.list}}" />
                         </td>
+                        <td><button>Delete</button></td>
                     </tr>
                 </table>
-                <button class="btn btn-primary" ng-click="AddMethodToPath(path, test.methodName, queryParameters, requestHeaders, responses)">Save</button>
+                <button class="btn btn-primary" ng-click="AddMethodToPath(path, test.methodName, queryParameters, requestHeaders, responses)" ng-disabled="!test.methodName">Save</button>
             </div>
         </div>
     </div>

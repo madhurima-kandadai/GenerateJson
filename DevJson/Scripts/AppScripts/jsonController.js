@@ -258,6 +258,7 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
 
     // for paths--------------------------------------------------
     $scope.paths = [];
+    $scope.edit = false;
     $scope.test = { methodName: '' };
     $scope.showPaths = false;
     $scope.httpVerbs = [{
@@ -376,6 +377,8 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
     };
 
     $scope.GetMethodDetails = function (pathName, methodName) {
+        $scope.edit = true;
+        $scope.showPaths = true;
         var pathIndex = $scope.paths.findIndex(x => x.pathName == pathName);
         var methodIndex = $scope.paths[pathIndex].methods.findIndex(x => x.methodName == methodName);
         var methodObject = $scope.paths[pathIndex].methods[methodIndex];
@@ -386,6 +389,8 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
     };
 
     $scope.ClearData = function () {
+        $scope.showPaths = true;
+        $scope.edit = false;
         $scope.test.methodName = "";
         $scope.queryParameters = [];
         $scope.requestHeaders = [];
