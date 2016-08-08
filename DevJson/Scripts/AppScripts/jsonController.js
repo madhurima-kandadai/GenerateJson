@@ -296,7 +296,7 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
                 $scope.swaggerCode = response;
                 $scope.tableViewModels = JSON.stringify($scope.swaggerCode, null, 2);
                 $scope.modelsGenerate = [];
-                var keysList = Object.keys($scope.swaggerCode);
+                var keysList = Object.keys($scope.swaggerCode['definitions']);
                 angular.forEach(keysList, function (key) {
                     $scope.dataTypes.push({
                         name: key,
@@ -310,8 +310,8 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
                         "properties": []
                     });
                     $scope.modelNames.push(key);
-                    var propList = Object.keys($scope.swaggerCode[key].properties);
-                    var mainObject = $scope.swaggerCode[key].properties;
+                    var propList = Object.keys($scope.swaggerCode['definitions'][key].properties);
+                    var mainObject = $scope.swaggerCode['definitions'][key].properties;
                     angular.forEach(propList, function (propKey) {
                         var dataType = '';
                         if (mainObject[propKey].type == "array") {
@@ -332,7 +332,7 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
                         }
                         var dataTypeTypeIndex = $scope.dataTypes.findIndex(x => x.value == dataType);
                         var required = false;
-                        if ($scope.swaggerCode[key].required != undefined) {
+                        if ($scope.swaggerCode['definitions'][key].required != undefined) {
                             if ($scope.swaggerCode[key].required.findIndex(x => x == propKey) != -1) {
                                 required = true;
                             }
@@ -348,6 +348,17 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
                     });
                 });
                 $scope.models = $scope.modelsGenerate;
+                debugger;
+                $scope.services = [];
+                var serviceKeyList = Object.keys($scope.swaggerCode['paths']);
+                angular.forEach(serviceKeyList, function (service) {
+                    $scope.services.push({
+                        'pathName': service,
+                        methods: []
+                    });
+                });
+                $scope.paths = $scope.services;
+
             }).error(function (response) {
             });
     };
@@ -355,13 +366,15 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
     // for paths--------------------------------------------------
 
     $scope.addNewParameter = function (value) {
+
         if (value == "query") {
             $scope.parameters.push({
                 "in": "query",
                 "parameterName": "",
                 "parameterType": "",
                 "required": "",
-                "list": ""
+                "list": "",
+                "duplicate": false
             });
         }
         else if (value == "request") {
@@ -370,7 +383,8 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
                 "parameterName": "",
                 "parameterType": "",
                 "required": "",
-                "list": ""
+                "list": "",
+                "duplicate": false
             });
         }
         else if (value == "response") {
@@ -378,14 +392,15 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
                 "status": "",
                 "output": "",
                 "list": "",
-                "description": ""
+                "description": "",
+                "duplicate": false
             });
         }
     };
 
     $scope.AddPath = function () {
         $scope.paths = pathService.AddPath($scope.paths, this.path);
-        $scope.path = '';
+        $scope.path = "";
         $scope.showPaths = true;
     };
 
@@ -417,6 +432,7 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
     };
 
     $scope.GoToHomeServices = function () {
+        $scope.path = "";
         $scope.showDef = false;
         $scope.showPaths = false;
     };
@@ -435,23 +451,17 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
     $scope.ClearData = function () {
         $scope.showPaths = true;
         $scope.edit = false;
-        $scope.path = ''; 
+        $scope.path = "";
         $scope.test.methodName = "";
         $scope.parameters = [];
         $scope.responses = [];
     };
 
-    $scope.deleteParameter = function (pathName, methodName, parameterName) {
-        var pathIndex = $scope.paths.findIndex(x => x.pathName == pathName);
-        var methodIndex = $scope.paths[pathIndex].methods.findIndex(x => x.methodName == methodName);
-        $scope.paths[pathIndex].methods[methodIndex].parameters = jQuery.grep($scope.paths[pathIndex].methods[methodIndex].parameters, function (property) {
-            return property.parameterName != parameterName;
-        });
-        $scope.parameters = $scope.paths[pathIndex].methods[methodIndex].parameters;
-    };
-
     $scope.DeleteFromParams = function (hashkey) {
-        var index = $scope.parameters.findIndex(x => x.$$hashKey == hashkey);
+        debugger;
+        var index = _.findIndex($scope.parameters, function (path) {
+            return path.$$hashKey == hashkey;
+        });
         $scope.parameters.splice(index, 1);
     };
 
@@ -460,4 +470,16 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
         $scope.responses.splice(index, 1);
     };
 
+    $scope.CheckParameterName = function (parameter) {
+        debugger;
+        var attributes = _.groupBy($scope.parameters, function (item) {
+            return item.parameterName == parameter.parameterName && item.in == parameter.in;
+        });
+        if (attributes.true != undefined && attributes.true.length > 1) {
+            parameter.duplicate = true;
+        }
+        else {
+            parameter.duplicate = false;
+        }
+    };
 }]);

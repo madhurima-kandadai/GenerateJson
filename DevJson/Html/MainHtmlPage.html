@@ -10,6 +10,7 @@
     <script src="../Scripts/bootstrap.js"></script>
     <script src="../Scripts/ngDialog.js"></script>
     <script src="../Scripts/AppScripts/app.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
     <script src="../Scripts/Services/definitionService.js"></script>
     <script src="../Scripts/Services/pathService.js"></script>
     <script src="../Scripts/AppScripts/jsonController.js"></script>
@@ -43,7 +44,7 @@
         </div>
         <div class="col-sm-2">
             <textarea ng-model="filePath"></textarea>
-            <button class="btn btn-primary" ng-disabled="!filePath" ng-click="CreateModelsFromJson()">Generate</button>
+            <button class="btn btn-primary" ng-click="CreateModelsFromJson()">Generate</button>
         </div>
         <div class="col-sm-4">
             <pre class="well" style="width: 500px; height: 500px; overflow-y: scroll;">{{tableViewModels}}</pre>

@@ -6,7 +6,7 @@
             paths.push({
                 'pathName': newpath,
                 methods: []
-            })
+            });
         }
         else {
             alert('Duplicate Path');
