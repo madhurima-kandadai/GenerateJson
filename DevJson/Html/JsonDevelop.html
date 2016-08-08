@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
     <title>Generate Json</title>
     <meta charset="utf-8" />
@@ -16,6 +17,7 @@
     <link href="../Content/ngDialog.min.css" rel="stylesheet" />
     <link href="../Content/ngDialog-theme-default.css" rel="stylesheet" />
 </head>
+
 <body ng-app="codeDev" ng-controller="jsonController">
     <div class="container">
         <ul class="nav nav-tabs">
@@ -24,8 +26,9 @@
         </ul>
         <div class="tab-content">
             <div id="definitions" ng-include="'templates/Definitions.tpl.html'" class="tab-pane fade"></div>
-            <div id="paths" ng-include="'templates/Services.tpl.html'" class="tab-pane fade in active">  </div>
+            <div id="paths" ng-include="'templates/Services.tpl.html'" class="tab-pane fade in active"> </div>
         </div>
     </div>
 </body>
+
 </html>
