@@ -35,6 +35,47 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
         type: 'primary'
     }];
 
+    // Path initializations
+    $scope.paths = [];
+    $scope.edit = false;
+    $scope.test = { methodName: '' };
+    $scope.showPaths = false;
+    $scope.httpVerbs = [{
+        'name': "GET",
+        'value': 'get'
+    },
+    {
+        'name': "PUT",
+        'value': 'put'
+    },
+    {
+        'name': "POST",
+        'value': 'post'
+    },
+    {
+        'name': "DELETE",
+        'value': 'delete'
+    }
+    ];
+    $scope.responsesList = [{
+        "name": "200 OK",
+        "value": "200"
+    },
+{
+    "name": "404 Not Found",
+    "value": "404"
+},
+    {
+        "name": "405 Method Not Found",
+        "value": "405"
+    },
+        {
+            "name": "500 Internal Server Error",
+            "value": "500"
+        }];
+    $scope.parameters = [];
+    $scope.responses = [];
+
     //Add Model 
     $scope.AddModel = function () {
         var index = $scope.models.findIndex(x => x.model.toLowerCase() == this.model.toLowerCase())
@@ -84,7 +125,7 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
         $scope.addProperty.required = false;
     }
 
-    // Generate Swagger Json from the models created from the UI
+    // Generate Swagger Json from the models and services created from the UI
     $scope.SwaggerJsonGeneration = function () {
         $scope.swaggerEditorJson = {};
         angular.forEach($scope.models, function (model, $index) {
@@ -102,10 +143,16 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
                                 "type": property.dataType
                             }
                         };
+                        if (property.dataType == "integer") {
+                            $scope.swaggerEditorJson[model.model].properties[property.propertyName]["items"].format = "int32"
+                        }
                     }
                     else {
                         $scope.swaggerEditorJson[model.model].properties[property.propertyName] = {
                             "type": property.dataType
+                        }
+                        if (property.dataType == "integer") {
+                            $scope.swaggerEditorJson[model.model].properties[property.propertyName].format = "int32"
                         }
                     }
                 } else if (property.dataTypeType == 'secondary') {
@@ -123,7 +170,6 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
                         };
                     }
                 }
-
                 if (property.required) {
                     $scope.swaggerEditorJson[model.model].required.push(property.propertyName);
                 }
@@ -150,19 +196,32 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
                     });
                 });
                 angular.forEach(methodObj.responses, function (resp) {
-                    $scope.pathJson[pathObj.pathName][methodObj.methodName].responses[resp.status] = {
-                        "description": resp.status,
-                        "schema": {
-                            "type": resp.output
-                        }
-                    };
+                    if (resp.list) {
+                        $scope.pathJson[pathObj.pathName][methodObj.methodName].responses[resp.status] = {
+                            "description": resp.status,
+                            "schema": {
+                                "type": "array",
+                                "items": {
+                                    "type": resp.output
+                                }
+                            }
+                        };
+                    }
+                    else {
+                        $scope.pathJson[pathObj.pathName][methodObj.methodName].responses[resp.status] = {
+                            "description": resp.status,
+                            "schema": {
+                                "type": resp.output
+                            }
+                        };
+                    }
                 });
             });
         });
         $scope.json = {
             "definitions": $scope.swaggerEditorJson,
             "path": $scope.pathJson
-        }
+        };
         $scope.tableViewModels = JSON.stringify($scope.json, null, 1);
     };
 
@@ -174,7 +233,7 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
             dataType: property.dataType,
             list: property.list,
             required: property.required,
-        }
+        };
         ngDialog.open({
             templateUrl: './templates/EditPropertyDialog.tpl.html',
             scope: $scope,
@@ -199,7 +258,7 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
     //close dialog
     $scope.closengDialog = function () {
         ngDialog.close();
-    }
+    };
 
     // Get the list of properties for model to show in the table 
     $scope.GetProperties = function (modelName) {
@@ -207,12 +266,15 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
         $scope.addProperty.propertyModelName = modelName;
         var index = $scope.models.findIndex(x => x.model == modelName)
         $scope.singleModelProperties = $scope.models[index];
-    }
+    };
 
     //Open add model 
-    $scope.GoToHome = function () {
+    $scope.GoToHomeDefinitions = function () {
         $scope.showProperty = false;
-    }
+        $scope.showDef = true;
+    };
+
+    $scope.GoToHomeDefinitions();
 
     // Delete property from the model
     $scope.DeleteProperty = function (modelName, propertyName) {
@@ -291,77 +353,35 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
     };
 
     // for paths--------------------------------------------------
-    $scope.paths = [];
-    $scope.edit = false;
-    $scope.test = { methodName: '' };
-    $scope.showPaths = false;
-    $scope.httpVerbs = [{
-        'name': "GET",
-        'value': 'get'
-    },
-    {
-        'name': "PUT",
-        'value': 'put'
-    },
-    {
-        'name': "POST",
-        'value': 'post'
-    },
-    {
-        'name': "DELETE",
-        'value': 'delete'
-    }
-    ];
 
-    $scope.parameters = [];
-    $scope.responses = [];
-
-    $scope.addNewQueryParameter = function () {
-        $scope.parameters.push({
-            "in": "query",
-            "parameterName": "",
-            "parameterType": "",
-            "required": "",
-            "list": ""
-        });
+    $scope.addNewParameter = function (value) {
+        if (value == "query") {
+            $scope.parameters.push({
+                "in": "query",
+                "parameterName": "",
+                "parameterType": "",
+                "required": "",
+                "list": ""
+            });
+        }
+        else if (value == "request") {
+            $scope.parameters.push({
+                "in": "header",
+                "parameterName": "",
+                "parameterType": "",
+                "required": "",
+                "list": ""
+            });
+        }
+        else if (value == "response") {
+            $scope.responses.push({
+                "status": "",
+                "output": "",
+                "list": "",
+                "description": ""
+            });
+        }
     };
-
-    $scope.addNewRequestHeader = function () {
-        $scope.parameters.push({
-            "in": "header",
-            "parameterName": "",
-            "parameterType": "",
-            "required": "",
-            "list": ""
-        });
-    };
-
-    $scope.addnewResponse = function () {
-        $scope.responses.push({
-            "status": "",
-            "output": "",
-            "list": "",
-            "description": ""
-        });
-    };
-
-    $scope.responsesList = [{
-        "name": "200 OK",
-        "value": "200"
-    },
-    {
-        "name": "404 Not Found",
-        "value": "404"
-    },
-    {
-        "name": "405 Method Not Found",
-        "value": "405"
-    },
-    {
-        "name": "500 Internal Server Error",
-        "value": "500"
-    }
-    ];
 
     $scope.AddPath = function () {
         $scope.paths = pathService.AddPath($scope.paths, this.path);
@@ -372,29 +392,21 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
     $scope.AddMethodToPath = function (path, methodName, parameters, responses) {
         var index = $scope.paths.findIndex(x => x.pathName == path);
         var length = $scope.paths[index].methods.length;
+        var methodIndex = $scope.paths[index].methods.findIndex(x => x.methodName == methodName);
         if (!$scope.edit) {
-            $scope.paths[index].methods.push({
-                "methodName": methodName,
-                "parameters": [],
-                "responses": []
-            });
-            angular.forEach(parameters, function (qParam) {
-                $scope.paths[index].methods[length].parameters.push({
-                    "parameterName": qParam.parameterName,
-                    "dataType": qParam.dataType,
-                    "in": qParam.in,
-                    "required": qParam.required != null ? qParam.required : false
+            if (methodIndex == -1) {
+                $scope.paths[index].methods.push({
+                    "methodName": methodName,
+                    "parameters": [],
+                    "responses": []
                 });
-            });
-
-            angular.forEach(responses, function (response) {
-                $scope.paths[index].methods[length].responses.push({
-                    "status": response.status,
-                    "output": response.output,
-                    "list": response.list != null ? response.list : false,
-                });
-            });
-            $scope.ClearData();
+                $scope.paths[index].methods[length].parameters = parameters;
+                $scope.paths[index].methods[length].responses = responses;
+                $scope.ClearData();
+            }
+            else {
+                alert("This method is already available.");
+            }
         }
         else {
             var methodIndex = $scope.paths[index].methods.findIndex(x => x.methodName == methodName);
@@ -405,6 +417,7 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
     };
 
     $scope.GoToHomeServices = function () {
+        $scope.showDef = false;
         $scope.showPaths = false;
     };
 
@@ -422,6 +435,7 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
     $scope.ClearData = function () {
         $scope.showPaths = true;
         $scope.edit = false;
+        $scope.path = ''; 
         $scope.test.methodName = "";
         $scope.parameters = [];
         $scope.responses = [];
@@ -436,12 +450,14 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
         $scope.parameters = $scope.paths[pathIndex].methods[methodIndex].parameters;
     };
 
-    $scope.deleteResponse = function (pathName, methodName, status) {
-        var pathIndex = $scope.paths.findIndex(x => x.pathName == pathName);
-        var methodIndex = $scope.paths[pathIndex].methods.findIndex(x => x.methodName == methodName);
-        $scope.paths[pathIndex].methods[methodIndex].responses = jQuery.grep($scope.paths[pathIndex].methods[methodIndex].responses, function (obj) {
-            return obj.status != status;
-        });
-        $scope.responses = $scope.paths[pathIndex].methods[methodIndex].responses;
+    $scope.DeleteFromParams = function (hashkey) {
+        var index = $scope.parameters.findIndex(x => x.$$hashKey == hashkey);
+        $scope.parameters.splice(index, 1);
     };
+
+    $scope.DeleteResponse = function (hashkey) {
+        var index = $scope.responses.findIndex(x => x.$$hashKey == hashkey);
+        $scope.responses.splice(index, 1);
+    };
+
 }]);

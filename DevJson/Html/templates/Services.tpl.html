@@ -2,31 +2,16 @@
 <div class="container row">
     <div class="col-sm-8">
         <div class="row">
-            <div class="col-sm-4">
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        <a href="" ng-click="GoToHomeServices()">Home</a>
-                    </li>
-                    <li class="list-group-item" ng-repeat="path in paths track by $index">
-                        <a href="" ng-click="ClearData()"> {{path.pathName}}</a>
-                        <ul ng-repeat="method in path.methods">
-                            <li>
-                                <a href="" ng-click="GetMethodDetails(path.pathName, method.methodName)"> {{method.methodName}}</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
             <div class="col-sm-8 well" ng-hide="showPaths">
                 <h3>Add Service:</h3>
                 <div class="form-group">
                     <label for="modelName">Service name:</label>
-                    <input type="text" ng-model="path" class="form-control" placeholder="Enter Service name" />
+                    <input type="text" ng-model="path" class="form-control" placeholder="Format : /user/{id}" />
                 </div>
                 <button ng-click="AddPath()" class="btn btn-primary" ng-disabled="!path">Add Service</button>
             </div>
             <div class="col-sm-8 well" ng-hide="!showPaths">
-                <h3>Add Http Verbs to {{path}} Service</h3>
+                <h3>Add Http methods</h3>
                 <div class="form-group">
                     <label for="propertyName">Method:</label>
                     <select class="form-control" ng-model="test.methodName" ng-disabled="edit">
@@ -34,14 +19,15 @@
                         <option ng-repeat="verb in httpVerbs" value="{{verb.value}}">{{verb.name}}</option>
                     </select>
                 </div>
-                <h4>Query Paramaters</h4> <button class="btn btn-primary" ng-click="addNewQueryParameter(path)">Add</button>
+                <h4>Query Paramaters</h4> <button class="btn btn-primary" ng-click="addNewParameter('query')">Add</button>
                 <table class="table table-striped table-hover">
                     <tr>
                         <th>Parameter Name</th>
                         <th>Data Type</th>
                         <th>Required</th>
+                        <th></th>
                     </tr>
-                    <tr ng-repeat="qparam in parameters track by $index" ng-if="qparam.in == 'query'">
+                    <tr ng-repeat="qparam in parameters" ng-if="qparam.in == 'query'">
                         <td>
                             <input type="text" class="form-control" placeholder="Enter Property Name" ng-model="qparam.parameterName" value="{{count.name}}" />
                         </td>
@@ -52,18 +38,22 @@
                             </select>
                         </td>
                         <td><input class="checkbox" type="checkbox" ng-model="qparam.required" value="{{count.required}}" /></td>
-                        <td><button class="btn btn-primary" ng-show="edit" ng-click="deleteParameter(path,test.methodName,qparam.parameterName)">Delete</button></td>
+                        <!--<td><button class="btn btn-primary" ng-show="edit" ng-click="deleteParameter(path,test.methodName,qparam.parameterName)">Delete</button></td>-->
+                        <td>
+                            <button ng-click="DeleteFromParams(qparam.$$hashKey)" class="btn btn-primary">Delete</button>
+                        </td>
                     </tr>
                 </table>
                 <h4>Request Headers</h4>
-                <button class="btn btn-primary" ng-click="addNewRequestHeader(path)">Add</button>
+                <button class="btn btn-primary" ng-click="addNewParameter('request')">Add</button>
                 <table class="table table-striped table-hover">
                     <tr>
                         <th>Parameter Name</th>
                         <th>Data Type</th>
                         <th>Required</th>
+                        <th></th>
                     </tr>
-                    <tr ng-repeat="count in parameters track by $index" ng-if="count.in == 'header'">
+                    <tr ng-repeat="count in parameters" ng-if="count.in == 'header'">
                         <td>
                             <input type="text" class="form-control" placeholder="Enter Property Name" ng-model="count.parameterName" value="{{count.name}}" />
                         </td>
@@ -74,17 +64,20 @@
                             </select>
                         </td>
                         <td><input class="checkbox" type="checkbox" ng-model="count.required" value="{{count.required}}" /></td>
-                        <td><button class="btn btn-primary" ng-show="edit" ng-click="deleteParameter(path,test.methodName, count.parameterName)">Delete</button></td>
+                        <td>
+                            <button ng-click="DeleteFromParams(count.$$hashKey)" class="btn btn-primary">Delete</button>
+                        </td>
                     </tr>
                 </table>
-                <h4>Responses</h4> <button class="btn btn-primary" ng-click="addnewResponse(path)">Add</button>
+                <h4>Responses</h4> <button class="btn btn-primary" ng-click="addNewParameter('response')">Add</button>
                 <table class="table table-striped table-hover">
                     <tr>
                         <th>Status</th>
                         <th>Output</th>
                         <th>List</th>
+                        <th></th>
                     </tr>
-                    <tr ng-repeat="count in responses track by $index">
+                    <tr ng-repeat="count in responses">
                         <td>
                             <select class="form-control" ng-model="count.status">
                                 <option value="">Select</option>
@@ -101,13 +94,10 @@
                             <input class="checkbox" type="checkbox" ng-model="count.list" value="{{count.list}}" />
                         </td>
                         <td>
-                        <td><button class="btn btn-primary" ng-show="edit" ng-click="deleteResponse(path,test.methodName, count.status)">Delete</button></td>
+                        <td><button class="btn btn-primary" ng-click="DeleteResponse(count.$$hashKey)">Delete</button></td>
                     </tr>
                 </table>
                 <button class="btn btn-primary" ng-click="AddMethodToPath(path, test.methodName, parameters, responses)" ng-disabled="!test.methodName">Save</button>
-            </div>
-            <div class="col-sm-4">
-                <pre class="well" style="width: 500px; height: 500px; overflow-y: scroll;">{{tableViewModels}}</pre>
             </div>
         </div>
     </div>
