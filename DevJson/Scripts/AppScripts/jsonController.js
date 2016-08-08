@@ -129,7 +129,41 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
                 }
             });
         });
-        $scope.tableViewModels = JSON.stringify($scope.swaggerEditorJson, null, 1);
+        $scope.pathJson = {};
+        angular.forEach($scope.paths, function (pathObj) {
+            $scope.pathJson[pathObj.pathName] = {
+            };
+
+            angular.forEach(pathObj.methods, function (methodObj) {
+                $scope.pathJson[pathObj.pathName][methodObj.methodName] = {
+                    "consumes": [],
+                    "produces": [],
+                    "parameters": [],
+                    "responses": {}
+                };
+                angular.forEach(methodObj.parameters, function (param) {
+                    $scope.pathJson[pathObj.pathName][methodObj.methodName].parameters.push({
+                        "name": param.parameterName,
+                        "in": param.in,
+                        "required": param.required,
+                        "type": param.dataType,
+                    });
+                });
+                angular.forEach(methodObj.responses, function (resp) {
+                    $scope.pathJson[pathObj.pathName][methodObj.methodName].responses[resp.status] = {
+                        "description": resp.status,
+                        "schema": {
+                            "type": resp.output
+                        }
+                    };
+                });
+            });
+        });
+        $scope.json = {
+            "definitions": $scope.swaggerEditorJson,
+            "path": $scope.pathJson
+        }
+        $scope.tableViewModels = JSON.stringify($scope.json, null, 1);
     };
 
     //Edit property of a model - open dialog
@@ -279,12 +313,11 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
     }
     ];
 
-    $scope.queryParameters = [];
-    $scope.requestHeaders = [];
+    $scope.parameters = [];
     $scope.responses = [];
 
     $scope.addNewQueryParameter = function () {
-        $scope.queryParameters.push({
+        $scope.parameters.push({
             "in": "query",
             "parameterName": "",
             "parameterType": "",
@@ -294,7 +327,7 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
     };
 
     $scope.addNewRequestHeader = function () {
-        $scope.requestHeaders.push({
+        $scope.parameters.push({
             "in": "header",
             "parameterName": "",
             "parameterType": "",
@@ -336,40 +369,39 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
         $scope.showPaths = true;
     };
 
-    $scope.AddMethodToPath = function (path, methodName, queryParameters, requestHeaders, responses) {
+    $scope.AddMethodToPath = function (path, methodName, parameters, responses) {
         var index = $scope.paths.findIndex(x => x.pathName == path);
         var length = $scope.paths[index].methods.length;
-        $scope.paths[index].methods.push({
-            "methodName": methodName,
-            "parameters": [],
-            "responses": []
-        });
-        angular.forEach(queryParameters, function (qParam) {
-            $scope.paths[index].methods[length].parameters.push({
-                "parameterName": qParam.parameterName,
-                "dataType": qParam.dataType,
-                "in": qParam.in,
-                "required": qParam.required != null ? qParam.required : false
+        if (!$scope.edit) {
+            $scope.paths[index].methods.push({
+                "methodName": methodName,
+                "parameters": [],
+                "responses": []
             });
-        });
+            angular.forEach(parameters, function (qParam) {
+                $scope.paths[index].methods[length].parameters.push({
+                    "parameterName": qParam.parameterName,
+                    "dataType": qParam.dataType,
+                    "in": qParam.in,
+                    "required": qParam.required != null ? qParam.required : false
+                });
+            });
 
-        angular.forEach(requestHeaders, function (qParam) {
-            $scope.paths[index].methods[length].parameters.push({
-                "parameterName": qParam.parameterName,
-                "dataType": qParam.dataType,
-                "in": qParam.in,
-                "required": qParam.required != null ? qParam.required : false
+            angular.forEach(responses, function (response) {
+                $scope.paths[index].methods[length].responses.push({
+                    "status": response.status,
+                    "output": response.output,
+                    "list": response.list != null ? response.list : false,
+                });
             });
-        });
-
-        angular.forEach(responses, function (response) {
-            $scope.paths[index].methods[length].responses.push({
-                "status": response.status,
-                "output": response.output,
-                "list": response.list != null ? response.list : false,
-            });
-        });
-        $scope.ClearData();
+            $scope.ClearData();
+        }
+        else {
+            var methodIndex = $scope.paths[index].methods.findIndex(x => x.methodName == methodName);
+            $scope.paths[index].methods[methodIndex].parameters = parameters;
+            $scope.paths[index].methods[methodIndex].responses = responses;
+        }
+        $scope.SwaggerJsonGeneration();
     };
 
     $scope.GoToHomeServices = function () {
@@ -383,8 +415,7 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
         var methodIndex = $scope.paths[pathIndex].methods.findIndex(x => x.methodName == methodName);
         var methodObject = $scope.paths[pathIndex].methods[methodIndex];
         $scope.test.methodName = methodName;
-        $scope.requestHeaders = methodObject.parameters;
-        $scope.queryParameters = methodObject.parameters;
+        $scope.parameters = methodObject.parameters;
         $scope.responses = methodObject.responses;
     };
 
@@ -392,8 +423,25 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
         $scope.showPaths = true;
         $scope.edit = false;
         $scope.test.methodName = "";
-        $scope.queryParameters = [];
-        $scope.requestHeaders = [];
+        $scope.parameters = [];
         $scope.responses = [];
+    };
+
+    $scope.deleteParameter = function (pathName, methodName, parameterName) {
+        var pathIndex = $scope.paths.findIndex(x => x.pathName == pathName);
+        var methodIndex = $scope.paths[pathIndex].methods.findIndex(x => x.methodName == methodName);
+        $scope.paths[pathIndex].methods[methodIndex].parameters = jQuery.grep($scope.paths[pathIndex].methods[methodIndex].parameters, function (property) {
+            return property.parameterName != parameterName;
+        });
+        $scope.parameters = $scope.paths[pathIndex].methods[methodIndex].parameters;
+    };
+
+    $scope.deleteResponse = function (pathName, methodName, status) {
+        var pathIndex = $scope.paths.findIndex(x => x.pathName == pathName);
+        var methodIndex = $scope.paths[pathIndex].methods.findIndex(x => x.methodName == methodName);
+        $scope.paths[pathIndex].methods[methodIndex].responses = jQuery.grep($scope.paths[pathIndex].methods[methodIndex].responses, function (obj) {
+            return obj.status != status;
+        });
+        $scope.responses = $scope.paths[pathIndex].methods[methodIndex].responses;
     };
 }]);
