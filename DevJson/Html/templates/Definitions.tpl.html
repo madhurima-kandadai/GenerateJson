@@ -1,8 +1,7 @@
-﻿<h3>Definitions</h3>
+<h3>Definitions</h3>
 <div class="container row">
-    <div class="col-sm-8">
-        <div class="row">
-            <div class="col-sm-8 well" ng-hide="showProperty">
+        <div class="row well">
+            <div ng-hide="showProperty">
                 <h3>Add Model Name:</h3>
                 <div class="form-group">
                     <label for="modelName"> Model name:</label>
@@ -10,7 +9,7 @@
                 </div>
                 <button ng-click="AddModel()" class="btn btn-primary" ng-disabled="!model">Add Model</button>
             </div>
-            <div class="col-sm-8 well" ng-hide="!showProperty">
+            <div ng-hide="!showProperty">
                 <h3>Add Properties to Model</h3>
                 <div class="form-group">
                     <label for="propertyName">Model name:</label>
@@ -66,5 +65,4 @@
                 </table>
             </div>
         </div>
-    </div>
 </div>

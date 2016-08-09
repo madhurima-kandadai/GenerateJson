@@ -1,8 +1,7 @@
-﻿<h3>Services</h3>
+<h3>Services</h3>
 <div class="container row">
-    <div class="col-sm-8">
-        <div class="row">
-            <div class="col-sm-8 well" ng-hide="showPaths">
+        <div class="row well">
+            <div ng-hide="showPaths">
                 <h3>Add Service:</h3>
                 <div class="form-group">
                     <label for="modelName">Service name:</label>
@@ -10,7 +9,7 @@
                 </div>
                 <button ng-click="AddPath()" class="btn btn-primary" ng-disabled="!path">Add Service</button>
             </div>
-            <div class="col-sm-8 well" ng-hide="!showPaths">
+            <div ng-hide="!showPaths">
                 <h3>Add Http methods</h3>
                 <div class="form-group">
                     <label for="propertyName">Method:</label>
@@ -101,5 +100,4 @@
                 <button class="btn btn-primary" ng-click="AddMethodToPath(path, test.methodName, parameters, responses)" ng-disabled="test.methodName && showDuplicateError">Save</button>
             </div>
         </div>
-    </div>
 </div>
