@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 
 <head>
@@ -37,7 +37,7 @@
                     <a href="" ng-click="ClearData()"> {{path.pathName}}</a>
                     <ul ng-repeat="method in path.methods">
                         <li>
-                            <a href="" ng-click="GetMethodDetails(path.pathName, method.methodName)"> {{method}}</a>
+                            <a href="" ng-click="GetMethodDetails(path.pathName, method.methodName)"> {{method.methodName}}</a>
                         </li>
                     </ul>
                 </li>
