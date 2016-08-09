@@ -66,6 +66,10 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
     }, {
         "name": "500 Internal Server Error",
         "value": "500"
+    },
+    {
+        "name": "Default",
+        "value": "default"
     }];
     $scope.parameters = [];
     $scope.responses = [];
@@ -250,6 +254,7 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
 
     // Get the list of properties for model to show in the table 
     $scope.GetProperties = function (modelName) {
+        $scope.showDef = true;
         $scope.showProperty = true;
         $scope.addProperty.propertyModelName = modelName;
         var index = $scope.models.findIndex(x => x.model == modelName)
@@ -278,102 +283,100 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
         $http({
             method: 'GET',
             url: "../JsonData/swaggerScript.json"
-        })
-            .success(function (response) {
-                console.log(response);
-                $scope.swaggerCode = response;
-                $scope.tableViewModels = JSON.stringify($scope.swaggerCode, null, 2);
-                $scope.modelsGenerate = [];
-                var keysList = Object.keys($scope.swaggerCode['definitions']);
-                angular.forEach(keysList, function (key) {
-                    $scope.dataTypes.push({
-                        name: key,
-                        value: '#/definitions/' + key,
-                        type: 'secondary'
-                    });
+        }).success(function (response) {
+            console.log(response);
+            $scope.swaggerCode = response;
+            $scope.tableViewModels = JSON.stringify($scope.swaggerCode, null, 2);
+            $scope.modelsGenerate = [];
+            var keysList = Object.keys($scope.swaggerCode['definitions']);
+            angular.forEach(keysList, function (key) {
+                $scope.dataTypes.push({
+                    name: key,
+                    value: '#/definitions/' + key,
+                    type: 'secondary'
                 });
-                angular.forEach(keysList, function (key, $index) {
-                    $scope.modelsGenerate.push({
-                        "model": key,
-                        "properties": []
-                    });
-                    $scope.modelNames.push(key);
-                    var propList = Object.keys($scope.swaggerCode['definitions'][key].properties);
-                    var mainObject = $scope.swaggerCode['definitions'][key].properties;
-                    angular.forEach(propList, function (propKey) {
-                        var dataType = '';
-                        if (mainObject[propKey].type == "array") {
-                            if (mainObject[propKey].items.type != undefined) {
-                                dataType = mainObject[propKey].items.type
-                            } else {
-                                dataType = mainObject[propKey].items.$ref;
-                            }
+            });
+            angular.forEach(keysList, function (key, $index) {
+                $scope.modelsGenerate.push({
+                    "model": key,
+                    "properties": []
+                });
+                $scope.modelNames.push(key);
+                var propList = Object.keys($scope.swaggerCode['definitions'][key].properties);
+                var mainObject = $scope.swaggerCode['definitions'][key].properties;
+                angular.forEach(propList, function (propKey) {
+                    var dataType = '';
+                    if (mainObject[propKey].type == "array") {
+                        if (mainObject[propKey].items.type != undefined) {
+                            dataType = mainObject[propKey].items.type
                         } else {
-                            if (mainObject[propKey].type != undefined) {
-                                dataType = mainObject[propKey].type
-                            } else {
-                                dataType = mainObject[propKey].$ref;
-                            }
+                            dataType = mainObject[propKey].items.$ref;
                         }
-                        var dataTypeTypeIndex = $scope.dataTypes.findIndex(x => x.value == dataType);
-                        var required = false;
-                        if ($scope.swaggerCode['definitions'][key].required != undefined) {
-                            if ($scope.swaggerCode[key].required.findIndex(x => x == propKey) != -1) {
-                                required = true;
-                            }
+                    } else {
+                        if (mainObject[propKey].type != undefined) {
+                            dataType = mainObject[propKey].type
+                        } else {
+                            dataType = mainObject[propKey].$ref;
                         }
-                        var dataTypeType = $scope.dataTypes[dataTypeTypeIndex].type;
-                        $scope.modelsGenerate[$index].properties.push({
-                            "propertyName": propKey,
-                            "dataType": dataType,
-                            "required": required,
-                            "list": mainObject[propKey].type == "array" ? true : false,
-                            "dataTypeType": dataTypeType
-                        });
+                    }
+                    var dataTypeTypeIndex = $scope.dataTypes.findIndex(x => x.value == dataType);
+                    var required = false;
+                    if ($scope.swaggerCode['definitions'][key].required != undefined) {
+                        if ($scope.swaggerCode[key].required.findIndex(x => x == propKey) != -1) {
+                            required = true;
+                        }
+                    }
+                    var dataTypeType = $scope.dataTypes[dataTypeTypeIndex].type;
+                    $scope.modelsGenerate[$index].properties.push({
+                        "propertyName": propKey,
+                        "dataType": dataType,
+                        "required": required,
+                        "list": mainObject[propKey].type == "array" ? true : false,
+                        "dataTypeType": dataTypeType
                     });
                 });
-                $scope.models = $scope.modelsGenerate;
-                $scope.services = [];
-                var serviceKeyList = Object.keys($scope.swaggerCode['paths']);
-                angular.forEach(serviceKeyList, function (service, pathIndex) {
-                    $scope.services.push({
-                        'pathName': service,
-                        methods: []
+            });
+            $scope.models = $scope.modelsGenerate;
+            $scope.services = [];
+            var serviceKeyList = Object.keys($scope.swaggerCode['paths']);
+            angular.forEach(serviceKeyList, function (service, pathIndex) {
+                $scope.services.push({
+                    'pathName': service,
+                    methods: []
+                });
+                var methods = Object.keys($scope.swaggerCode['paths'][service]);
+                angular.forEach(methods, function (mthd, methodIndex) {
+                    $scope.services[pathIndex].methods.push({
+                        "methodName": mthd,
+                        "parameters": [],
+                        "responses": []
                     });
-                    var methods = Object.keys($scope.swaggerCode['paths'][service]);
-                    angular.forEach(methods, function (mthd, methodIndex) {
-                        $scope.services[pathIndex].methods.push({
-                            "methodName": mthd,
-                            "parameters": [],
-                            "responses": []
+                    angular.forEach($scope.swaggerCode['paths'][service][mthd].parameters, function (param) {
+                        $scope.services[pathIndex].methods[methodIndex].parameters.push({
+                            "in": param.in,
+                            "parameterName": param.name,
+                            "dataType": param.type,
+                            "required": param.required,
+                            "format": param.format,
+                            "duplicate": false
                         });
-                        angular.forEach($scope.swaggerCode['paths'][service][mthd].parameters, function (param) {
-                            $scope.services[pathIndex].methods[methodIndex].parameters.push({
-                                "in": param.in,
-                                "parameterName": param.name,
-                                "dataType": param.type,
-                                "required": param.required,
-                                "format": param.format,
+                    });
+                    var responses = Object.keys($scope.swaggerCode['paths'][service][mthd].responses);
+                    angular.forEach(responses, function (resp) {
+                        if ($scope.swaggerCode['paths'][service][mthd].responses[resp].schema.type == 'array') {
+                            $scope.services[pathIndex].methods[methodIndex].responses.push({
+                                "status": resp,
+                                "output": $scope.swaggerCode['paths'][service][mthd].responses[resp].schema.items.$ref,
+                                "list": true,
+                                "description": $scope.swaggerCode['paths'][service][mthd].responses[resp].schema.description,
                                 "duplicate": false
                             });
-                        });
-                        var responses = Object.keys($scope.swaggerCode['paths'][service][mthd].responses);
-                        angular.forEach(responses, function (resp) {
-                            if ($scope.swaggerCode['paths'][service][mthd].responses[resp].schema.type == 'array') {
-                                $scope.services[pathIndex].methods[methodIndex].responses.push({
-                                    "status": resp,
-                                    "output": $scope.swaggerCode['paths'][service][mthd].responses[resp].schema.items.$ref,
-                                    "list": true,
-                                    "description": $scope.swaggerCode['paths'][service][mthd].responses[resp].schema.description,
-                                    "duplicate": false
-                                });
-                            }
-                        });
+                        }
                     });
                 });
-                $scope.paths = $scope.services;
-
-            }).error(function (response) { });
+            });
+            $scope.paths = $scope.services;
+        }).error(function (response) { });
     };
 
     // for paths--------------------------------------------------
@@ -415,6 +418,7 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
     };
 
     $scope.AddMethodToPath = function (path, methodName, parameters, responses) {
+        var result = $scope.CheckParameterName(parameters, responses);
         var index = $scope.paths.findIndex(x => x.pathName == path);
         var length = $scope.paths[index].methods.length;
         var methodIndex = $scope.paths[index].methods.findIndex(x => x.methodName == methodName);
@@ -427,7 +431,7 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
                 });
                 $scope.paths[index].methods[length].parameters = parameters;
                 $scope.paths[index].methods[length].responses = responses;
-                $scope.ClearData();
+                $scope.ClearData(path);
             } else {
                 alert("This method is already available.");
             }
@@ -446,8 +450,10 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
     };
 
     $scope.GetMethodDetails = function (pathName, methodName) {
+        $scope.showDef = false;
         $scope.edit = true;
         $scope.showPaths = true;
+        $scope.pathNameLabel = pathName;
         var pathIndex = $scope.paths.findIndex(x => x.pathName == pathName);
         var methodIndex = $scope.paths[pathIndex].methods.findIndex(x => x.methodName == methodName);
         var methodObject = $scope.paths[pathIndex].methods[methodIndex];
@@ -456,7 +462,9 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
         $scope.responses = methodObject.responses;
     };
 
-    $scope.ClearData = function () {
+    $scope.ClearData = function (pathName) {
+        $scope.pathNameLabel = pathName;
+        $scope.showDef = false;
         $scope.showPaths = true;
         $scope.edit = false;
         $scope.path = "";
@@ -477,7 +485,8 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
         $scope.responses.splice(index, 1);
     };
 
-    $scope.CheckParameterName = function (parameter) {
+    $scope.CheckParameterName = function (parameters, responses) {
+
         var attributes = _.groupBy($scope.parameters, function (item) {
             return item.parameterName == parameter.parameterName && item.in == parameter.in;
         });

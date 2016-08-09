@@ -21,9 +21,9 @@
 
 <body ng-app="codeDev" ng-controller="jsonController">
     <div class="container">
-      <br>
-      <br>
-      <br>
+        <br>
+        <br>
+        <br>
         <div class="col-sm-2">
             <ul class="list-group">
                 <li class="list-group-item"> <a href="" ng-click="GoToHomeDefinitions()">Definitions</a></li>
@@ -34,7 +34,7 @@
             <ul class="list-group">
                 <li class="list-group-item"> <a href="" ng-click="GoToHomeServices()">Services</a> </li>
                 <li class="list-group-item" ng-repeat="path in paths track by $index">
-                    <a href="" ng-click="ClearData()"> {{path.pathName}}</a>
+                    <a href="" ng-click="ClearData(path.pathName)" ng-model="path.pathName"> {{path.pathName}}</a>
                     <ul ng-repeat="method in path.methods">
                         <li>
                             <a href="" ng-click="GetMethodDetails(path.pathName, method.methodName)"> {{method.methodName}}</a>
@@ -54,5 +54,4 @@
         </div>
     </div>
 </body>
-
 </html>
