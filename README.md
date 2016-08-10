@@ -1,2 +1,2 @@
 # Open the project.
-Navigate to MainHtmlPage
+Run the application from the MainHtmlPage.html
