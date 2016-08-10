@@ -36,6 +36,7 @@
                             <option value="">Select</option>
                             <option ng-repeat="dataType in dataTypes" value="{{dataType.value}}">{{dataType.name}}</option>
                         </select>
+                        <sub style="color:red" ng-show="qparam.dataTypeCheck">Please select the type</sub>
                     </td>
                     <td><input class="checkbox" type="checkbox" ng-model="qparam.required" value="{{count.required}}" /></td>
                     <td>
@@ -54,7 +55,7 @@
                 </tr>
                 <tr ng-repeat="count in parameters" ng-if="count.in == 'header'">
                     <td>
-                        <input type="text" class="form-control" placeholder="Enter Property Name" ng-change="CheckParameterName(count)" ng-model="count.parameterName" value="{{count.name}}" />
+                        <input type="text" class="form-control" placeholder="Enter Property Name" ng-model="count.parameterName" value="{{count.name}}" />
                         <sub style="color:red" ng-show="count.duplicate">Duplicate Parameter Name</sub>
                     </td>
                     <td>
@@ -62,6 +63,7 @@
                             <option value="">Select</option>
                             <option ng-repeat="dataType in dataTypes" value="{{dataType.value}}">{{dataType.name}}</option>
                         </select>
+                        <sub style="color:red" ng-show="count.dataTypeCheck">Please select the type</sub>
                     </td>
                     <td><input class="checkbox" type="checkbox" ng-model="count.required" value="{{count.required}}" /></td>
                     <td>
@@ -83,12 +85,14 @@
                             <option value="">Select</option>
                             <option ng-repeat="response in responsesList" value="{{response.value}}">{{response.name}}</option>
                         </select>
+                        <sub style="color:red" ng-show="count.duplicate">Duplicate Status Code</sub>
                     </td>
                     <td>
                         <select class="form-control" ng-model="count.output">
                             <option value="">Select</option>
                             <option ng-repeat="dataType in dataTypes" value="{{dataType.value}}">{{dataType.name}}</option>
                         </select>
+                        <sub style="color:red" ng-show="count.dataTypeCheck">Please select the type</sub>
                     </td>
                     <td>
                         <input class="checkbox" type="checkbox" ng-model="count.list" value="{{count.list}}" />

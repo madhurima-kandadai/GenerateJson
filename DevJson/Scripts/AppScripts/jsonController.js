@@ -389,7 +389,8 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
                 "parameterType": "",
                 "required": "",
                 "list": "",
-                "duplicate": false
+                "duplicate": false,
+                "dataTypeCheck": false
             });
         } else if (value == "request") {
             $scope.parameters.push({
@@ -398,7 +399,8 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
                 "parameterType": "",
                 "required": "",
                 "list": "",
-                "duplicate": false
+                "duplicate": false,
+                "dataTypeCheck": false
             });
         } else if (value == "response") {
             $scope.responses.push({
@@ -406,12 +408,14 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
                 "output": "",
                 "list": "",
                 "description": "",
-                "duplicate": false
+                "duplicate": false,
+                "dataTypeCheck": false
             });
         }
     };
 
     $scope.AddPath = function () {
+        $scope.pathNameLabel = this.path;
         $scope.paths = pathService.AddPath($scope.paths, this.path);
         $scope.path = "";
         $scope.showPaths = true;
@@ -419,28 +423,30 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
 
     $scope.AddMethodToPath = function (path, methodName, parameters, responses) {
         var result = $scope.CheckParameterName(parameters, responses);
-        var index = $scope.paths.findIndex(x => x.pathName == path);
-        var length = $scope.paths[index].methods.length;
-        var methodIndex = $scope.paths[index].methods.findIndex(x => x.methodName == methodName);
-        if (!$scope.edit) {
-            if (methodIndex == -1) {
-                $scope.paths[index].methods.push({
-                    "methodName": methodName,
-                    "parameters": [],
-                    "responses": []
-                });
-                $scope.paths[index].methods[length].parameters = parameters;
-                $scope.paths[index].methods[length].responses = responses;
-                $scope.ClearData(path);
-            } else {
-                alert("This method is already available.");
-            }
-        } else {
+        if (result) {
+            var index = $scope.paths.findIndex(x => x.pathName == path);
+            var length = $scope.paths[index].methods.length;
             var methodIndex = $scope.paths[index].methods.findIndex(x => x.methodName == methodName);
-            $scope.paths[index].methods[methodIndex].parameters = parameters;
-            $scope.paths[index].methods[methodIndex].responses = responses;
+            if (!$scope.edit) {
+                if (methodIndex == -1) {
+                    $scope.paths[index].methods.push({
+                        "methodName": methodName,
+                        "parameters": [],
+                        "responses": []
+                    });
+                    $scope.paths[index].methods[length].parameters = parameters;
+                    $scope.paths[index].methods[length].responses = responses;
+                    $scope.ClearData(path);
+                } else {
+                    alert("This method is already available.");
+                }
+            } else {
+                var methodIndex = $scope.paths[index].methods.findIndex(x => x.methodName == methodName);
+                $scope.paths[index].methods[methodIndex].parameters = parameters;
+                $scope.paths[index].methods[methodIndex].responses = responses;
+            }
+            $scope.SwaggerJsonGeneration();
         }
-        $scope.SwaggerJsonGeneration();
     };
 
     $scope.GoToHomeServices = function () {
@@ -486,14 +492,46 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
     };
 
     $scope.CheckParameterName = function (parameters, responses) {
-
-        var attributes = _.groupBy($scope.parameters, function (item) {
-            return item.parameterName == parameter.parameterName && item.in == parameter.in;
+        $scope.check = true;
+        angular.forEach(parameters, function (parameter) {
+            var attributes = _.groupBy(parameters, function (item) {
+                return item.parameterName == parameter.parameterName && item.in == parameter.in;
+            });
+            if (attributes.true != undefined && attributes.true.length > 1) {
+                $scope.check = false;
+                parameter.duplicate = true;
+            } else {
+                parameter.duplicate = false;
+            }
+            if (parameter.parameterType == "") {
+                $scope.check = false;
+                parameter.dataTypeCheck = true;
+            }
+            else {
+                parameter.dataTypeCheck = false;
+            }
         });
-        if (attributes.true != undefined && attributes.true.length > 1) {
-            parameter.duplicate = true;
-        } else {
-            parameter.duplicate = false;
-        }
+
+        angular.forEach(responses, function (resp) {
+            debugger;
+            var attributes = _.groupBy(responses, function (item) {
+                return item.status == resp.status;
+            });
+            if (attributes.true != undefined && attributes.true.length > 1) {
+                $scope.check = false;
+                parameter.duplicate = true;
+            } else {
+                parameter.duplicate = false;
+            }
+
+            if (parameter.output == "") {
+                $scope.check = false;
+                parameter.dataTypeCheck = true;
+            }
+            else {
+                parameter.dataTypeCheck = false;
+            }
+        });
+        return $scope.check;
     };
 }]);
