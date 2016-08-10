@@ -289,10 +289,10 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
             $scope.tableViewModels = JSON.stringify($scope.swaggerCode, null, 2);
             $scope.modelsGenerate = [];
             var keysList = Object.keys($scope.swaggerCode['definitions']);
-            angular.forEach(keysList, function (key) {
+            angular.forEach(keysList, function (eachKey) {
                 $scope.dataTypes.push({
-                    name: key,
-                    value: '#/definitions/' + key,
+                    name: eachKey,
+                    value: '#/definitions/' + eachKey,
                     type: 'secondary'
                 });
             });
@@ -322,7 +322,7 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
                     var dataTypeTypeIndex = $scope.dataTypes.findIndex(x => x.value == dataType);
                     var required = false;
                     if ($scope.swaggerCode['definitions'][key].required != undefined) {
-                        if ($scope.swaggerCode[key].required.findIndex(x => x == propKey) != -1) {
+                        if ($scope.swaggerCode['definitions'][key].required.findIndex(x => x == propKey) != -1) {
                             required = true;
                         }
                     }
