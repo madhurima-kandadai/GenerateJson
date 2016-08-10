@@ -422,7 +422,8 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
     };
 
     $scope.AddMethodToPath = function (path, methodName, parameters, responses) {
-        var result = $scope.CheckParameterName(parameters, responses);
+        //var result = $scope.CheckParameterName(parameters, responses);
+        var result = true;  
         if (result) {
             var index = $scope.paths.findIndex(x => x.pathName == path);
             var length = $scope.paths[index].methods.length;
