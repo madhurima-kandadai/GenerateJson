@@ -389,8 +389,10 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
                 "parameterType": "",
                 "required": "",
                 "list": "",
+                "dataType": "",
                 "duplicate": false,
-                "dataTypeCheck": false
+                "dataTypeCheck": false,
+                "validationMsg": ""
             });
         } else if (value == "request") {
             $scope.parameters.push({
@@ -399,8 +401,10 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
                 "parameterType": "",
                 "required": "",
                 "list": "",
+                "dataType": "",
                 "duplicate": false,
-                "dataTypeCheck": false
+                "dataTypeCheck": false,
+                "validationMsg": ""
             });
         } else if (value == "response") {
             $scope.responses.push({
@@ -409,7 +413,8 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
                 "list": "",
                 "description": "",
                 "duplicate": false,
-                "dataTypeCheck": false
+                "dataTypeCheck": false,
+                "validationMsg": ""
             });
         }
     };
@@ -422,8 +427,8 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
     };
 
     $scope.AddMethodToPath = function (path, methodName, parameters, responses) {
-        //var result = $scope.CheckParameterName(parameters, responses);
-        var result = true;  
+        var result = $scope.CheckParameterName(parameters, responses);
+        //var result = true;  
         if (result) {
             var index = $scope.paths.findIndex(x => x.pathName == path);
             var length = $scope.paths[index].methods.length;
@@ -495,42 +500,57 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
     $scope.CheckParameterName = function (parameters, responses) {
         $scope.check = true;
         angular.forEach(parameters, function (parameter) {
-            var attributes = _.groupBy(parameters, function (item) {
-                return item.parameterName == parameter.parameterName && item.in == parameter.in;
-            });
-            if (attributes.true != undefined && attributes.true.length > 1) {
-                $scope.check = false;
-                parameter.duplicate = true;
+            if (parameter.parameterName != "") {
+                debugger;
+                var attributes = _.groupBy(parameters, function (item) {
+                    return item.parameterName == parameter.parameterName && item.in == parameter.in;
+                });
+                if (attributes.true != undefined && attributes.true.length > 1) {
+                    $scope.check = false;
+                    parameter.duplicate = true;
+                    parameter.validationMsg = "Duplicate Parameter Name";
+                } else {
+                    parameter.duplicate = false;
+                }
+                if (parameter.dataType == "") {
+                    $scope.check = false;
+                    parameter.dataTypeCheck = true;
+                }
+                else {
+                    parameter.dataTypeCheck = false;
+                }
             } else {
-                parameter.duplicate = false;
-            }
-            if (parameter.parameterType == "") {
                 $scope.check = false;
-                parameter.dataTypeCheck = true;
-            }
-            else {
-                parameter.dataTypeCheck = false;
+                parameter.validationMsg = "Please enter parameter name";
             }
         });
 
         angular.forEach(responses, function (resp) {
             debugger;
-            var attributes = _.groupBy(responses, function (item) {
-                return item.status == resp.status;
-            });
-            if (attributes.true != undefined && attributes.true.length > 1) {
-                $scope.check = false;
-                parameter.duplicate = true;
-            } else {
-                parameter.duplicate = false;
-            }
+            if (resp.status != "") {
+                var attributes = _.groupBy(responses, function (item) {
+                    return item.status == resp.status;
+                });
+                if (attributes.true != undefined && attributes.true.length > 1) {
+                    $scope.check = false;
+                    resp.duplicate = true;
+                    parameter.validationMsg = "Duplicate Parameter Name";
+                } else {
+                    resp.duplicate = false;
+                }
 
-            if (parameter.output == "") {
-                $scope.check = false;
-                parameter.dataTypeCheck = true;
+                if (resp.output == "") {
+                    $scope.check = false;
+                    resp.dataTypeCheck = true;
+                    parameter.validationMsg = "Duplicate Parameter Name";
+                }
+                else {
+                    resp.dataTypeCheck = false;
+                }
             }
             else {
-                parameter.dataTypeCheck = false;
+                $scope.check = false;
+                parameter.validationMsg = "Please select the Status";
             }
         });
         return $scope.check;
