@@ -512,16 +512,18 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
                 } else {
                     parameter.duplicate = false;
                 }
-                if (parameter.dataType == "") {
-                    $scope.check = false;
-                    parameter.dataTypeCheck = true;
-                }
-                else {
-                    parameter.dataTypeCheck = false;
-                }
             } else {
                 $scope.check = false;
+                parameter.duplicate = true;
                 parameter.validationMsg = "Please enter parameter name";
+            }
+
+            if (parameter.dataType == "") {
+                $scope.check = false;
+                parameter.dataTypeCheck = true;
+            }
+            else {
+                parameter.dataTypeCheck = false;
             }
         });
 
@@ -534,23 +536,23 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
                 if (attributes.true != undefined && attributes.true.length > 1) {
                     $scope.check = false;
                     resp.duplicate = true;
-                    parameter.validationMsg = "Duplicate Parameter Name";
+                    resp.validationMsg = "Duplicate Parameter Name";
                 } else {
                     resp.duplicate = false;
                 }
-
-                if (resp.output == "") {
-                    $scope.check = false;
-                    resp.dataTypeCheck = true;
-                    parameter.validationMsg = "Duplicate Parameter Name";
-                }
-                else {
-                    resp.dataTypeCheck = false;
-                }
             }
             else {
+                resp.duplicate = true;
                 $scope.check = false;
-                parameter.validationMsg = "Please select the Status";
+                resp.validationMsg = "Please select the Status";
+            }
+
+            if (resp.output == "") {
+                $scope.check = false;
+                resp.dataTypeCheck = true;
+            }
+            else {
+                resp.dataTypeCheck = false;
             }
         });
         return $scope.check;
