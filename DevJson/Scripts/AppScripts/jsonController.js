@@ -190,29 +190,58 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
                 });
                 angular.forEach(methodObj.responses, function (resp) {
                     if (resp.list) {
-                        $scope.pathJson[pathObj.pathName][methodObj.methodName].responses[resp.status] = {
-                            "description": resp.status,
-                            "schema": {
-                                "type": "array",
-                                "items": {
+                        if (resp.output.indexOf('#/definitions') == -1) {
+                            $scope.pathJson[pathObj.pathName][methodObj.methodName].responses[resp.status] = {
+                                "description": resp.status,
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": resp.output
+                                    }
+                                }
+                            };
+                        }
+                        else {                            
+                            $scope.pathJson[pathObj.pathName][methodObj.methodName].responses[resp.status] = {
+                                "description": resp.status,
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": resp.output
+                                    }
+                                }
+                            };
+                        }                        
+                    } else {
+                        if (resp.output.indexOf('#/definitions') == -1) {
+                            $scope.pathJson[pathObj.pathName][methodObj.methodName].responses[resp.status] = {
+                                "description": resp.status,
+                                "schema": {
                                     "type": resp.output
                                 }
-                            }
-                        };
-                    } else {
-                        $scope.pathJson[pathObj.pathName][methodObj.methodName].responses[resp.status] = {
-                            "description": resp.status,
-                            "schema": {
-                                "type": resp.output
-                            }
-                        };
+                            };
+                        }
+                        else {
+                            $scope.pathJson[pathObj.pathName][methodObj.methodName].responses[resp.status] = {
+                                "description": resp.status,
+                                "schema": {
+                                    "$ref": resp.output
+                                }
+                            };
+                        }
                     }
                 });
             });
         });
         $scope.json = {
+            "swagger": "2.0",
+            "info" : {
+                "title" : "",
+                "description" : "",
+                "version" : "1.0"
+            },
             "definitions": $scope.swaggerEditorJson,
-            "path": $scope.pathJson
+            "paths": $scope.pathJson
         };
         $scope.tableViewModels = JSON.stringify($scope.json, null, 1);
     };
@@ -501,7 +530,6 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
         $scope.check = true;
         angular.forEach(parameters, function (parameter) {
             if (parameter.parameterName != "") {
-                debugger;
                 var attributes = _.groupBy(parameters, function (item) {
                     return item.parameterName == parameter.parameterName && item.in == parameter.in;
                 });
@@ -528,7 +556,6 @@ app.controller('jsonController', ['$scope', '$http', 'ngDialog', 'pathService', 
         });
 
         angular.forEach(responses, function (resp) {
-            debugger;
             if (resp.status != "") {
                 var attributes = _.groupBy(responses, function (item) {
                     return item.status == resp.status;
